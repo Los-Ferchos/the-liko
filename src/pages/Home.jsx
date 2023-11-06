@@ -1,6 +1,8 @@
+import { Header } from '../components/header.jsx'
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <div><Header /></div>
   )
 }
 
