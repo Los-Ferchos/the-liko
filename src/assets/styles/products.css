@@ -36,3 +36,18 @@ button{
 .products-grid-container{
     padding: 24px 0;
 }
+
+.product-image-container{
+    height: 220px;
+    width: auto;
+    object-fit: contain;
+    padding: 8px 0;
+}
+
+.rating-middle{
+    margin: 0 6px;
+}
+
+.product-title{
+    margin-top: 6px;
+}

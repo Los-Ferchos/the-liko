@@ -1,25 +1,29 @@
 import { Grid, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import RatingStars from './rating/RatingStars';
+import RatingProduct from './rating/RatingProduct';
+import '../../assets/styles/products.css'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product = {} }) => {
   return (
     <Grid item xs={12} sm={6} md={3}>
       <Card>
         <CardMedia
           component="img"
           alt={product.name}
-          height="200"
           image={product.imgUrl}
           title={product.name}
+          className='product-image-container'
+          style={{ objectFit: 'contain' }}
         />
         <CardContent>
-          <Typography variant="h6" component="div">
-            {product.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {product.description}
-          </Typography>
+          <RatingProduct rating={product.rating} reviews={product.totalReviews} />
+          <div className="product-title">
+            <Typography variant="h6" component="div">
+              {product.name}
+            </Typography>
+          </div>
           <Typography variant="subtitle1">
-            Price: {product.price.value} {product.price.currency}
+            {product.price.currency} {product.price.value} 
           </Typography>
         </CardContent>
       </Card>
