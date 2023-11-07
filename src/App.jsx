@@ -1,15 +1,94 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Page404 from "./pages/404"
 import Home from "./pages/Home"
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
+
+const theme = createTheme({
+  spacing: 8,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+  palette: {
+    primary: {
+      main: '#FF0000',
+    },
+    grey: {
+      main: "#727070"
+    },
+    gold: {
+      main: "#EEBB58"
+    },
+    black: {
+      main: "#000000"
+    },
+    white: {
+      main: "#FFFFFF"
+    },
+    backgrey:{
+      main: "#F2F2F2"
+    }
+  },
+  typography: {
+    fontFamily: 'Poppins, sans-serif', 
+    h1: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+    h2: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+    h3: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+    h4: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+    h5: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+    h6: {
+      fontFamily: 'Mulish, sans-serif',
+    },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: '5px',
+          boxShadow: '0 0 6px rgba(0, 0, 0, 0.15)',
+          background: "#fff"
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          paddingLeft: "50px",
+          paddingRight: "50px",
+          borderRadius: "12px",
+          textTransform: 'none',
+        },
+      },
+    },
+  },
+});
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' Component={Home} />
-        <Route path='*' Component={Page404} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' Component={Home} />
+          <Route path='*' Component={Page404} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 
