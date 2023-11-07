@@ -4,7 +4,7 @@ import EcommercePage from '../components/products/EcommercePage';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Container } from '@mui/material';
 
-const LIMIT = 10;
+const LIMIT = 16;
 const API_URL = 'http://localhost:8080/products';
 
 const Products = () => {
@@ -28,7 +28,7 @@ const Products = () => {
 
     fetchProducts();
   }, [currentPage]);
-  
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };

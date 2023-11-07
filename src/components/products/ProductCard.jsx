@@ -1,7 +1,6 @@
 import { Grid, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import RatingStars from './rating/RatingStars';
-import RatingProduct from './rating/RatingProduct';
 import '../../assets/styles/products.css'
+import RatingWishProduct from './RatingWishProduct';
 
 const ProductCard = ({ product = {} }) => {
   return (
@@ -15,15 +14,19 @@ const ProductCard = ({ product = {} }) => {
           className='product-image-container'
           style={{ objectFit: 'contain' }}
         />
-        <CardContent>
-          <RatingProduct rating={product.rating} reviews={product.totalReviews} />
+        <CardContent style={{ background: '#fdfdfd' }}>
+          <RatingWishProduct 
+            rating={product.rating} 
+            reviews={product.totalReviews} 
+            productId={product._id}
+          />
           <div className="product-title">
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
               {product.name}
             </Typography>
           </div>
           <Typography variant="subtitle1">
-            {product.price.currency} {product.price.value} 
+            {product.price.currency}  {product.price.value} 
           </Typography>
         </CardContent>
       </Card>
