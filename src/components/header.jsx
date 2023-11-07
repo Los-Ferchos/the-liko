@@ -1,25 +1,30 @@
+import '../assets/styles/header.css'
+import {AppBar, Typography, Toolbar} from '@mui/material';
+import { TiShoppingCart } from 'react-icons/ti';
+import { BiUserCircle } from 'react-icons/bi';
+
 function Header(){
     return (
-        <div className="header">
-            <div className="upper-header">
-                <header className="header__left">
-                    <h2>The Liko</h2>
-                </header>
-                <header className="header__right">
-                    <ul>
-                        <li>Profile</li>
-                        <li>Cart</li>
-                    </ul>
-                </header>
-            </div>
-            <div className="lower-header">
-                <ul>
-                    <li>Liqueurs</li>
-                    <li>Soft Drinks</li>
-                    <li>Extras</li>
-                </ul>
-            </div>
-        </div>
+        <AppBar className="header" >
+      <header className="left-header">
+        <Toolbar>
+        <Typography>The Liko</Typography>
+        </Toolbar> 
+      </header>
+      <header className="center-header">
+          <ul>
+            <li>Liqueurs</li>
+            <li>Soft Drinks</li>
+            <li>Extras</li>
+          </ul>
+      </header>
+        <header className="right-header">
+          <ul>
+            <TiShoppingCart />
+            <BiUserCircle />
+          </ul>
+      </header>
+    </AppBar>
     )
 }
 
