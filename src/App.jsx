@@ -71,7 +71,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "8px",
+          borderRadius: "5px",
           textTransform: 'none',
         },
       },
