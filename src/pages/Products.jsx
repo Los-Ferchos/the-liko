@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import EcommercePage from '../components/products/EcommercePage';
+import EcommercePage from '../components/products/ProductsDisplay';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Container } from '@mui/material';
-import ProductsGridLoader from '../components/products/ProductListLoader';
+import ProductsGridLoader from '../components/products/list/ProductListLoader';
+import PageButton from '../components/buttons/PageButton';
+import PrevButton from '../components/buttons/PrevButton';
+import NextButton from '../components/buttons/NextButton';
 
-const LIMIT = 16;
+const LIMIT = 1;
 const API_URL = 'http://localhost:8080/products';
 
 const Products = () => {
@@ -38,20 +41,15 @@ const Products = () => {
     <Container component={"section"}>
       <EcommercePage isLoading={isLoading} products={products} />
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        {
+          currentPage > 1 && <PrevButton onClick={() => handlePageChange(currentPage - 1)}/>
+        }
         {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            style={{
-              margin: '0 5px',
-              padding: '5px 10px',
-              cursor: 'pointer',
-              fontWeight: currentPage === page ? 'bold' : 'normal',
-            }}
-          >
-            {page}
-          </button>
+          <PageButton key={page} isCurrent={currentPage === page} page={page} onClick={() => handlePageChange(page)} />
         ))}
+        {
+          currentPage < totalPages && <NextButton onClick={() => handlePageChange(currentPage + 1)}/>
+        }
       </div>
     </Container>
   );

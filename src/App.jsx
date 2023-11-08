@@ -20,8 +20,8 @@ const theme = createTheme({
     primary: {
       main: '#FF0000',
     },
-    grey: {
-      main: "#727070"
+    gray: {
+      main: "#333"
     },
     gold: {
       main: "#EEBB58"

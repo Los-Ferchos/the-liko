@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import ProductCardLoader from './card/ProductCardLoader';
+import ProductCardLoader from '../card/ProductCardLoader';
 
 const ProductsGridLoader = () => {
   const numberOfProducts = 16;
