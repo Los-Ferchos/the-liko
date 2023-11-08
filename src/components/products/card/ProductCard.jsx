@@ -2,18 +2,17 @@ import { Grid, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import '../../../assets/styles/products.css';
 import RatingWishProduct from '../rating/RatingWishProduct';
 import AddToCartButton from '../../buttons/AddToCartButton';
+import LazyImage from '../../images/LazyImage';
+import bottleLoaderImg from '../../../assets/images/bottle-loader.png';
 
 const ProductCard = ({ product = {} }) => {
   return (
     <Grid item xs={12} sm={6} md={3}>
       <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <CardMedia
-          component="img"
-          alt={product.name}
-          image={product.imgUrl}
-          title={product.name}
-          className='product-image-container'
-          style={{ objectFit: 'contain', flex: '1 0 auto' }}
+        <LazyImage
+          src={product.imgUrl}
+          placeholderSrc={bottleLoaderImg}
+          className={"product-image-container"}
         />
         <CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
           <RatingWishProduct 

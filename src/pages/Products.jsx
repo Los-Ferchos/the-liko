@@ -35,7 +35,7 @@ const Products = () => {
   };
 
   return (
-    <Container>
+    <Container component={"section"}>
       <EcommercePage isLoading={isLoading} products={products} />
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (

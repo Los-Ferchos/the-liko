@@ -22,7 +22,7 @@ const WishButton = ({ productId }) => {
   }
 
   return (
-    <IconButton color='primary'  onClick={alreadyWished ? deleteProductToWishList : addProductToWishList} >
+    <IconButton color='primary' onClick={alreadyWished ? deleteProductToWishList : addProductToWishList} >
         {
             alreadyWished ? 
                 <FaHeart /> : 
