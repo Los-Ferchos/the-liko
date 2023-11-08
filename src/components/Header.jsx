@@ -66,6 +66,11 @@ function Header(){
                     <ul className='menu'>
                         <li>
                         <Typography color="black" className='active-link'>
+                            <Link to="/products">All Products</Link>
+                        </Typography>
+                        </li>
+                        <li>
+                        <Typography color="black" className='active-link'>
                             <Link to="/liquors">Liquors</Link>
                         </Typography>
                         </li>
