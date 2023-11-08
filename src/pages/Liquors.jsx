@@ -2,13 +2,14 @@ import Header from '../components/header';
 import CommingSoon from '../components/comingSoon';
 
 
-const Home = () => {
+const Liquors = () => {
   return (
     <>
     <Header />
     <CommingSoon />
     </>
+    
   )
 }
 
-export default Home
+export default Liquors

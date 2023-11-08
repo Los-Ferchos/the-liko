@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import '../assets/styles/header.css'
 import {AppBar, Typography, Toolbar} from '@mui/material';
+import { Link } from "react-router-dom";
 import { TiShoppingCart } from 'react-icons/ti';
 import { BiUserCircle } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -24,9 +25,7 @@ function Header(){
 
     useEffect(() => {
         const handleResize = () => {
-        if (window.innerWidth <= 960) {
-            setActive('active-menu');
-        } else {
+        if (window.innerWidth > 960) {
             setActive('center-header');
         }
         };
@@ -45,34 +44,44 @@ function Header(){
                     <GiHamburgerMenu className='hamburguer-menu' style={{ display: active === 'center-header' ? 'block' : 'none' }} size={25}/>
                     <RxCross2 className='cancel-hamburguer-menu' style={{ display: active === 'center-header' ? 'none' : 'block' }} onClick={closeMenu} size={25}/>
                 </div>
+                <Link to="/">
                 <div className="left-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
                     <ul>
                     <li>
                         <div className="logo">
                         <img src="src/assets/images/icon.svg" alt="Home" />
                         </div>
-                        </li>
-                        <li>
+                    </li>
+                    <li>
                         <Typography color="primary">
                         The Liko
                         </Typography>
-                        </li>
+                    </li>
                     </ul>  
                 </div>
+                </Link>
+                
                 <div className={active} >
                     <ul className='menu'>
                         <li>
-                        <Typography color="primary">Liquors</Typography>
+                        <Typography color="primary">
+                            <Link to="/liquors">Liquors</Link>
+                        </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">Soft Drinks</Typography>
+                        <Typography color="primary">
+                            <Link to="/soft_drinks">Soft Drinks</Link>
+                        </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">Extras</Typography>
+                        <Typography color="primary">
+                            <Link to="/extras">Extras</Link>
+                        </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">About Us</Typography>
-                        </li>
+                        <Typography color="primary">
+                            <Link to="/about_us">About Us</Link>
+                        </Typography>                        </li>
                     </ul>
                 </div>
                 <div className="right-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
