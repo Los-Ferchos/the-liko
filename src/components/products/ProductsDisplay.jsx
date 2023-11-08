@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import '../../assets/styles/products.css'
 import ProductsGridLoader from './list/ProductListLoader';
 
-const Products = ({ products, title = "Products", isLoading }) => {
+const ProductsDisplay = ({ products, title = "Products", isLoading }) => {
   return (
     <div style={{ padding: '20px' }}>
       <Typography color="primary" variant="h4" gutterBottom>
@@ -15,4 +15,4 @@ const Products = ({ products, title = "Products", isLoading }) => {
   );
 };
 
-export default Products;
+export default ProductsDisplay;

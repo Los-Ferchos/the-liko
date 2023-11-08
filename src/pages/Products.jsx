@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import EcommercePage from '../components/products/ProductsDisplay';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Container } from '@mui/material';
-import ProductsGridLoader from '../components/products/list/ProductListLoader';
-import PageButton from '../components/buttons/PageButton';
 import PrevButton from '../components/buttons/PrevButton';
 import NextButton from '../components/buttons/NextButton';
+import ProductsDisplay from '../components/products/ProductsDisplay';
+import Pagination from '../components/products/pages/Pagination';
 
-const LIMIT = 1;
+const LIMIT = 6;
 const API_URL = 'http://localhost:8080/products';
 
 const Products = () => {
@@ -39,18 +37,20 @@ const Products = () => {
 
   return (
     <Container component={"section"}>
-      <EcommercePage isLoading={isLoading} products={products} />
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        {
-          currentPage > 1 && <PrevButton onClick={() => handlePageChange(currentPage - 1)}/>
-        }
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-          <PageButton key={page} isCurrent={currentPage === page} page={page} onClick={() => handlePageChange(page)} />
-        ))}
-        {
-          currentPage < totalPages && <NextButton onClick={() => handlePageChange(currentPage + 1)}/>
-        }
-      </div>
+      <ProductsDisplay isLoading={isLoading} products={products} />
+      {
+        totalPages > 1 && (
+          <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>
+            {
+              currentPage > 1 && <PrevButton onClick={() => handlePageChange(currentPage - 1)}/>
+            }
+            <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+            {
+              currentPage < totalPages && <NextButton onClick={() => handlePageChange(currentPage + 1)}/>
+            }
+          </div>
+        )
+      }
     </Container>
   );
 };
