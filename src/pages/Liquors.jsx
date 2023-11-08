@@ -1,5 +1,5 @@
-import Header from '../components/header';
-import CommingSoon from '../components/comingSoon';
+import Header from '../components/Header';
+import CommingSoon from '../components/ComingSoon';
 
 
 const Liquors = () => {
