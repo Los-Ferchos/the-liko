@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import '../assets/styles/header.css'
-import {AppBar, Typography, Toolbar} from '@mui/material';
+import {AppBar, Typography, Toolbar, Container} from '@mui/material';
 import { Link } from "react-router-dom";
 import { TiShoppingCart } from 'react-icons/ti';
 import { BiUserCircle } from 'react-icons/bi';
@@ -39,13 +39,14 @@ function Header(){
 
     return (
         <AppBar color=''>
+            <Container style={{ paddingTop: 0, paddingBottom: 0 }}>
             <Toolbar className="header" style={{ flexDirection: active === 'center-header' ? 'row' : 'column'}}>
                 <div className='responsive-menu' onClick={menuToggle} style={{ marginTop: active === 'center-header' ? (0) : (30) }}>
                     <GiHamburgerMenu className='hamburguer-menu' style={{ display: active === 'center-header' ? 'block' : 'none' }} size={25}/>
                     <RxCross2 className='cancel-hamburguer-menu' style={{ display: active === 'center-header' ? 'none' : 'block' }} onClick={closeMenu} size={25}/>
                 </div>
                 <Link to="/">
-                <div className="left-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
+                <div className="left-header logo-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
                     <ul>
                     <li>
                         <div className="logo">
@@ -64,22 +65,27 @@ function Header(){
                 <div className={active} >
                     <ul className='menu'>
                         <li>
-                        <Typography color="primary">
+                        <Typography color="black" className='active-link'>
+                            <Link to="/products">All Products</Link>
+                        </Typography>
+                        </li>
+                        <li>
+                        <Typography color="black" className='active-link'>
                             <Link to="/liquors">Liquors</Link>
                         </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">
+                        <Typography color="black" className='active-link'>
                             <Link to="/soft_drinks">Soft Drinks</Link>
                         </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">
+                        <Typography color="black" className='active-link'>
                             <Link to="/extras">Extras</Link>
                         </Typography>
                         </li>
                         <li>
-                        <Typography color="primary">
+                        <Typography color="black" className='active-link'>
                             <Link to="/about_us">About Us</Link>
                         </Typography>                        </li>
                     </ul>
@@ -90,18 +96,19 @@ function Header(){
                     </div>
                     <ul className='profile-options'>
                         <li>
-                            <Typography variant="body2" color="primary">Sing In</Typography>
+                            <Typography variant="body2" color="black" className='active-link'>Sing In</Typography>
                         </li>
                         <li>
-                            <Typography variant="body2" color="primary">|</Typography>
+                            <Typography variant="body2" color="black" className='active-link'>|</Typography>
                         </li>
                         <li>
-                            <Typography variant="body2" color="primary">Create Account</Typography>
+                            <Typography variant="body2" color="black" className='active-link'>Create Account</Typography>
                         </li>
                     </ul>
                     <TiShoppingCart size={25}/>
                 </div>
             </Toolbar>
+            </Container>
         </AppBar>
     )
 }

@@ -75,3 +75,11 @@ ul{
         width: 50px;
     }
 }
+
+.logo-header{
+    transition: 0.2s ease-in-out all;
+}
+
+.logo-header:hover{
+    scale: 1.1;
+}
