@@ -1,6 +1,14 @@
 import { Button } from '@mui/material';
 import { FaShoppingCart } from 'react-icons/fa';
 
+/**
+ * Button component for adding a product to the shopping cart.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.productId - The unique identifier of the product to be added to the cart.
+ * 
+ * @returns {JSX.Element} Rendered AddToCartButton component.
+ */
 const AddToCartButton = ({ productId }) => {
 
   /**

@@ -1,8 +1,13 @@
-import { Container, Typography } from '@mui/material'
-import React from 'react'
-import ProductsDisplay from '../components/products/ProductsDisplay'
-import NavigationText from '../components/navText/NavigationText'
+import React from 'react';
+import { Container, Typography } from '@mui/material';
+import ProductsDisplay from '../components/products/ProductsDisplay';
+import NavigationText from '../components/navText/NavigationText';
 
+/**
+ * Products component displays a list of products.
+ *
+ * @returns {JSX.Element} Rendered Products component.
+ */
 const Products = () => {
   return (
     <Container component={"section"} className='vertical-container-padding'>
@@ -16,7 +21,7 @@ const Products = () => {
       </Typography>
       <ProductsDisplay apiUrl="http://localhost:8080/products" />
     </Container>
-  )
-}
+  );
+};
 
-export default Products
+export default Products;

@@ -2,6 +2,14 @@ import { IconButton } from '@mui/material'
 import { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
+/**
+ * Button component representing adding/removing a product to/from the wish list.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.productId - The unique identifier of the product associated with the button.
+ * 
+ * @returns {JSX.Element} Rendered WishButton component.
+ */
 const WishButton = ({ productId }) => {
   const [alreadyWished, setAlreadyWished] = useState(false);
 
