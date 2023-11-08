@@ -50,4 +50,18 @@ button{
 
 .product-title{
     margin-top: 2px;
+    display: flex;
+    align-items: center;
 }
+
+.product-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: stretch;
+}
+  
+.product-price {
+    margin-bottom: 8px;
+}
+  
