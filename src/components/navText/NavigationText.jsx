@@ -16,7 +16,7 @@ const NavigationText = ({ inactivePath = [{ title: "", href: "" }], activePath =
     <Box display='flex'>
         {
             inactivePath.map(path => (
-                <Typography className='inactive-link'>
+                <Typography key={path} className='inactive-link'>
                     <Link to={path.href}>{path.title}</Link>
                     &nbsp;/&nbsp;
                 </Typography>

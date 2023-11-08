@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import PrevButton from '../buttons/PrevButton';
 import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
@@ -36,18 +35,23 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${apiUrl}?page=${page}&limit=${limit}`);
-        setProducts(response.data.products);
-        setTotalPages(response.data.pagination.totalPages);
+        const response = await fetch(`${apiUrl}?page=${page}&limit=${limit}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data.products);
+          setTotalPages(data.pagination.totalPages);
+        } else {
+          setFailed(true);
+        }
       } catch (error) {
         setFailed(true);
       }
       setIsLoading(false);
     };
-
+  
     fetchProducts();
   }, [currentPage, apiUrl, limit, page]);
-
+  
   /**
    * Handles the change of the current page.
    *
@@ -64,7 +68,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
     <div>
       {isLoading ? <ProductsListLoader /> : <ProductsList products={products} failed={failed} />}
 
-      {totalPages > 1 && (
+      {(totalPages > 1 && !failed) && (
         <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>
           {currentPage > 1 && <PrevButton onClick={() => handlePageChange(currentPage - 1)} />}
           <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
