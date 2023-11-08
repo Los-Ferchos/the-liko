@@ -23,7 +23,7 @@ ul{
     align-items: center;
 }
 .left-header ul li{
-    margin-right: 20px;
+    margin-right: 10px;
 }
 .center-header ul li {
     margin-right: 25px;
@@ -62,5 +62,16 @@ ul{
     }
     .active-menu{
         display: block;
+    }
+}
+
+.logo img{
+    width: 50px;
+    margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .logo img{
+        width: 50px;
     }
 }
