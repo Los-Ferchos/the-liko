@@ -1,7 +1,7 @@
 import { Grid, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import '../../assets/styles/products.css';
-import RatingWishProduct from './RatingWishProduct';
-import AddToCartButton from '../buttons/AddToCartButton';
+import '../../../assets/styles/products.css';
+import RatingWishProduct from '../rating/RatingWishProduct';
+import AddToCartButton from '../../buttons/AddToCartButton';
 
 const ProductCard = ({ product = {} }) => {
   return (

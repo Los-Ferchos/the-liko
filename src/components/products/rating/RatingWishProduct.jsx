@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
-import WishButton from "../buttons/WishButton"
-import RatingProduct from "./rating/RatingProduct"
+import WishButton from "../../buttons/WishButton"
+import RatingProduct from "./RatingProduct"
 
 const RatingWishProduct = ({ rating, reviews, productId }) => (
     <Box display="flex" alignItems="center">

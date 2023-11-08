@@ -65,3 +65,42 @@ button{
     margin-bottom: 8px;
 }
   
+.skeleton-loader {
+    width: 100%; /* Set the width of your image container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure block layout for the image container */
+    overflow: hidden; /* Hide overflowing content (if any) */
+    position: relative; /* Set position to relative for absolute positioning of the skeleton element */
+  
+    /* Add any other styles to your image container as needed */
+  }
+  
+  .skeleton-loader img {
+    width: 100%; /* Set the width of your image */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure block layout for the image */
+  
+    /* Add any other styles to your image as needed */
+  }
+  
+  .skeleton-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+    animation: loadingAnimation 1.5s infinite; /* Adjust animation duration and other properties as needed */
+  }
+  
+  @keyframes loadingAnimation {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  
+  

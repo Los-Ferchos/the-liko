@@ -3,6 +3,7 @@ import axios from 'axios';
 import EcommercePage from '../components/products/EcommercePage';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Container } from '@mui/material';
+import ProductsGridLoader from '../components/products/ProductListLoader';
 
 const LIMIT = 16;
 const API_URL = 'http://localhost:8080/products';
@@ -35,8 +36,7 @@ const Products = () => {
 
   return (
     <Container>
-      <EcommercePage products={products} />
-      {isLoading && <div style={{ textAlign: 'center', marginTop: '20px' }}><CircularProgress /></div>}
+      <EcommercePage isLoading={isLoading} products={products} />
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
         {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
           <button
