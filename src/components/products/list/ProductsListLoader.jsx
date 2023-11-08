@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import ProductCardLoader from '../card/ProductCardLoader';
 
-const ProductsGridLoader = () => {
+const ProductsListLoader = () => {
   const numberOfProducts = 16;
   const productLoaders = [];
 
@@ -17,4 +17,4 @@ const ProductsGridLoader = () => {
   );
 };
 
-export default ProductsGridLoader;
+export default ProductsListLoader;

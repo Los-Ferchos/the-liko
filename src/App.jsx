@@ -21,7 +21,7 @@ const theme = createTheme({
       main: '#FF0000',
     },
     gray: {
-      main: "#333"
+      main: "#727070"
     },
     gold: {
       main: "#EEBB58"
@@ -32,9 +32,6 @@ const theme = createTheme({
     white: {
       main: "#FFFFFF"
     },
-    backgrey:{
-      main: "#F2F2F2"
-    }
   },
   typography: {
     fontFamily: 'Poppins, sans-serif', 
@@ -72,6 +69,13 @@ const theme = createTheme({
         root: {
           borderRadius: "8px",
           textTransform: 'none',
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          padding: '20px',
         },
       },
     },

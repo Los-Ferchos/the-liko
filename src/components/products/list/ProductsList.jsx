@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import ProductCard from '../card/ProductCard';
 
-const ProductList = ({ products }) => {
+const ProductsList = ({ products }) => {
   return (
     <Grid container spacing={16} className='products-grid-container'>
       {products.map((product) => (
@@ -11,4 +11,4 @@ const ProductList = ({ products }) => {
   );
 };
 
-export default ProductList;
+export default ProductsList;
