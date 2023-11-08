@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PrevButton from '../buttons/PrevButton';
-import Pagination from './pages/Pagination';
+import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
@@ -21,6 +21,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
@@ -31,6 +32,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
    * @returns {void}
    */
   useEffect(() => {
+    setFailed(false);
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
@@ -38,7 +40,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
         setProducts(response.data.products);
         setTotalPages(response.data.pagination.totalPages);
       } catch (error) {
-        console.error('Error fetching products: ', error);
+        setFailed(true);
       }
       setIsLoading(false);
     };
@@ -60,7 +62,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
 
   return (
     <div>
-      {isLoading ? <ProductsListLoader /> : <ProductsList products={products} />}
+      {isLoading ? <ProductsListLoader /> : <ProductsList products={products} failed={failed} />}
 
       {totalPages > 1 && (
         <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>
