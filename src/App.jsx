@@ -94,11 +94,11 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/liquors' Component={Liquors} />
-        <Route path='/soft_drinks' Component={SoftDrinks} />
-        <Route path='/extras' Component={Extras} />
-        <Route path='/about_us' Component={AboutUs} />
-        <Route path='*' Component={Page404} />
+          <Route path='/soft_drinks' Component={SoftDrinks} />
+          <Route path='/extras' Component={Extras} />
+          <Route path='/about_us' Component={AboutUs} />
           <Route path='/products' Component={Products} />
+          <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

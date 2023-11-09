@@ -1,0 +1,28 @@
+.bottle {
+  height: 240px;
+  animation: floatBottle 2s infinite alternate ease-in-out;
+}
+
+@media (max-width: 992px) {
+  .page-404-container{
+    padding-top: 40px;
+  }
+  .bottle {
+    height: 200px;
+  }
+}
+
+@media (max-width: 520px) {
+  .bottle {
+    height: 150px;
+  }
+}
+
+@keyframes floatBottle {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
