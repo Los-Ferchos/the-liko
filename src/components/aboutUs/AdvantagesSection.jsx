@@ -15,7 +15,6 @@ import { FaStore, FaMoneyBillWave, FaShoppingBag, FaMoneyCheck } from "react-ico
 const AdvantagesSection = () => {
   const advantages = [
     { icon: <RoundedIcon icon={FaStore} />, number: "10.5", title: "Sellers active on our site" },
-    { icon: <RoundedIcon icon={FaMoneyBillWave} />, number: "5", title: "Different payment methods" },
     { icon: <RoundedIcon icon={FaShoppingBag} />, number: "3", title: "Customers active on our site" },
     { icon: <RoundedIcon icon={FaMoneyCheck} />, number: "4", title: "Annual gross sale on our site" },
   ];
