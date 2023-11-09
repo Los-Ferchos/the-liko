@@ -21,7 +21,7 @@ const Products = () => {
         marginTop={6}>
           Products
       </Typography>
-      <ProductsDisplay apiUrl="http://localhost:8080/products" />
+      <ProductsDisplay apiUrl="https://apitheliko.azurewebsites.net/products" />
     </Container>
   );
 };
