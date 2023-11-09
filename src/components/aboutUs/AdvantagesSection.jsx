@@ -1,8 +1,17 @@
+/**
+ * A React component displaying the advantages of The Liko.
+ * @component
+ */
 import React from 'react';
+
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import RoundedIcon from '../icons/RoundedIcon';
-import { FaStore, FaMoneyBillWave, FaShoppingBag, FaMoneyCheck} from "react-icons/fa";
+import { FaStore, FaMoneyBillWave, FaShoppingBag, FaMoneyCheck } from "react-icons/fa";
 
+/**
+ * AdvantagesSection component displays a set of advantages with icons, numbers, and titles.
+ * @returns {JSX.Element} The React component for displaying advantages.
+ */
 const AdvantagesSection = () => {
   const advantages = [
     { icon: <RoundedIcon icon={FaStore} />, number: "10.5", title: "Sellers active on our site" },

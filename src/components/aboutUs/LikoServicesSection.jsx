@@ -1,9 +1,16 @@
+/**
+ * A React component displaying Liko's services with icons and titles.
+ * @component
+ */
 import React from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import RoundedIcon from '../icons/RoundedIcon';
-import { FaShippingFast, FaHeadset, FaShieldAlt} from "react-icons/fa";
+import { FaShippingFast, FaHeadset, FaShieldAlt } from "react-icons/fa";
 
-
+/**
+ * LikoServicesSection component displays a set of services with icons and titles.
+ * @returns {JSX.Element} The React component for displaying Liko's services.
+ */
 const LikoServicesSection = () => {
   const services = [
     { icon: <RoundedIcon icon={FaShippingFast} />, title: "INFORMATION AND RECOMMENDATION", ReportBody: "" },
