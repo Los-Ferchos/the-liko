@@ -95,14 +95,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('http://localhost:8080/categories')
+    fetch('https://apitheliko.azurewebsites.net/categories')
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8080/subcategories')
+    fetch('https://apitheliko.azurewebsites.net/subcategories')
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
