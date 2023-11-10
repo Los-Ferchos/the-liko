@@ -8,6 +8,10 @@ import AboutUs from "./pages/AboutUs"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import { useDispatch } from "react-redux"
+import {setCategories} from "./store/categorySlice"
+import {setSubcategories} from "./store/subcategorySlice"
+import {useEffect} from 'react';
 
 const theme = createTheme({
   spacing: 2,
@@ -71,7 +75,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "8px",
+          borderRadius: "5px",
           textTransform: 'none',
         },
       },
@@ -88,17 +92,33 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch('http://localhost:8080/categories')
+      .then((response) => response.json())
+      .then((data) => {var res = data; dispatch(setCategories(res));})
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/subcategories')
+      .then((response) => response.json())
+      .then((data) => {var res = data; dispatch(setSubcategories(res))})
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/liquors' Component={Liquors} />
-        <Route path='/soft_drinks' Component={SoftDrinks} />
-        <Route path='/extras' Component={Extras} />
-        <Route path='/about_us' Component={AboutUs} />
-        <Route path='*' Component={Page404} />
+          <Route path='/soft_drinks' Component={SoftDrinks} />
+          <Route path='/extras' Component={Extras} />
+          <Route path='/about_us' Component={AboutUs} />
           <Route path='/products' Component={Products} />
+          <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -6,7 +6,9 @@ import { TiShoppingCart } from 'react-icons/ti';
 import { BiUserCircle } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
-
+import { useAppSelector } from './hooks/store';
+import Subcategories from './Subcategories'
+import logo from "../assets/images/icon.svg"
 
 function Header(){
     const [active, setActive] = useState('center-header');
@@ -21,6 +23,8 @@ function Header(){
 
     const closeMenu = () => {
         setActive('center-header');
+        handleCategoryClick("");
+        
     }
 
     useEffect(() => {
@@ -35,79 +39,104 @@ function Header(){
         return () => {
         window.removeEventListener('resize', handleResize);
         };
+
+
     }, []);
+
+    const categories = useAppSelector((state) => state.categories.categories);
+    const [categoryId, setCategoryId] = useState("");
+
+    const handleCategoryClick = (newCategoryId) => {
+        setCategoryId(newCategoryId);
+        subMenuToggle()
+        if(window.innerWidth <= 960) {
+            setActive('disabled');
+        }
+    };
+
+    const handleCategoryHover = (newCategoryId) => {
+        setSubMenuActive("disabled")
+        setCategoryId(newCategoryId);
+        setSubMenuActive("enabled")
+    };
+
+    const [subMenuActive, setSubMenuActive] = useState("disabled");
+    const subMenuToggle = () => {
+        if (subMenuActive === 'disabled') {
+            setSubMenuActive('enabled');
+        } else {
+            setSubMenuActive('disabled');
+        }
+    }
 
     return (
         <AppBar color=''>
             <Container style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <Toolbar className="header" style={{ flexDirection: active === 'center-header' ? 'row' : 'column'}}>
-                <div className='responsive-menu' onClick={menuToggle} style={{ marginTop: active === 'center-header' ? (0) : (30) }}>
-                    <GiHamburgerMenu className='hamburguer-menu' style={{ display: active === 'center-header' ? 'block' : 'none' }} size={25}/>
-                    <RxCross2 className='cancel-hamburguer-menu' style={{ display: active === 'center-header' ? 'none' : 'block' }} onClick={closeMenu} size={25}/>
-                </div>
-                <Link to="/">
-                <div className="left-header logo-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
-                    <ul>
-                    <li>
-                        <div className="logo">
-                        <img src="src/assets/images/icon.svg" alt="Home" />
-                        </div>
-                    </li>
-                    <li>
-                        <Typography color="primary">
-                        The Liko
-                        </Typography>
-                    </li>
-                    </ul>  
-                </div>
-                </Link>
-                
-                <div className={active} >
-                    <ul className='menu'>
-                        <li>
-                        <Typography color="black" className='active-link'>
-                            <Link to="/products">All Products</Link>
-                        </Typography>
-                        </li>
-                        <li>
-                        <Typography color="black" className='active-link'>
-                            <Link to="/liquors">Liquors</Link>
-                        </Typography>
-                        </li>
-                        <li>
-                        <Typography color="black" className='active-link'>
-                            <Link to="/soft_drinks">Soft Drinks</Link>
-                        </Typography>
-                        </li>
-                        <li>
-                        <Typography color="black" className='active-link'>
-                            <Link to="/extras">Extras</Link>
-                        </Typography>
-                        </li>
-                        <li>
-                        <Typography color="black" className='active-link'>
-                            <Link to="/about_us">About Us</Link>
-                        </Typography>                        </li>
-                    </ul>
-                </div>
-                <div className="right-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
-                    <div className='icons' >
-                        <BiUserCircle size={25}/>
+                <div className='superior-header'>
+                <Toolbar className="header" style={{ flexDirection: active === 'center-header' ? 'row' : 'column'}}>
+                    <div className='responsive-menu' onClick={menuToggle} style={{ marginTop: active === 'center-header' ? (0) : (30) }}>
+                        <GiHamburgerMenu className='hamburguer-menu' style={{ display: active === 'center-header' ? 'block' : 'none' }} size={25}/>
+                        <RxCross2 className='cancel-hamburguer-menu' style={{ display: active === 'center-header' ? 'none' : 'block' }} onClick={closeMenu} size={25}/>
                     </div>
-                    <ul className='profile-options'>
+                    <Link to="/">
+                    <div className="left-header logo-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
+                        <ul>
                         <li>
-                            <Typography variant="body2" color="black" className='active-link'>Sing In</Typography>
+                            <div className="logo">
+                            <img src={logo} alt="Home" />
+                            </div>
                         </li>
                         <li>
-                            <Typography variant="body2" color="black" className='active-link'>|</Typography>
+                            <Typography color="primary">
+                            The Liko
+                            </Typography>
                         </li>
-                        <li>
-                            <Typography variant="body2" color="black" className='active-link'>Create Account</Typography>
-                        </li>
-                    </ul>
-                    <TiShoppingCart size={25}/>
+                        </ul>  
+                    </div>
+                    </Link>
+                    
+                    <div className={active} >
+                        <ul className='menu'>
+                            <li>
+                                <Typography color="black" className='active-link'
+                                onClick={() => handleCategoryClick("")}
+                                onMouseEnter={() => handleCategoryHover("")}>
+                                    <Link  to="/products">All Products</Link>
+                                </Typography>
+                            </li>
+                            {categories && categories.length > 0 && categories.map(category => (
+                                <li key={category._id}>
+                                <Typography color="black" className='active-link'
+                                onClick={() => handleCategoryClick(category._id)}
+                                onMouseEnter={() => handleCategoryHover(category._id)}>
+                                    <Link to={`/${category.name.toLowerCase()}`}>{category.name}</Link>
+                                </Typography>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="right-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
+                        <div className='icons' >
+                            <BiUserCircle size={25}/>
+                        </div>
+                        <ul className='profile-options'>
+                            <li>
+                                <Typography variant="body2" color="black" className='active-link'>Sing In</Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body2" color="black" className='active-link'>|</Typography>
+                            </li>
+                            <li>
+                                <Typography variant="body2" color="black" className='active-link'>Create Account</Typography>
+                            </li>
+                        </ul>
+                        <TiShoppingCart size={25}/>
+                    </div>
+                </Toolbar>                </div>
+                <div className={subMenuActive} onMouseLeave={() => handleCategoryHover("")}>
+                <Subcategories id={categoryId}/>
                 </div>
-            </Toolbar>
+            
             </Container>
         </AppBar>
     )

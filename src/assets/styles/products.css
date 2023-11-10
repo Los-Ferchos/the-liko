@@ -44,6 +44,11 @@ button{
     padding: 8px 0;
 }
 
+.product-image-container:hover img{
+    scale: 1.075;
+    transition: .2s all ease-in-out;
+}
+
 .rating-middle{
     margin: 0 6px;
 }
