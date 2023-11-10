@@ -117,6 +117,8 @@ const App = () => {
           <Route path='/soft_drinks' Component={SoftDrinks} />
           <Route path='/extras' Component={Extras} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/category/:name' Component={() => <Products destination="/category" />} />
+          <Route path='/subcategory/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='*' Component={Page404} />
         </Routes>

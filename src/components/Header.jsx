@@ -83,12 +83,12 @@ function Header(){
                         <ul>
                         <li>
                             <div className="logo">
-                            <img src={logo} alt="Home" />
+                                <img src={logo} alt="Home" />
                             </div>
                         </li>
                         <li>
                             <Typography color="primary">
-                            The Liko
+                                The Liko
                             </Typography>
                         </li>
                         </ul>  
@@ -98,18 +98,24 @@ function Header(){
                     <div className={active} >
                         <ul className='menu'>
                             <li>
-                                <Typography color="black" className='active-link'
-                                onClick={() => handleCategoryClick("")}
-                                onMouseEnter={() => handleCategoryHover("")}>
+                                <Typography 
+                                    color="black" 
+                                    className='active-link'
+                                    onClick={() => handleCategoryClick("")}
+                                    onMouseEnter={() => handleCategoryHover("")}
+                                >
                                     <Link  to="/products">All Products</Link>
                                 </Typography>
                             </li>
                             {categories && categories.length > 0 && categories.map(category => (
                                 <li key={category._id}>
-                                <Typography color="black" className='active-link'
-                                onClick={() => handleCategoryClick(category._id)}
-                                onMouseEnter={() => handleCategoryHover(category._id)}>
-                                    <Link to={`/${category.name.toLowerCase()}`}>{category.name}</Link>
+                                <Typography 
+                                    color="black" 
+                                    className='active-link'
+                                    onClick={() => handleCategoryClick(category._id)}
+                                    onMouseEnter={() => handleCategoryHover(category._id)}
+                                >
+                                    <Link to={`/category/${category.name.toLowerCase().replace(" ", "-")}`}>{category.name}</Link>
                                 </Typography>
                                 </li>
                             ))}
@@ -134,7 +140,7 @@ function Header(){
                     </div>
                 </Toolbar>                </div>
                 <div className={subMenuActive} onMouseLeave={() => handleCategoryHover("")}>
-                <Subcategories id={categoryId}/>
+                    <Subcategories id={categoryId}/>
                 </div>
             
             </Container>

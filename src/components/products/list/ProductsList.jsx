@@ -11,7 +11,7 @@ import { FaExclamationTriangle, FaRegFrown } from 'react-icons/fa';
  * 
  * @returns {JSX.Element} Rendered ProductsList component.
  */
-const ProductsList = ({ products = [], failed = false }) => (
+const ProductsList = ({ load = false, products = [], failed = false }) => (
   <>
     {
       failed  ? (
@@ -19,7 +19,7 @@ const ProductsList = ({ products = [], failed = false }) => (
           <FaExclamationTriangle color='red' size={64}/>
           <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
         </div>
-      ) : products.length === 0 ? (
+      ) : (products.length === 0 && !load) ? (
         <div className='full-centered-container'>
           <FaRegFrown size={64}/>
           <Typography marginTop={12} variant='h4'>No Products were found</Typography>
