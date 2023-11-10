@@ -35,6 +35,8 @@ ul{
     .center-header{
         display: none;
         position: fixed;
+        transition: 0.5s ease-in-out all;
+
     }
     .menu{
         flex-direction: column;
@@ -82,4 +84,10 @@ ul{
 
 .logo-header:hover{
     scale: 1.1;
+}
+.disabled{
+    display: none;
+}
+.enabled{
+    display:contents;
 }

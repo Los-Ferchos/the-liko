@@ -8,6 +8,10 @@ import AboutUs from "./pages/AboutUs"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import { useDispatch } from "react-redux"
+import {setCategories} from "./store/categorySlice"
+import {setSubcategories} from "./store/subcategorySlice"
+import {useEffect} from 'react';
 
 const theme = createTheme({
   spacing: 2,
@@ -88,6 +92,22 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch('http://localhost:8080/categories')
+      .then((response) => response.json())
+      .then((data) => {var res = data; dispatch(setCategories(res));})
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/subcategories')
+      .then((response) => response.json())
+      .then((data) => {var res = data; dispatch(setSubcategories(res))})
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
