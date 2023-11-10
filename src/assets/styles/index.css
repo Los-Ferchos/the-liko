@@ -3,7 +3,9 @@
 	--titles-font: 'Mulish', sans-serif;
 	--body-font: 'Poppins', sans-serif;
 	--gold-color: #EEBB58;
-	--grey-color: #727070;
+	--gray-color: #727070;
+  --gray-light-color: #c6c6c6;
+  --black-color: #000;
   }
   
   * {
@@ -87,4 +89,9 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+}
+
+.padding-section{
+
+  padding: auto;
 }

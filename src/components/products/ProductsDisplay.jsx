@@ -35,7 +35,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${apiUrl}?page=${page}&limit=${limit}`);
+        const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${limit}`);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.products);
