@@ -12,31 +12,46 @@ import { useAppSelector } from '../components/hooks/store';
  * @returns {JSX.Element} Rendered Products component.
  */
 const Products = ({ destination = "" }) => {
-  const { name = "Products" } = useParams();
+  const { name = "Products", nameCat = "" } = useParams();
   const [idParam, setIdParam] = useState("");
-  const [reload, setReload] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [inactivePath, setInactivePath] = useState([{ title: "Home", href: "/" }])
 
-  const categoriesSubcategories = useAppSelector((state) => state.categories);
+  const categories = useAppSelector((state) => state.categories.categories);
+  const subcategories = useAppSelector((state) => state.subcategories.subcategories);
+
+  const dataGet = { "/category": categories, "/subcategory": subcategories}
+
+  const filterDataArray = (arrayToFilter, compareData, valueData) => 
+    arrayToFilter.filter(cat => cat[compareData].toLowerCase().replace(" ", "-") === valueData)
+
+
+  const getIdParam = (arrayToFilter) => {
+    const idCat = filterDataArray(arrayToFilter, "name", name);
+    if (destination.includes('/subcategory') && idCat.length > 0){
+      const catsArray = filterDataArray(dataGet['/category'], "_id", idCat[0].category);
+      setInactivePath(
+        [{ title: "Home", href: "/" }, { title: catsArray[0].name, href: `/${catsArray[0].name.toLowerCase().replace(" ", "-")}` }]
+      )
+    }
+    setIdParam(idCat.length > 0 ? idCat[0]._id : "");
+    setIsLoading(idCat.length == 0);
+  }
 
   useEffect(() => {
     if(name === "Products"){
       setIdParam("");
-      setReload(false)
+      setIsLoading(false)
     }
-    else if (destination.includes("category")){
-      const idCat = 
-        categoriesSubcategories.categories.filter(cat => cat.name.toLowerCase().replace(" ", "-") === name)
-      setIdParam(idCat.length > 0 ? idCat[0]._id : "");
-      setReload(idCat.length <= 0)
-    }
-  }, [name, categoriesSubcategories, destination])
+    else getIdParam(dataGet[destination])
+  }, [name, categories, subcategories, dataGet, destination])
 
   const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
   
   return (
     <Container component={"section"} className='vertical-container-padding'>
       <Header/>
-      <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath={capitalizeString(name)} />
+      <NavigationText inactivePath={inactivePath} activePath={capitalizeString(name)} />
       <Typography 
         variant='h4' 
         color='primary' 
@@ -44,7 +59,10 @@ const Products = ({ destination = "" }) => {
         marginTop={6}>
           {capitalizeString(name)}
       </Typography>
-      <ProductsDisplay apiUrl={`https://apitheliko.azurewebsites.net/products${destination}/${idParam}`} reload={reload} />
+      <ProductsDisplay 
+        apiUrl={`https://apitheliko.azurewebsites.net/products${destination}/${idParam}`} 
+        loading={isLoading} 
+      />
     </Container>
   );
 };

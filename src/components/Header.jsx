@@ -44,19 +44,19 @@ function Header(){
     }, []);
 
     const categories = useAppSelector((state) => state.categories.categories);
-    const [categoryId, setCategoryId] = useState("");
+    const [category, setCategory] = useState("");
 
-    const handleCategoryClick = (newCategoryId) => {
-        setCategoryId(newCategoryId);
+    const handleCategoryClick = (newCategory) => {
+        setCategory(newCategory);
         subMenuToggle()
         if(window.innerWidth <= 960) {
             setActive('disabled');
         }
     };
 
-    const handleCategoryHover = (newCategoryId) => {
+    const handleCategoryHover = (newCategory) => {
         setSubMenuActive("disabled")
-        setCategoryId(newCategoryId);
+        setCategory(newCategory);
         setSubMenuActive("enabled")
     };
 
@@ -112,8 +112,8 @@ function Header(){
                                 <Typography 
                                     color="black" 
                                     className='active-link'
-                                    onClick={() => handleCategoryClick(category._id)}
-                                    onMouseEnter={() => handleCategoryHover(category._id)}
+                                    onClick={() => handleCategoryClick(category)}
+                                    onMouseEnter={() => handleCategoryHover(category)}
                                 >
                                     <Link to={`/category/${category.name.toLowerCase().replace(" ", "-")}`}>{category.name}</Link>
                                 </Typography>
@@ -140,7 +140,7 @@ function Header(){
                     </div>
                 </Toolbar>                </div>
                 <div className={subMenuActive} onMouseLeave={() => handleCategoryHover("")}>
-                    <Subcategories id={categoryId}/>
+                    <Subcategories category={category}/>
                 </div>
             
             </Container>

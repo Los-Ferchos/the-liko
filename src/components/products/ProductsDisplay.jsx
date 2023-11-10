@@ -15,7 +15,7 @@ import ProductsList from './list/ProductsList';
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, reload }) => {
+const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -32,7 +32,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, reload }) => {
    */
   useEffect(() => {
     const fetchProducts = async () => {
-      if(reload) return;
+      if(loading) return;
       setFailed(false);
       setIsLoading(true);
       try {
@@ -51,7 +51,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, reload }) => {
     };
   
     fetchProducts();
-  }, [currentPage, apiUrl, limit, page, reload]);
+  }, [currentPage, apiUrl, limit, page, loading]);
   
   /**
    * Handles the change of the current page.
@@ -67,7 +67,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, reload }) => {
 
   return (
     <div>
-      {(isLoading || reload) ? <ProductsListLoader /> : <ProductsList load={reload && isLoading} products={products} failed={failed} />}
+      {(isLoading || loading) ? <ProductsListLoader /> : <ProductsList load={loading && isLoading} products={products} failed={failed} />}
 
       {(totalPages > 1 && !failed) && (
         <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>
