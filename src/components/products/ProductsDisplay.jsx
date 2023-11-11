@@ -12,6 +12,7 @@ import ProductsList from './list/ProductsList';
  * @param {string} props.apiUrl - The API endpoint URL for fetching products.
  * @param {number} [props.page=1] - The current page number for pagination (default is 1).
  * @param {number} [props.limit=16] - The number of products to display per page (default is 16).
+ * @param {boolean} props.loading - The loading indicates if there is a method still being loaded before getting the products
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
