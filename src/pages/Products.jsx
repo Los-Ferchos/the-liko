@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../components/hooks/store';
 import SubcategoriesList from '../components/categories/SubcategoriesList';
 import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
+import { API_URL_LINK } from '../utils/constants';
 
 /**
  * Products component displays a list of products based on the specified category or subcategory.
@@ -79,7 +80,7 @@ const Products = ({ destination = "" }) => {
             {capitalizeString(name)}
           </Typography>
           <SubcategoriesList categoryName={name} />
-          <ProductsDisplay apiUrl={`https://apitheliko.azurewebsites.net/products${destination}/${idParam}`} loading={isLoading} />
+          <ProductsDisplay apiUrl={`${API_URL_LINK}/products${destination}/${idParam}`} loading={isLoading} />
         </>
       )}
     </Container>

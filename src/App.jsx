@@ -10,6 +10,7 @@ import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
+import { API_URL_LINK } from "./utils/constants";
 
 const theme = createTheme({
   spacing: 2,
@@ -93,14 +94,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://apitheliko.azurewebsites.net/categories')
+    fetch(`${API_URL_LINK}/categories`)
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    fetch('https://apitheliko.azurewebsites.net/subcategories')
+    fetch(`${API_URL_LINK}/subcategories`)
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
