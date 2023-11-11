@@ -17,7 +17,7 @@ const SubcategoriesList = ({ categoryName = "" }) => {
         if(subcategoriesArr.length > 0) subcategoriesArr.push({ name: "All", _id: "all" });
         setSubcategories(subcategoriesArr);
     }
-  }, [categoriesState, subcategoriesState, categoryName])
+  }, [categoriesState, subcategoriesState, categoryName]);
 
   return (
     <div style={{ marginTop: subcategories.length > 0 ? 10 : 0 }}>

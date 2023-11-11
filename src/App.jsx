@@ -113,7 +113,7 @@ const App = () => {
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
-          <Route path='/:nameCat/all' Component={() => <ProductsBySubcategories/>} />
+          <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
