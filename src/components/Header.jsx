@@ -10,6 +10,7 @@ import { useAppSelector } from './hooks/store';
 import Subcategories from './Subcategories'
 import logo from "../assets/images/icon.svg"
 import { getHyphenedString } from '../utils/methods';
+import CustomLink from './links/CustomLink';
 
 function Header(){
     const [active, setActive] = useState('center-header');
@@ -99,25 +100,22 @@ function Header(){
                     <div className={active} >
                         <ul className='menu'>
                             <li>
-                                <Typography 
-                                    color="black" 
-                                    className='active-link'
+                                <CustomLink
                                     onClick={() => handleCategoryClick("")}
                                     onMouseEnter={() => handleCategoryHover("")}
-                                >
-                                    <Link  to="/products">All Products</Link>
-                                </Typography>
+                                    href='/products'
+                                    title='All Products'
+                                    comparePath="products"
+                                />
                             </li>
                             {categories && categories.length > 0 && categories.map(category => (
                                 <li key={category._id}>
-                                <Typography 
-                                    color="black" 
-                                    className='active-link'
-                                    onClick={() => handleCategoryClick(category)}
-                                    onMouseEnter={() => handleCategoryHover(category)}
-                                >
-                                    <Link to={`/${getHyphenedString(category.name)}`}>{category.name}</Link>
-                                </Typography>
+                                    <CustomLink
+                                        onClick={() => handleCategoryClick(category)}
+                                        onMouseEnter={() => handleCategoryHover(category)}
+                                        href={`/${getHyphenedString(category.name)}`}
+                                        title={category.name}
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -128,13 +126,13 @@ function Header(){
                         </div>
                         <ul className='profile-options'>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>Sing In</Typography>
+                                <CustomLink variant="body2" title='Sign In'/>
                             </li>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>|</Typography>
+                                <Typography variant="body2" color="black">|</Typography>
                             </li>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>Create Account</Typography>
+                                <CustomLink variant="body2" title='Create Account'/>
                             </li>
                         </ul>
                         <TiShoppingCart size={25}/>
