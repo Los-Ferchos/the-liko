@@ -19,7 +19,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
   /**
@@ -31,10 +31,12 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
    * @returns {void}
    */
   useEffect(() => {
+    setIsLoading(true);
+
     const fetchProducts = async () => {
+      setIsLoading(true);
       if(loading) return;
       setFailed(false);
-      setIsLoading(true);
       try {
         const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${limit}`);
         if (response.ok) {
@@ -67,7 +69,10 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
 
   return (
     <div>
-      {(isLoading || loading) ? <ProductsListLoader /> : <ProductsList load={loading && isLoading} products={products} failed={failed} />}
+      {(isLoading || loading) ? 
+        <ProductsListLoader /> : 
+        <ProductsList load={loading || isLoading} products={products} failed={failed} />
+      }
 
       {(totalPages > 1 && !failed) && (
         <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>

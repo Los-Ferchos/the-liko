@@ -28,12 +28,11 @@ function Subcategories({ category = { _id: "", name: "" } }) {
                     marginBottom={5}
                 >
                         <Link 
-                            to={`/category/${category.name.toLowerCase().replace(" ", "-")}/${subcategory.name.toLowerCase()}`}
+                            to={`/${category.name.toLowerCase().replace(" ", "-")}/${subcategory.name.toLowerCase()}`}
                         >
-                    <Typography color="black" className='active-link'>
-                            {subcategory.name}
-                    </Typography>
-
+                            <Typography color="black" className='active-link'>
+                                {subcategory.name}
+                            </Typography>
                         </Link>
                 </Grid> 
             ))
@@ -41,9 +40,11 @@ function Subcategories({ category = { _id: "", name: "" } }) {
             <Grid item key={50} xs={12} md={3} lg={3}
             container alignItems={"center"} justifyContent={"center"}
             marginTop={5} marginBottom={5}>
-                    <Typography color="black" className='active-link'>
-                        <Link to={`/products`}>All</Link>
-                    </Typography>
+                    <Link to={`/${category.name.toLowerCase().replace(" ", "-")}/all`}>
+                        <Typography color="black" className='active-link'>
+                            All
+                        </Typography>
+                    </Link>
             </Grid> 
         </Grid>
     )

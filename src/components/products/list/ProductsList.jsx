@@ -11,7 +11,7 @@ import { FaExclamationTriangle, FaRegFrown } from 'react-icons/fa';
  * 
  * @returns {JSX.Element} Rendered ProductsList component.
  */
-const ProductsList = ({ load = false, products = [], failed = false }) => (
+const ProductsList = ({ load = true, products = [], failed = false }) => (
   <>
     {
       failed  ? (

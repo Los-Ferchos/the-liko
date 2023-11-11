@@ -115,7 +115,7 @@ function Header(){
                                     onClick={() => handleCategoryClick(category)}
                                     onMouseEnter={() => handleCategoryHover(category)}
                                 >
-                                    <Link to={`/category/${category.name.toLowerCase().replace(" ", "-")}`}>{category.name}</Link>
+                                    <Link to={`/${category.name.toLowerCase().replace(" ", "-")}`}>{category.name}</Link>
                                 </Typography>
                                 </li>
                             ))}

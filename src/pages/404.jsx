@@ -20,7 +20,7 @@ const Page404 = () => {
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='404 Page' />
       <div className="full-centered-container">
         <div className="page-404-container">
-          <img class="bottle" src={bottle} alt=""/>
+          <img className="bottle" src={bottle} alt=""/>
           <Typography variant={width < 768 ? "h2" : "h1"} marginTop={10} className="title-404">404 Not Found</Typography>
 
           <Typography marginTop={10} marginBottom={16} variant={width < 768 ? "subtitle1" : "h6"}>

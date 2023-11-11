@@ -1,9 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Page404 from "./pages/404"
 import Home from "./pages/Home"
-import Liquors from "./pages/Liquors"
-import SoftDrinks from "./pages/SoftDrinks"
-import Extras from "./pages/Extras"
 import AboutUs from "./pages/AboutUs"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
@@ -12,6 +9,7 @@ import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
+import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 
 const theme = createTheme({
   spacing: 2,
@@ -29,7 +27,7 @@ const theme = createTheme({
       main: '#FF0000',
     },
     gray: {
-      main: "#727070"
+      main: "#f00"
     },
     gold: {
       main: "#EEBB58"
@@ -113,13 +111,12 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' Component={Home} />
-          <Route path='/liquors' Component={Liquors} />
-          <Route path='/soft_drinks' Component={SoftDrinks} />
-          <Route path='/extras' Component={Extras} />
           <Route path='/about_us' Component={AboutUs} />
-          <Route path='/category/:name' Component={() => <Products destination="/category" />} />
-          <Route path='/category/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
+          <Route path='/:name' Component={() => <Products destination="/category" />} />
+          <Route path='/:nameCat/all' Component={() => <ProductsBySubcategories/>} />
+          <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
+          <Route path='/404' Component={Page404} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
