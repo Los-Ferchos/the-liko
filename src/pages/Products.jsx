@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Container, LinearProgress, Typography } from '@mui/material';
+import { CircularProgress, Container, Typography } from '@mui/material';
 import ProductsDisplay from '../components/products/ProductsDisplay';
 import NavigationText from '../components/navText/NavigationText';
 import Header from '../components/Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../components/hooks/store';
+import SubcategoriesList from '../components/categories/SubcategoriesList';
+import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
 
 /**
  * Products component displays a list of products.
@@ -21,18 +23,6 @@ const Products = ({ destination = "" }) => {
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
 
   const dataGet = { "/category": categories, "/subcategory": subcategories}
-
-  const filterDataArray = (arrayToFilter, compareData, valueData) => 
-    arrayToFilter.filter(cat => cat[compareData].toLowerCase().replace(" ", "-") === valueData);
-
-  const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
-
-  const getInactivePaths = () => {
-    const inactivePaths = [{ title: "Home", href: "/" }]
-    if(nameCat != "")
-      inactivePaths.push({ title: capitalizeString(nameCat), href: `/${nameCat}`})
-    return inactivePaths;
-  }
 
   const getIdParam = (arrayToFilter) => {
     const idCat = filterDataArray(arrayToFilter, "name", name);
@@ -65,7 +55,7 @@ const Products = ({ destination = "" }) => {
       {
         isLoading ? <div className='full-centered-container'><CircularProgress/></div> : (
           <>
-          <NavigationText inactivePath={getInactivePaths()} activePath={capitalizeString(name)} />
+          <NavigationText inactivePath={getInactivePaths(nameCat)} activePath={capitalizeString(name)} />
             <Typography 
               variant='h4' 
               color='primary' 
@@ -73,6 +63,7 @@ const Products = ({ destination = "" }) => {
               marginTop={6}>
                 {capitalizeString(name)}
             </Typography>
+            <SubcategoriesList categoryName={name} />
             <ProductsDisplay 
               apiUrl={`https://apitheliko.azurewebsites.net/products${destination}/${idParam}`} 
               loading={isLoading} 

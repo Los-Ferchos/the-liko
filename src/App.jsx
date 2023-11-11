@@ -27,7 +27,7 @@ const theme = createTheme({
       main: '#FF0000',
     },
     gray: {
-      main: "#f00"
+      main: "#727070"
     },
     gold: {
       main: "#EEBB58"

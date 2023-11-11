@@ -9,6 +9,7 @@ import { RxCross2 } from 'react-icons/rx';
 import { useAppSelector } from './hooks/store';
 import Subcategories from './Subcategories'
 import logo from "../assets/images/icon.svg"
+import { getHyphenedString } from '../utils/methods';
 
 function Header(){
     const [active, setActive] = useState('center-header');
@@ -115,7 +116,7 @@ function Header(){
                                     onClick={() => handleCategoryClick(category)}
                                     onMouseEnter={() => handleCategoryHover(category)}
                                 >
-                                    <Link to={`/${category.name.toLowerCase().replace(" ", "-")}`}>{category.name}</Link>
+                                    <Link to={`/${getHyphenedString(category.name)}`}>{category.name}</Link>
                                 </Typography>
                                 </li>
                             ))}
