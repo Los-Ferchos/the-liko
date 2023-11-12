@@ -12,7 +12,11 @@ import logo from "../assets/images/icon.svg"
 import { getHyphenedString } from '../utils/methods';
 import CustomLink from './links/CustomLink';
 
-function Header(){
+/**
+ * This is the header component to show the navigation options for all the app
+ * @returns {JSX.Element} Rendered Header component.
+ */
+const Header = () => {
     const [active, setActive] = useState('center-header');
 
     const menuToggle = () => {

@@ -3,6 +3,12 @@ import { Grid } from '@mui/material';
 import { getHyphenedString } from '../utils/methods';
 import CustomLink from './links/CustomLink';
 
+/**
+ * Subcategories menu to be displayed when hovering a header category
+ * @param {Object} props - The properties of the component. 
+ * @param {Object} category - The category info to which the subcategories belong to
+ * @returns {JSX.Element} Rendered Subcategories component.
+ */
 function Subcategories({ category = { _id: "", name: "" } }) {
     const subcategories = useAppSelector((state) => state.subcategories.subcategories);
 
