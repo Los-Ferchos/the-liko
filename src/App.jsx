@@ -1,9 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Page404 from "./pages/404"
 import Home from "./pages/Home"
-import Liquors from "./pages/Liquors"
-import SoftDrinks from "./pages/SoftDrinks"
-import Extras from "./pages/Extras"
 import AboutUs from "./pages/AboutUs"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
@@ -12,6 +9,8 @@ import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
+import ProductsBySubcategories from "./pages/ProductsBySubcategories";
+import { API_URL_LINK } from "./utils/constants";
 
 const theme = createTheme({
   spacing: 2,
@@ -95,14 +94,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://apitheliko.azurewebsites.net/categories')
+    fetch(`${API_URL_LINK}/categories`)
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    fetch('https://apitheliko.azurewebsites.net/subcategories')
+    fetch(`${API_URL_LINK}/subcategories`)
       .then((response) => response.json())
       .then((data) => {var res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
@@ -113,11 +112,12 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' Component={Home} />
-          <Route path='/liquors' Component={Liquors} />
-          <Route path='/soft_drinks' Component={SoftDrinks} />
-          <Route path='/extras' Component={Extras} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/:name' Component={() => <Products destination="/category" />} />
+          <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
+          <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
+          <Route path='/404' Component={Page404} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>

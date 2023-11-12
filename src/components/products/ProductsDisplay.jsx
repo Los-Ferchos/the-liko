@@ -12,14 +12,15 @@ import ProductsList from './list/ProductsList';
  * @param {string} props.apiUrl - The API endpoint URL for fetching products.
  * @param {number} [props.page=1] - The current page number for pagination (default is 1).
  * @param {number} [props.limit=16] - The number of products to display per page (default is 16).
+ * @param {boolean} props.loading - The loading indicates if there is a method still being loaded before getting the products
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
+const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
   /**
@@ -31,9 +32,12 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
    * @returns {void}
    */
   useEffect(() => {
-    setFailed(false);
+    setIsLoading(true);
+
     const fetchProducts = async () => {
       setIsLoading(true);
+      if(loading) return;
+      setFailed(false);
       try {
         const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${limit}`);
         if (response.ok) {
@@ -50,7 +54,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
     };
   
     fetchProducts();
-  }, [currentPage, apiUrl, limit, page]);
+  }, [currentPage, apiUrl, limit, page, loading]);
   
   /**
    * Handles the change of the current page.
@@ -66,7 +70,10 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16 }) => {
 
   return (
     <div>
-      {isLoading ? <ProductsListLoader /> : <ProductsList products={products} failed={failed} />}
+      {(isLoading || loading) ? 
+        <ProductsListLoader /> : 
+        <ProductsList load={loading || isLoading} products={products} failed={failed} />
+      }
 
       {(totalPages > 1 && !failed) && (
         <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>

@@ -9,8 +9,14 @@ import { RxCross2 } from 'react-icons/rx';
 import { useAppSelector } from './hooks/store';
 import Subcategories from './Subcategories'
 import logo from "../assets/images/icon.svg"
+import { getHyphenedString } from '../utils/methods';
+import CustomLink from './links/CustomLink';
 
-function Header(){
+/**
+ * This is the header component to show the navigation options for all the app
+ * @returns {JSX.Element} Rendered Header component.
+ */
+const Header = () => {
     const [active, setActive] = useState('center-header');
 
     const menuToggle = () => {
@@ -44,19 +50,19 @@ function Header(){
     }, []);
 
     const categories = useAppSelector((state) => state.categories.categories);
-    const [categoryId, setCategoryId] = useState("");
+    const [category, setCategory] = useState("");
 
-    const handleCategoryClick = (newCategoryId) => {
-        setCategoryId(newCategoryId);
+    const handleCategoryClick = (newCategory) => {
+        setCategory(newCategory);
         subMenuToggle()
         if(window.innerWidth <= 960) {
             setActive('disabled');
         }
     };
 
-    const handleCategoryHover = (newCategoryId) => {
+    const handleCategoryHover = (newCategory) => {
         setSubMenuActive("disabled")
-        setCategoryId(newCategoryId);
+        setCategory(newCategory);
         setSubMenuActive("enabled")
     };
 
@@ -83,12 +89,12 @@ function Header(){
                         <ul>
                         <li>
                             <div className="logo">
-                            <img src={logo} alt="Home" />
+                                <img src={logo} alt="Home" />
                             </div>
                         </li>
                         <li>
                             <Typography color="primary">
-                            The Liko
+                                The Liko
                             </Typography>
                         </li>
                         </ul>  
@@ -98,19 +104,22 @@ function Header(){
                     <div className={active} >
                         <ul className='menu'>
                             <li>
-                                <Typography color="black" className='active-link'
-                                onClick={() => handleCategoryClick("")}
-                                onMouseEnter={() => handleCategoryHover("")}>
-                                    <Link  to="/products">All Products</Link>
-                                </Typography>
+                                <CustomLink
+                                    onClick={() => handleCategoryClick("")}
+                                    onMouseEnter={() => handleCategoryHover("")}
+                                    href='/products'
+                                    title='All Products'
+                                    comparePath="products"
+                                />
                             </li>
                             {categories && categories.length > 0 && categories.map(category => (
                                 <li key={category._id}>
-                                <Typography color="black" className='active-link'
-                                onClick={() => handleCategoryClick(category._id)}
-                                onMouseEnter={() => handleCategoryHover(category._id)}>
-                                    <Link to={`/${category.name.toLowerCase()}`}>{category.name}</Link>
-                                </Typography>
+                                    <CustomLink
+                                        onClick={() => handleCategoryClick(category)}
+                                        onMouseEnter={() => handleCategoryHover(category)}
+                                        href={`/${getHyphenedString(category.name)}`}
+                                        title={category.name}
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -121,20 +130,20 @@ function Header(){
                         </div>
                         <ul className='profile-options'>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>Sing In</Typography>
+                                <CustomLink variant="body2" title='Sign In'/>
                             </li>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>|</Typography>
+                                <Typography variant="body2" color="black">|</Typography>
                             </li>
                             <li>
-                                <Typography variant="body2" color="black" className='active-link'>Create Account</Typography>
+                                <CustomLink variant="body2" title='Create Account'/>
                             </li>
                         </ul>
                         <TiShoppingCart size={25}/>
                     </div>
                 </Toolbar>                </div>
                 <div className={subMenuActive} onMouseLeave={() => handleCategoryHover("")}>
-                <Subcategories id={categoryId}/>
+                    <Subcategories category={category}/>
                 </div>
             
             </Container>
