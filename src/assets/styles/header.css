@@ -91,3 +91,19 @@ ul{
 .enabled{
     display:contents;
 }
+
+.search-bar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+    .search-bar{
+        display: none;
+    }
+    
+}

@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import '../assets/styles/header.css'
-import {AppBar, Typography, Toolbar, Container} from '@mui/material';
-import { Link } from "react-router-dom";
+import {AppBar, Typography, Toolbar, Container, TextField, InputAdornment, IconButton} from '@mui/material';
+import { Link, useNavigate} from "react-router-dom";
 import { TiShoppingCart } from 'react-icons/ti';
 import { BiUserCircle } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -11,6 +11,8 @@ import Subcategories from './Subcategories'
 import logo from "../assets/images/icon.svg"
 import { getHyphenedString } from '../utils/methods';
 import CustomLink from './links/CustomLink';
+import { FaSistrix } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -18,6 +20,19 @@ import CustomLink from './links/CustomLink';
  */
 const Header = () => {
     const [active, setActive] = useState('center-header');
+    const [searchText, setSearchText] = useState('');
+    const navigate = useNavigate();
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+          searchProducts();
+        }
+      };
+
+    const searchProducts = () => {
+        console.log(searchText);
+        console.log("searching products");
+        navigate(`/products/${searchText}`);
+    }
 
     const menuToggle = () => {
         if (active === 'center-header') {
@@ -123,6 +138,25 @@ const Header = () => {
                                 </li>
                             ))}
                         </ul>
+                    </div>
+                    <div className='search-bar'>
+                        <TextField 
+                            size='small'
+                            placeholder='Search a product'
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            fullWidth
+                            InputProps={{
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <IconButton edge="end" onClick={searchProducts}>
+                                        <FaSistrix />
+                                    </IconButton>
+                                  </InputAdornment>
+                                ),
+                              }}
+                            onKeyDown={handleKeyPress}
+                        />
                     </div>
                     <div className="right-header" style={{ display: active === 'center-header' ? 'flex' : 'none' }}>
                         <div className='icons' >

@@ -9,6 +9,7 @@ import SubcategoriesList from '../components/categories/SubcategoriesList';
 import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
 import { API_URL_LINK } from '../utils/constants';
 
+
 /**
  * Products component displays a list of products based on the specified category or subcategory.
  *
@@ -41,6 +42,10 @@ const Products = ({ destination = "" }) => {
     setIdParam(idCat.length > 0 ? idCat[0]._id : "");
     setIsLoading(idCat.length === 0);
   };
+
+  const Products = () => {
+    const { search = "" } = useParams("");
+  }
 
   /**
    * useEffect hook to update ID parameter and loading state when the name or dataGet[destination] changes.

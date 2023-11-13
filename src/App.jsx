@@ -117,6 +117,7 @@ const App = () => {
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
+          <Route path='/products/:search' Component={Products} />
           <Route path='/404' Component={Page404} />
           <Route path='*' Component={Page404} />
         </Routes>
