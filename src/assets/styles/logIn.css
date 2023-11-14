@@ -30,14 +30,32 @@
 }
 
 .buttonLog {
-    background-color: #DB4444; 
+    background-color: #DB4444;
     color: white;
 }
 
 .divContainer {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     background-color: #fcfcf4;
+}
+
+.forgotPasswordLink {
+    text-align: center;
+    color: #DB4444; 
+    margin-top: 20px; 
+}
+
+.createAccountLink {
+    text-align: center;
+    color: var(--black-color);  
+    margin-top: 22px; 
+    font-weight: bold;
+}
+.createText{
+    color: #DB4444;
+    font-weight: bold;
+
 }

@@ -41,7 +41,7 @@ const LogIn = () => {
         validatePassword();
 
         if (emailError === '' && passwordError === '') {
-           
+
             try {
                 const response = await fetch(`${API_URL_LINK}/login`, {
                     method: 'POST',
@@ -50,23 +50,14 @@ const LogIn = () => {
                     },
                     body: JSON.stringify({ email, password }),
                 });
-    
+
                 if (response.ok) {
-                    console.log("Estoy logueado juas");
                     const data = await response.json();
-                    console.log(data);
-                    dispatch(userSlice.actions.loginUser(data)); 
-
-                    console.log('ioi');
-
-                    // Guardar en localStorage
+                    dispatch(userSlice.actions.loginUser(data));
                     localStorage.setItem('userData', JSON.stringify(data));
                     const savedData = localStorage.getItem('userData');
-                    console.log('Data saved in localStorage:', savedData); // Esto verifica si los datos se guardaron correctamente
-                    console.log('689');
-                    <Home> </Home>
                 } else {
-                    console.log('Error en la solicitud');
+                    console.log('Request failed');
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -81,8 +72,7 @@ const LogIn = () => {
     return (
         <div className='divContainer'>
             <Container>
-                <HeaderSimple />
-                <Grid container spacing={4}>
+                <Grid container spacing={4} justifyContent="center" alignItems="center">
                     <Grid item xs={12} md={6}>
                         <Card className='cardLog'>
                             <CardContent className='cardContentLog'>
@@ -140,9 +130,19 @@ const LogIn = () => {
                                             Log In
                                         </Button>
                                     </Grid>
+                                    <Grid item sx={{ display: 'flex', justifyContent: 'center' }} marginTop={12}>
+                                        <Typography variant="h6" className='forgotPasswordLink'>
+                                            <a href='#'>Forgot password?</a>
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                             </CardContent>
                         </Card>
+                        <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
+                            <Typography variant="h6" className='createAccountLink'>
+                                Don't have an account yet? <a href='#' className='createText'>Sign Up</a>
+                            </Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Container>
