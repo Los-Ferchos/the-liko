@@ -1,0 +1,43 @@
+.titleStyle {
+    font-weight: bold;
+    color: #DB4444;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.subTitleStyle {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.textToStyle {
+    color: black;
+    font-weight: bold;
+}
+
+.textTitleToStyle {
+    color: #DB4444;
+}
+
+.cardLog {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.cardContentLog {
+    padding: 30px;
+    margin: 40px 50px;
+}
+
+.buttonLog {
+    background-color: #DB4444; 
+    color: white;
+}
+
+.divContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fcfcf4;
+}
