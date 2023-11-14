@@ -11,6 +11,7 @@ import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import { API_URL_LINK } from "./utils/constants";
+import Checkout from "./pages/Checkout";
 
 const theme = createTheme({
   spacing: 2,
@@ -111,6 +112,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
+          <Route path='/checkout' Component={Checkout} />
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
