@@ -1,11 +1,11 @@
-import Header from '../components/Header';
 import CommingSoon from '../components/ComingSoon';
+import NewHeader from '../components/header/Header';
 
 
 const Home = () => {
   return (
     <>
-    <Header />
+    <NewHeader />
     <CommingSoon />
     </>
   )
