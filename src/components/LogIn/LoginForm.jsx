@@ -105,7 +105,7 @@ const LoginForm = ({ width }) => {
       <Card className='cardLog' style={{ maxWidth: 600, margin: 'auto' }}>
         <CardContent className='cardContentLog'>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
-            <PrevButton onClick={handleClick} />
+            <PrevButton onClick={handleClick} iconSize={width < 768 ? 32 : 20} />
             <Typography variant={width < 768 ? 'h5' : 'h4'} className='textTitleToStyle' style={{ fontWeight: 'bold', marginLeft: 12 }}>
               Log In <span className='textToStyle'>to</span> The Likos
             </Typography>
@@ -155,7 +155,7 @@ const LoginForm = ({ width }) => {
         </CardContent>
       </Card>
       <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
-        <Typography variant={width < 768 ? 'h7' : 'h6'} className='createAccountLink'>
+        <Typography variant={width < 768 ? 'h6' : 'h5'} className='createAccountLink'>
           Don't have an account yet? <a href='#' className='createText'> Sign Up </a>
         </Typography>
       </Grid>
