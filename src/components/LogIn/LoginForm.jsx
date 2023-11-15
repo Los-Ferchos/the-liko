@@ -8,6 +8,14 @@ import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * LoginForm component for user login.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {number} props.width - The width of the viewport.
+ * @returns {JSX.Element} JSX.Element representing the LoginForm component.
+ */
 const LoginForm = ({ width }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

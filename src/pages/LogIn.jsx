@@ -16,7 +16,6 @@ const LogIn = () => {
       <HeaderSimple />
       
       <Container>
-      <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Log In' />
       <br />
       <br />
         <Grid container spacing={4} justifyContent='center' alignItems='center'>
