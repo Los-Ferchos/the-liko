@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container, Typography } from '@mui/material';
 import ProductsDisplay from '../components/products/ProductsDisplay';
 import NavigationText from '../components/navText/NavigationText';
-import Header from '../components/Header';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../components/hooks/store';
 import SubcategoriesList from '../components/categories/SubcategoriesList';
 import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
 import { API_URL_LINK } from '../utils/constants';
+import NewHeader from '../components/header/Header';
 
 /**
  * Products component displays a list of products based on the specified category or subcategory.
@@ -68,7 +68,7 @@ const Products = ({ destination = "" }) => {
 
   return (
     <Container component={"section"} className='vertical-container-padding'>
-      <Header />
+      <NewHeader />
       {isLoading ? (
         <div className='full-centered-container'>
           <CircularProgress />

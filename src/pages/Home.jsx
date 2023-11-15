@@ -1,6 +1,5 @@
-import Header from '../components/Header';
 import CommingSoon from '../components/ComingSoon';
-import { Container, Typography, Grid, TextField, Card, CardContent, Button, IconButton, InputAdornment } from '@mui/material';
+import NewHeader from '../components/header/Header';
 
 const Home = () => {
   const handleLogin = async () => {
@@ -11,8 +10,7 @@ const Home = () => {
   
   return (
     <>
-    <Header />    
-    <button onClick={handleLogin}> hi </button>
+    <NewHeader />
     <CommingSoon />
     </>
   )
