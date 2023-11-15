@@ -11,6 +11,7 @@ import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import { API_URL_LINK } from "./utils/constants";
+import useLocalStorage from "./components/hooks/useLocalStorage";
 
 const theme = createTheme({
   spacing: 2,
@@ -106,6 +107,12 @@ const App = () => {
       .then((data) => {var res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
   }, []);
+
+  const [cartItems, setCartItems] = useLocalStorage('cart', []);
+
+  useEffect(() => {
+    console.log(cartItems)
+  }, [cartItems])
 
   return (
     <ThemeProvider theme={theme}>
