@@ -27,6 +27,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#FF0000',
+      hover: '#DB4444'
     },
     gray: {
       main: "#727070"

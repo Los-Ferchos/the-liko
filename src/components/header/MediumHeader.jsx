@@ -8,6 +8,7 @@ import '../../assets/styles/header.css'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
+import CartIconButton from '../buttons/CartIconButton';
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -75,7 +76,7 @@ const MediumHeader = () => {
                             <CustomLink variant="body2" title='Create Account'/>
                         </li>
                     </ul>
-                    <TiShoppingCart size={25}/>
+                    <CartIconButton/>
                 </div>
             </Toolbar>
             <div className={inferiorHeader} onMouseLeave={() => setInferiorHeader('inferior-header-disabled')}>
