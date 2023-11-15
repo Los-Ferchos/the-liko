@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
 import { Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { capitalizeString, filterDataArray } from '../utils/methods';
 import { useAppSelector } from '../components/hooks/store';
+import NewHeader from '../components/header/Header';
 
 /**
  * ProductsBySubcategories component displays products based on subcategories.
@@ -49,7 +49,7 @@ const ProductsBySubcategories = () => {
 
   return (
     <Container>
-      <Header />
+      <NewHeader />
       <Typography>
         Subcategorized Products - Still in development
       </Typography>

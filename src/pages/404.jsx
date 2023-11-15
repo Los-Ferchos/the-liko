@@ -1,10 +1,10 @@
 import { Button, Container, Typography } from "@mui/material"
-import Header from "../components/Header"
 import NavigationText from "../components/navText/NavigationText"
 import { Link } from "react-router-dom"
 import '../assets/styles/404.css'
 import bottle from '../assets/images/bottle.jpg'
 import useWindowSize from "../components/hooks/useWindowSize"
+import NewHeader from "../components/header/Header"
 
 /**
  * Functional component representing the 404 Not Found page.
@@ -16,7 +16,7 @@ const Page404 = () => {
   const { width, height } = useWindowSize();
   return (
     <Container>
-      <Header/>
+      <NewHeader/>
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='404 Page' />
       <div className="full-centered-container">
         <div className="page-404-container">
