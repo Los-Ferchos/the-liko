@@ -67,7 +67,7 @@ const MediumHeader = () => {
                 <div className='right-header'>
                     <ul className='profile-options'>
                         <li>
-                            <CustomLink variant="body2" title='Sign In'/>
+                            <CustomLink variant="body2" title='Log In' href= '/logIn' />
                         </li>
                         <li>
                             <Typography variant="body2" color="black">|</Typography>

@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Page404 from "./pages/404"
 import Home from "./pages/Home"
 import AboutUs from "./pages/AboutUs"
+import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
@@ -121,6 +122,7 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/logIn' Component={LogIn} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
