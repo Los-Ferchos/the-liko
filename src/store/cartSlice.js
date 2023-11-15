@@ -53,15 +53,21 @@ const cartSlice = createSlice({
     },
       
     /**
-     * Action to add an item to the cart.
+     * Action to add an item to the cart. If the product is already in the cart, update the quantity.
      *
      * @param {Object} state - The current state of the cart.
      * @param {Object} action - The action object containing the payload.
-     * @param {CartItem} action.payload - The item to be added to the cart.
+     * @param {CartItem} action.payload - The item to be added or updated in the cart.
      */
     addItemToCart: (state, action) => {
       const newItem = action.payload;
-      state.items.push(newItem);
+      const existingItemIndex = state.items.findIndex(item => item.productInfo._id === newItem.productInfo._id);
+
+      if (existingItemIndex !== -1) {
+        state.items[existingItemIndex].quantity += newItem.quantity;
+      } else {
+        state.items.push(newItem);
+      }
     },
 
     /**
@@ -94,6 +100,19 @@ const cartSlice = createSlice({
     },
 
     /**
+     * Action to check if a product is already in the cart.
+     *
+     * @param {Object} state - The current state of the cart.
+     * @param {Object} action - The action object containing the payload.
+     * @param {string} action.payload.productId - The ID of the product to check.
+     * @returns {boolean} - True if the product is already in the cart, false otherwise.
+     */
+    isProductInCart: (state, action) => {
+      const { productId } = action.payload;
+      return state.items.some(item => item.productInfo._id === productId);
+    },
+
+    /**
      * Action to clear all items from the cart.
      *
      * @param {Object} state - The current state of the cart.
@@ -109,6 +128,7 @@ export const {
   addItemToCart,
   removeItemFromCart,
   updateCartItemQuantity,
+  isProductInCart,
   clearCart,
 } = cartSlice.actions;
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from './store';
-import { addItemToCart, clearCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
+import { addItemToCart, clearCart, isProductInCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
 import useLocalStorage from './useLocalStorage';
 
 const CART_STORAGE_KEY = 'cart';
@@ -28,7 +28,6 @@ export const useCart = () => {
 
   useEffect(() => {
     setCartItems(reduxCartItems);
-    console.log(cartItems)
   }, [reduxCartItems]);
 
   /**
@@ -66,11 +65,22 @@ export const useCart = () => {
     dispatch(clearCart());
   };
 
+   /**
+   * Method to check if a product is already in the cart.
+   *
+   * @param {string} productId - The ID of the product to check.
+   * @returns {boolean} - True if the product is already in the cart, false otherwise.
+   */
+   const isProductAlreadyInCart = (productId) => {
+    return dispatch(isProductInCart({ productId }));
+  };
+
   return {
     cartItems: reduxCartItems,
     addProductToCart,
     updateQuantity,
     removeProductFromCart,
     clearShoppingCart,
+    isProductAlreadyInCart
   };
 };

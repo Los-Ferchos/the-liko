@@ -4,6 +4,7 @@ import Badge from '@mui/material/Badge';
 import { useAppSelector } from '../hooks/store';
 import { TiShoppingCart } from 'react-icons/ti';
 import { useTheme } from '@emotion/react';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * CartIconButton component displays a shopping cart icon with a badge showing the number of items in the cart.
@@ -11,7 +12,7 @@ import { useTheme } from '@emotion/react';
  * @returns {JSX.Element} - The rendered CartIconButton component.
  */
 const CartIconButton = () => {
-  const cartItems = useAppSelector((state) => state.cart.items);
+  const { cartItems, addProductToCart, updateQuantity, removeProductFromCart, clearShoppingCart } = useGlobalCart();
 
   return (
     <IconButton 
