@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom'; 
 import PrevButton from '../buttons/PrevButton';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * LoginForm component for user login.
@@ -27,6 +28,8 @@ const LoginForm = ({ width }) => {
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { setUserLogged } = useGlobalCart();
 
   useEffect(() => {
     setIsLoading(false);
@@ -74,8 +77,7 @@ const LoginForm = ({ width }) => {
             setIsLoading(false);
           }, 2000);
 
-          localStorage.setItem('userData', JSON.stringify(data));
-          const savedData = localStorage.getItem('userData');
+          setUserLogged(JSON.stringify(data))
 
           setIsLoading(true);
 

@@ -26,10 +26,25 @@ export const useCart = () => {
   const reduxCartItems = useAppSelector((state) => state.cart.items);
 
   useEffect(() => {
-    if(userLogged == null)
-        dispatch(setCartState(cartItems))
-    else{}
-  }, [])
+    const addToCart = async () => {
+      if (userLogged == null) {
+        dispatch(setCartState(cartItems));
+      } else {
+        try {
+          const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`);
+  
+          if (response.ok) {
+            const data = await response.json();
+            dispatch(setCartState(data));
+          } else alert("There was an error getting your cart items. Please, reload the page to try again");
+        } catch (e) {
+            alert("There was an error getting your cart items. Please, reload the page to try again " + e);
+        }
+      }
+    };
+
+    addToCart();
+  }, [userLogged]);  
 
   useEffect(() => {
     if(userLogged == null)
@@ -116,5 +131,6 @@ export const useCart = () => {
     updateQuantity,
     removeProductFromCart,
     clearShoppingCart,
+    setUserLogged
   };
 };

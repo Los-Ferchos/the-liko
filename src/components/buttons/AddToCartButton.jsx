@@ -73,6 +73,7 @@ const AddToCartButton = ({ product }) => {
             variant="outlined"
             style={{ borderColor: '#555', color: "#555"}}
             startIcon={<BsCartCheckFill />}
+            disabled
           >
             Added to Cart
           </Button>
