@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from './store';
-import { addItemToCart, clearCart, removeItemFromCart, updateCartItemQuantity } from '../../store/cartSlice';
+import { addItemToCart, clearCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
+import useLocalStorage from './useLocalStorage';
 
 const CART_STORAGE_KEY = 'cart';
 
@@ -22,17 +23,21 @@ export const useCart = () => {
   const reduxCartItems = useAppSelector((state) => state.cart.items);
 
   useEffect(() => {
+    dispatch(setCartState(cartItems))
+  }, [])
+
+  useEffect(() => {
     setCartItems(reduxCartItems);
     console.log(cartItems)
-  }, [reduxCartItems, setCartItems]);
+  }, [reduxCartItems]);
 
   /**
    * Method to add a product to the shopping cart.
    *
    * @param {Object} product - The product to be added to the shopping cart.
    */
-  const addProductToCart = (product) => {
-    dispatch(addItemToCart(product));
+  const addProductToCart = (product, quantity) => {
+    dispatch(addItemToCart({ quantity, productInfo: product }));
   };
 
   /**

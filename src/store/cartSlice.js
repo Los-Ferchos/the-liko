@@ -40,6 +40,18 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    
+    /**
+     * Action to set the entire state of the cart.
+     *
+     * @param {Object} state - The current state of the cart.
+     * @param {Object} action - The action object containing the payload.
+     * @param {Array} action.payload - The new state of the cart.
+     */
+    setCartState: (state, action) => {
+      state.items = action.payload;
+    },
+      
     /**
      * Action to add an item to the cart.
      *
@@ -93,6 +105,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+  setCartState,
   addItemToCart,
   removeItemFromCart,
   updateCartItemQuantity,

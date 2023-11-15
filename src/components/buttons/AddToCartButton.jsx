@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { FaShoppingCart } from 'react-icons/fa';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * Button component for adding a product to the shopping cart.
@@ -11,15 +11,14 @@ import useLocalStorage from '../hooks/useLocalStorage';
  * @returns {JSX.Element} Rendered AddToCartButton component.
  */
 const AddToCartButton = ({ product }) => {
-  const [cartItems, setCartItems] = useLocalStorage('cart', []);
+  const { cartItems, addProductToCart, updateQuantity, removeProductFromCart, clearShoppingCart } = useGlobalCart();
 
   /**
    * Method to be called to manage a product addition to wish list
   */
-  const addProductToCart = () => {
+  const addProductItemToCart = () => {
     {
       try{
-        setCartItems([])
       } catch(e){
         console.log(e)
       }
@@ -31,7 +30,7 @@ const AddToCartButton = ({ product }) => {
     <Button
       variant="outlined"
       color="primary"
-      onClick={addProductToCart}
+      onClick={() => addProductToCart(product, 1)}
       startIcon={<FaShoppingCart />}
     >
       Add to Cart
