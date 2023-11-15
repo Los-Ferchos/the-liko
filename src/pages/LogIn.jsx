@@ -6,11 +6,24 @@ import useWindowSize from '../components/hooks/useWindowSize';
 import NavigationText from '../components/navText/NavigationText';
 import LoginForm from '../components/LogIn/LoginForm';
 
-
+/**
+ * LogIn component renders the login page.
+ *
+ * @component
+ * @example
+ * // Example usage of LogIn component
+ * <LogIn />
+ *
+ * @returns {JSX.Element} JSX.Element
+ */
 const LogIn = () => {
   const { width } = useWindowSize();
 
-
+  /**
+   * Renders the LogIn component.
+   *
+   * @returns {JSX.Element} JSX.Element
+   */
   return (
     <div className='divContainer'>
       <HeaderSimple />

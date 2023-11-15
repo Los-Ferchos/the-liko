@@ -6,7 +6,8 @@ import validator from 'validator';
 import { API_URL_LINK } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
+import PrevButton from '../buttons/PrevButton';
 
 /**
  * LoginForm component for user login.
@@ -22,7 +23,8 @@ const LoginForm = ({ width }) => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -77,7 +79,7 @@ const LoginForm = ({ width }) => {
 
           setIsLoading(true);
 
-          navigate('/');
+          navigate(-1);
         } else {
           console.log('Request failed');
         }
@@ -93,44 +95,35 @@ const LoginForm = ({ width }) => {
     setShowPassword(!showPassword);
   };
 
+  const handleClick = () => {
+    setIsClicked(true);
+    navigate(-1);
+  };
+
   return (
     <Grid item xs={12} md={6}>
       <Card className='cardLog' style={{ maxWidth: 600, margin: 'auto' }}>
         <CardContent className='cardContentLog'>
-          <Typography variant={width < 768 ? 'h5' : 'h4'} className='textTitleToStyle' style={{ fontWeight: 'bold' }} marginBottom={12}>
-            Log In <span className='textToStyle'>to</span> The Likos
-          </Typography>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+            <PrevButton onClick={handleClick} />
+            <Typography variant={width < 768 ? 'h5' : 'h4'} className='textTitleToStyle' style={{ fontWeight: 'bold', marginLeft: 12 }}>
+              Log In <span className='textToStyle'>to</span> The Likos
+            </Typography>
+          </div>
           <Typography variant={width < 768 ? 'body2' : 'body1'} className='subTitleStyle' marginBottom={12}>
             Enter your details below
           </Typography>
           <Grid container direction='column' spacing={3}>
             <Grid item sx={{ paddingTop: 6, paddingBottom: 12, position: 'relative' }}>
               <TextField
-                label='Email'
-                variant='outlined'
-                fullWidth
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onBlur={validateEmail}
-                error={emailError !== ''}
-                helperText={emailError}
-                required
-                inputProps={{ maxLength: 256 }}
+                label='Email' variant='outlined' fullWidth value={email} onChange={(e) => setEmail(e.target.value)}
+                onBlur={validateEmail} error={emailError !== ''} helperText={emailError} required inputProps={{ maxLength: 256 }}
               />
             </Grid>
             <Grid item sx={{ paddingTop: 6, paddingBottom: 12, position: 'relative' }}>
               <TextField
-                label='Password'
-                variant='outlined'
-                fullWidth
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onBlur={validatePassword}
-                error={passwordError !== ''}
-                helperText={passwordError}
-                required
-                inputProps={{ maxLength: 256 }}
+                label='Password' variant='outlined' fullWidth type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}
+                onBlur={validatePassword} error={passwordError !== ''} helperText={passwordError} required inputProps={{ maxLength: 256 }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -144,17 +137,11 @@ const LoginForm = ({ width }) => {
             </Grid>
             <Grid item>
               {isLoading ? (
-                <div className="loader-container center" style={{position: 'center'}}>
-                  <div className="loader" style={{position: 'center'}}></div>
+                <div className="loader-container center" style={{ position: 'center' }}>
+                  <div className="loader" style={{ position: 'center' }}></div>
                 </div>
               ) : (
-                <Button
-                  variant='contained'
-                  className='buttonLog'
-                  fullWidth
-                  sx={{ height: 60, fontSize: 16, fontWeight: 'bold' }}
-                  onClick={handleLogin}
-                >
+                <Button variant='contained' className='buttonLog' fullWidth sx={{ height: 60, fontSize: 16, fontWeight: 'bold' }} onClick={handleLogin}>
                   Log In
                 </Button>
               )}
