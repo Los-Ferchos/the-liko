@@ -6,7 +6,9 @@ import LazyImage from '../../images/LazyImage';
 
 /**
  * Displays a loading placeholder for a product card.
- *
+ * 
+ * @param {String} className - The className to assign a css design
+ * 
  * @returns {JSX.Element} Rendered ProductCardLoader component.
  */
 const ProductCardLoader = ({className=""}) => {
