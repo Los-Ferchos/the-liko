@@ -4,16 +4,16 @@ import { Grid, Typography, Button, Card } from '@mui/material';
 import CustomLink from '../../links/CustomLink';
 import { capitalizeString, getHyphenedString } from '../../../utils/methods'
 import { FaChevronLeft, FaChevronRight} from "react-icons/fa"
-import ProductCarouselLoader from './ProductCarouselLoader';
-import './carousel.css'
+import '../../../assets/styles/carousel.css'
 import useWindowSize from '../../hooks/useWindowSize';
+import ProductCarouselLoader from './ProductCarouselLoader';
 
 function ProductCarousel({ apiUrl = "", categoryName="", subcat }) {
     const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const boxRef = useRef(null);
 
     useEffect(() => {
-        setIsLoading(true);
         const fetchProducts = async () => {
             try {
               const response = await fetch(`${apiUrl}`);
@@ -57,11 +57,14 @@ function ProductCarousel({ apiUrl = "", categoryName="", subcat }) {
                     <FaChevronLeft className='arrows'/>
                 </Button>
                 <div ref={boxRef} style={{display:"flex", flexDirection:"row", overflowX:"scroll"}}>
-                    {products.map((product, index) => (
-                        <Grid key={index} p={5}>
-                            <ProductCard key={product._id} product={product} className={"carousel-card"}/>
-                        </Grid>
-                    ))}
+                    {
+                        isLoading ? <ProductCarouselLoader/> :
+                        products.map((product, index) => (
+                            <Grid key={index} p={5}>
+                                <ProductCard key={product._id} product={product} className={"carousel-card"}/>
+                            </Grid>
+                        ))
+                    }
                 </div>
                 <Button className='buttons' style={{display: width<=960?'none':'block'}} onClickCapture={handleNextClick}>
                     <FaChevronRight className='arrows'/>

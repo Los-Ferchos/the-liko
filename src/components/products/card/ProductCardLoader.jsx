@@ -9,9 +9,9 @@ import LazyImage from '../../images/LazyImage';
  *
  * @returns {JSX.Element} Rendered ProductCardLoader component.
  */
-const ProductCardLoader = () => {
+const ProductCardLoader = ({className=""}) => {
   return (
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={12} sm={6} md={3} className={className}>
         <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <div className="skeleton-loader">
             <div className="skeleton-overlay"></div>
