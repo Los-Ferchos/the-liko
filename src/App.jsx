@@ -110,12 +110,6 @@ const App = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  const [cartItems, setCartItems] = useLocalStorage('cart', []);
-
-  useEffect(() => {
-    console.log(cartItems)
-  }, [cartItems])
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

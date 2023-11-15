@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from './store';
-import { addItemToCart, clearCart, isProductInCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
+import { addItemToCart, clearCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
 import useLocalStorage from './useLocalStorage';
+import { API_URL_LINK } from '../../utils/constants';
 
 const CART_STORAGE_KEY = 'cart';
+const USER_ID_KEY = 'userData';
 
 /**
  * Custom React hook for managing the shopping cart state and localStorage synchronization.
@@ -19,15 +21,19 @@ const CART_STORAGE_KEY = 'cart';
 export const useCart = () => {
   const dispatch = useDispatch();
   const [cartItems, setCartItems] = useLocalStorage(CART_STORAGE_KEY, []);
+  const [userLogged, setUserLogged] = useLocalStorage(USER_ID_KEY, null);
 
   const reduxCartItems = useAppSelector((state) => state.cart.items);
 
   useEffect(() => {
-    dispatch(setCartState(cartItems))
+    if(userLogged == null)
+        dispatch(setCartState(cartItems))
+    else{}
   }, [])
 
   useEffect(() => {
-    setCartItems(reduxCartItems);
+    if(userLogged == null)
+        setCartItems(reduxCartItems);
   }, [reduxCartItems]);
 
   /**
@@ -35,8 +41,47 @@ export const useCart = () => {
    *
    * @param {Object} product - The product to be added to the shopping cart.
    */
-  const addProductToCart = (product, quantity) => {
-    dispatch(addItemToCart({ quantity, productInfo: product }));
+  const addProductToCart = async (product, quantity) => {
+    try{
+        if(userLogged == null){
+            const response = await fetch(`${API_URL_LINK}/products/${product._id}`);
+            if (response.ok) {
+                const data = await response.json();
+                if(data.quantity >= quantity){
+                    dispatch(addItemToCart({ quantity, productInfo: product }));
+                    return { error: false, message: `Success` }
+                } else 
+                    return { error: true, message: `Not possible to add to cart because ${product.name} has no enough stock.` }
+            } 
+            return { error: true, message: `There was an error ${e}. Please, try again.` }
+        }else {
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                userId: userLogged.userId,
+                productId: product._id,
+                quantity: quantity,
+              }),
+            };
+          
+            try {
+              const response = await fetch(`${API_URL_LINK}/cart`, requestOptions);
+          
+              const data = await response.json();
+              if (response.ok) {
+                  dispatch(addItemToCart({ quantity, productInfo: product }));
+                  return { error: false, message: `Success` };
+              } else return { error: true, message: data.errors[0].error };
+            } catch (e) {
+              return { error: true, message: `There was an error ${e}. Please, try again.` };
+            }
+          }          
+    } catch(e){
+        return { error: true, message: `There was an error ${e}. Please, try again.` }
+    }
   };
 
   /**
@@ -65,22 +110,11 @@ export const useCart = () => {
     dispatch(clearCart());
   };
 
-   /**
-   * Method to check if a product is already in the cart.
-   *
-   * @param {string} productId - The ID of the product to check.
-   * @returns {boolean} - True if the product is already in the cart, false otherwise.
-   */
-   const isProductAlreadyInCart = (productId) => {
-    return dispatch(isProductInCart({ productId }));
-  };
-
   return {
     cartItems: reduxCartItems,
     addProductToCart,
     updateQuantity,
     removeProductFromCart,
     clearShoppingCart,
-    isProductAlreadyInCart
   };
 };

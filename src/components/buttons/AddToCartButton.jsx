@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useGlobalCart } from '../contexts/CartContext';
 import { useState } from 'react';
 import { BsCart3, BsCartCheckFill } from 'react-icons/bs';
@@ -15,16 +15,21 @@ import { MdShoppingCartCheckout } from 'react-icons/md';
 const AddToCartButton = ({ product }) => {
   const { cartItems, addProductToCart } = useGlobalCart();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   /**
    * Method to be called to manage a product addition to wish list
   */
-  const addProductItemToCart = () => {
+  const addProductItemToCart = async () => {
     setLoading(true);
     try{
-      addProductItemToCart(product, 1);
+      const res = await addProductToCart(product, 1);
+      setError(res.error);
+      setErrorMsg(res.message);
     } catch(e){
-      alert("There was an error adding the product to cart" + e.message)
+      setError(true)
+      setErrorMsg("There was an error adding the product to cart. Please, try again " + e);
     }
     setLoading(false);
   }
@@ -33,6 +38,24 @@ const AddToCartButton = ({ product }) => {
     
   return (
     <>
+      <Dialog
+        open={error}
+        onClose={() => setError(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Error adding product to cart"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {errorMsg}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setError(false)}>Ok</Button>
+        </DialogActions>
+      </Dialog>
       {
         loading ? (
           <Button
@@ -57,7 +80,7 @@ const AddToCartButton = ({ product }) => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => addProductToCart(product, 1)}
+            onClick={() => addProductItemToCart(product, 1)}
             startIcon={<BsCart3 />}
           >
             Add to Cart

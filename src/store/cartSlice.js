@@ -100,19 +100,6 @@ const cartSlice = createSlice({
     },
 
     /**
-     * Action to check if a product is already in the cart.
-     *
-     * @param {Object} state - The current state of the cart.
-     * @param {Object} action - The action object containing the payload.
-     * @param {string} action.payload.productId - The ID of the product to check.
-     * @returns {boolean} - True if the product is already in the cart, false otherwise.
-     */
-    isProductInCart: (state, action) => {
-      const { productId } = action.payload;
-      return state.items.some(item => item.productInfo._id === productId);
-    },
-
-    /**
      * Action to clear all items from the cart.
      *
      * @param {Object} state - The current state of the cart.
@@ -128,7 +115,6 @@ export const {
   addItemToCart,
   removeItemFromCart,
   updateCartItemQuantity,
-  isProductInCart,
   clearCart,
 } = cartSlice.actions;
 
