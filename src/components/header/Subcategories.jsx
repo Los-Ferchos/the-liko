@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import { getHyphenedString } from "../../utils/methods";
 import CustomLink from "../links/CustomLink";
 
-function SubcategoriesHeader({ category = { _id: "", name: "" } }) {
+function Subcategories({ category = { _id: "", name: "" } }) {
     const subcategories = useAppSelector((state) => state.subcategories.subcategories);
 
     const filteredSubcategories = subcategories.filter(subcategory => subcategory.category === category._id);
@@ -41,4 +41,4 @@ function SubcategoriesHeader({ category = { _id: "", name: "" } }) {
         </Grid>
     )
 }
-export default SubcategoriesHeader
+export default Subcategories

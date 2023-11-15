@@ -1,72 +1,9 @@
-.responsive-menu{
-    display: none;
-}
-.hamburguer-menu{
-    display: none;
-}
-.cancel-hamburguer-menu{
-    display: none;
-}
-.icons{
-    display: none;
-}
 .header{
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex-direction: row;
 }
-ul{
-    display:flex;
-    align-items: center;
-}
-.right-header{
-    display:flex;
-    align-items: center;
-}
-.left-header ul li{
-    margin-right: 10px;
-}
-.center-header ul li {
-    margin-right: 25px;
-}
-.right-header ul li {
-    margin-right: 5px;
-}
-@media (max-width: 960px) {
-    .center-header{
-        display: none;
-        position: fixed;
-        transition: 0.5s ease-in-out all;
-
-    }
-    .menu{
-        flex-direction: column;
-        margin-top: 15px;
-    }
-    .menu li{
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-    .responsive-menu{
-        display: block;
-    }
-    .hamburguer-menu{
-        display: block;
-    }
-    .cancel-hamburguer-menu{
-        display: none;
-    }
-
-    .icons{
-        display: block;
-    }
-    .profile-options{
-        display: none;
-    }
-    .active-menu{
-        display: block;
-    }
-}
-
 .logo img{
     width: 50px;
     margin: 8px 0;
@@ -85,9 +22,51 @@ ul{
 .logo-header:hover{
     scale: 1.1;
 }
-.disabled{
+@keyframes entry{
+    from{
+        transform: translateY(-30%);
+    }to {
+        transform: translateY(0);
+    }
+}
+@keyframes exit{
+    from{
+        transform: translateY(0);
+    }to {
+        transform: translateY(-100%);
+    }
+}
+.inferior-header-disabled{
+    animation: exit  .5s ease-out;
     display: none;
 }
-.enabled{
-    display:contents;
+.inferior-header-enabled{
+    animation: entry .5s ease-out;
+    display: flex;
+}
+ul{
+    display:flex;
+    align-items: center;
+}
+.left-header ul li{
+    margin-right: 10px;
+}
+.center-header ul li {
+    margin-right: 25px;
+}
+.right-header ul li {
+    margin-right: 5px;
+}
+.right-header{
+    display:flex;
+    align-items: center;
+}
+.small-menu{
+    display: flex;
+    flex-direction: column;
+}
+.small-menu li{
+    margin-top: 15px;
+    margin-bottom: 15px;
+
 }

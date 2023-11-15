@@ -5,7 +5,7 @@ import { TiShoppingCart } from 'react-icons/ti';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
 import { BiUserCircle } from 'react-icons/bi';
-import '../../assets/styles/newheader.css'
+import '../../assets/styles/header.css'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";

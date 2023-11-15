@@ -8,7 +8,7 @@ import SmallHeader from './SmallHeader';
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const NewHeader = () => {
+const Header = () => {
     const { width } = useWindowSize();
     const limit = 960;
 
@@ -25,4 +25,4 @@ const NewHeader = () => {
     )
 }
 
-export default NewHeader
+export default Header

@@ -4,7 +4,7 @@ import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import { TiShoppingCart } from 'react-icons/ti';
 import CustomLink from '../links/CustomLink';
-import '../../assets/styles/newheader.css'
+import '../../assets/styles/header.css'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
@@ -13,7 +13,7 @@ import { getHyphenedString } from "../../utils/methods";
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const NormalHeader = () => {
+const MediumHeader = () => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState()
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
@@ -85,4 +85,4 @@ const NormalHeader = () => {
     )
 }
 
-export default NormalHeader
+export default MediumHeader
