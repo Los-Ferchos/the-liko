@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
-import ProductsList from '../list/ProductsList';
-import { Typography } from '@mui/material';
+import { useEffect, useState, useRef } from 'react';
+import ProductCard from '../card/ProductCard';
+import { Grid, Typography, Button, Card } from '@mui/material';
 import CustomLink from '../../links/CustomLink';
 import { capitalizeString, getHyphenedString } from '../../../utils/methods'
-
+import { FaChevronLeft, FaChevronRight} from "react-icons/fa"
+import ProductCarouselLoader from './ProductCarouselLoader';
+import './carousel.css'
+import useWindowSize from '../../hooks/useWindowSize';
 
 function ProductCarousel({ apiUrl = "", categoryName="", subcat }) {
     const [products, setProducts] = useState([]);
-    const [first, setFirst] = useState();
-    const [last, setLast] = useState();
+    const boxRef = useRef(null);
 
     useEffect(() => {
+        setIsLoading(true);
         const fetchProducts = async () => {
             try {
               const response = await fetch(`${apiUrl}`);
@@ -21,23 +24,50 @@ function ProductCarousel({ apiUrl = "", categoryName="", subcat }) {
             } catch (error) {
               console.log(error)
             }
+            setIsLoading(false);
           };
         fetchProducts();
     }, [apiUrl])
 
-    
+    const { width } = useWindowSize();
+
+    const handlePrevClick = () => {
+        const containerWidth = boxRef.current.clientWidth;
+        boxRef.current.scrollLeft -= containerWidth-containerWidth%250;
+    };
+
+    const handleNextClick = () => {
+        const containerWidth = boxRef.current.clientWidth;
+        boxRef.current.scrollLeft += containerWidth-containerWidth%250;
+    };
+
     return(
-        <div>
-            <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-            <Typography variant='h6' color='primary' component='h1' marginTop={6}>
+        <div style={{marginTop:30}}>
+            <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", padding:15}}>
+            <Typography variant='h6' color='primary' component='h1'>
                 {capitalizeString(subcat.name)}
             </Typography>
             <CustomLink
                 href={`/${categoryName}/${getHyphenedString(subcat.name)}`}
                 title='View All'
-            />
+            /> 
             </div>
-            <ProductsList products={products} />
+            <div style={{display:"flex", flexDirection:"row", padding:15, alignItems:"center"}}>    
+                <Button className='buttons' style={{display: width<=960?'none':'block'}} onClickCapture={handlePrevClick}>
+                    <FaChevronLeft className='arrows'/>
+                </Button>
+                <div ref={boxRef} style={{display:"flex", flexDirection:"row", overflowX:"scroll"}}>
+                    {products.map((product, index) => (
+                        <Grid key={index} p={5}>
+                            <ProductCard key={product._id} product={product} className={"carousel-card"}/>
+                        </Grid>
+                    ))}
+                </div>
+                <Button className='buttons' style={{display: width<=960?'none':'block'}} onClickCapture={handleNextClick}>
+                    <FaChevronRight className='arrows'/>
+                </Button>
+            </div>
+            
         </div>
     )
 }
