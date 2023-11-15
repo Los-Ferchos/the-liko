@@ -147,7 +147,7 @@ const LoginForm = ({ width }) => {
               )}
             </Grid>
             <Grid item sx={{ display: 'flex', justifyContent: 'center' }} marginTop={12}>
-              <Typography variant={width < 768 ? 'h7' : 'h6'} className='forgotPasswordLink'>
+              <Typography variant={width < 768 ? 'h6' : 'h5'} className='forgotPasswordLink'>
                 <a href='#'>Forgot password?</a>
               </Typography>
             </Grid>
