@@ -12,6 +12,7 @@ import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import { API_URL_LINK } from "./utils/constants";
+import useLocalStorage from "./components/hooks/useLocalStorage";
 
 const theme = createTheme({
   spacing: 2,
@@ -27,6 +28,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#FF0000',
+      hover: '#DB4444'
     },
     gray: {
       main: "#727070"

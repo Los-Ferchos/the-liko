@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom'; 
 import PrevButton from '../buttons/PrevButton';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * LoginForm component for user login.
@@ -27,6 +28,8 @@ const LoginForm = ({ width }) => {
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
 
   useEffect(() => {
     setIsLoading(false);
@@ -69,15 +72,15 @@ const LoginForm = ({ width }) => {
         if (response.ok) {
           const data = await response.json();
           dispatch(userSlice.actions.loginUser(data));
+          
+          setIsLoading(true);
+
+          await uploadCartToDatabase(data);
+          setCartItems([])
 
           setTimeout(() => {
             setIsLoading(false);
-          }, 2000);
-
-          localStorage.setItem('userData', JSON.stringify(data));
-          const savedData = localStorage.getItem('userData');
-
-          setIsLoading(true);
+          }, 800);
 
           navigate(-1);
         } else {
