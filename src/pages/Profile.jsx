@@ -6,10 +6,12 @@ import useWindowSize from '../components/hooks/useWindowSize';
 import { Avatar, Typography, Divider } from '@mui/material';
 import NavigationText from '../components/navText/NavigationText';
 import { useGlobalCart } from '../components/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { width } = useWindowSize();
   const { setUserLogged } = useGlobalCart();
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -28,6 +30,8 @@ const Profile = () => {
               startIcon={<FaArrowRightFromBracket />}
               onClick={() => {
                 setUserLogged(null);
+                navigate(-1);
+
               }}
             >
               Log Out

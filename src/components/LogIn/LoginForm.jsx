@@ -29,7 +29,6 @@ const LoginForm = ({ width }) => {
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
 
   useEffect(() => {
