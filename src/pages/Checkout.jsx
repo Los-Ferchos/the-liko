@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, TextField } from '@mui/material';
 import Header from '../components/Header';
+import NewHeader from '../components/header/Header';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkout/CheckoutForm';
@@ -16,6 +17,12 @@ const Checkout = () => {
   const [clientSecret, setClientSecret] = useState('');
   const amount = 100;
   const currency = 'usd';
+  const { cartItems, isLoadingGettingItems } = useGlobalCart();
+  
+  let total = 0;
+  cartItems.map(cartItem => {
+    total += (cartItem.quantity * cartItem.productInfo.price.value)
+  })
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -48,17 +55,17 @@ const Checkout = () => {
 
   return (
     <Container>
-      <Header />
+     <NewHeader />
       {clientSecret && (
         <div className='container-form'>
           <div className='form'>
             <Typography variant='h4'style={{ fontWeight: "bold"}} >Billing  Details</Typography>
             <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <CheckoutForm />
+              <CheckoutForm totalCost={total}/>
              </Elements>
           </div>
           <div className='card-items'>
-            <ProductList subtotal={25}/>
+            <ProductList cartItems={cartItems} total={total}/>
           </div>
         </div>
       )}
