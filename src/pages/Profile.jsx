@@ -19,10 +19,9 @@ const Profile = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
-          {/* Sidebar content goes here */}
         </Grid>
         <Grid item xs={12} md={9}>
-          <div>
+          <div className='buttonLogOut'>
             <Button
               variant="contained"
               color="primary"
