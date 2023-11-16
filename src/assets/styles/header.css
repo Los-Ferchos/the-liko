@@ -24,7 +24,7 @@
 }
 @keyframes entry{
     from{
-        transform: translateY(-5%);
+        transform: translateY(-30%);
     }to {
         transform: translateY(0);
     }
@@ -33,7 +33,7 @@
     from{
         transform: translateY(0);
     }to {
-        transform: translateY(-30%);
+        transform: translateY(-100%);
     }
 }
 .inferior-header-disabled{

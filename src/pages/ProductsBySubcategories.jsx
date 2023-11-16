@@ -3,10 +3,7 @@ import { Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { capitalizeString, filterDataArray } from '../utils/methods';
 import { useAppSelector } from '../components/hooks/store';
-import NavigationText from '../components/navText/NavigationText';
-import { API_URL_LINK } from '../utils/constants';
-import ProductCarousel from '../components/products/carousel/ProductCarousel'
-import Header from '../components/header/Header';
+import NewHeader from '../components/header/Header';
 
 /**
  * ProductsBySubcategories component displays products based on subcategories.
@@ -52,22 +49,21 @@ const ProductsBySubcategories = () => {
 
   return (
     <Container>
-      <Header />
-      <NavigationText 
-            inactivePath={[{ title: "Home", href: "/" }, { title: capitalizeString(categoryName), href: `/${categoryName}` }]}
-            activePath='All'
-        />
-      <Typography variant='h4' color='primary' component='h1' marginTop={6}>
-            {capitalizeString(categoryName)}
+      <NewHeader />
+      <Typography>
+        Subcategorized Products - Still in development
+      </Typography>
+      <Typography>
+        Category: {capitalizeString(categoryName)}
+      </Typography>
+      <Typography>
+        Subcategories:
       </Typography>
       {
         subcategories.map(subcat => (
-          <React.Fragment key={subcat._id}>            
-            <ProductCarousel
-              apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}?page=1&limit=16`}
-              categoryName={categoryName}
-              subcat={subcat}>
-            </ProductCarousel>
+          <React.Fragment key={subcat._id}>
+            <Typography>Id: {subcat._id}</Typography>
+            <Typography>Name: {subcat.name}</Typography>
           </React.Fragment>
         ))
       }
