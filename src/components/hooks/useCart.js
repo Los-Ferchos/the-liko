@@ -200,6 +200,7 @@ export const useCart = () => {
         removeProductFromCart,
         clearShoppingCart,
         setUserLogged,
+        userLogged,
         setCartItems,
         uploadCartToDatabase,
         isLoadingGettingItems

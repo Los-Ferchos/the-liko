@@ -11,6 +11,7 @@ import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CustomLink from '../links/CustomLink';
 import CartIconButton from '../buttons/CartIconButton';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -18,7 +19,8 @@ import CartIconButton from '../buttons/CartIconButton';
  */
 const SmallHeader = () => {
     const categories = useAppSelector((state) => state.categories.categories);
-    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
+    const { userLogged } = useGlobalCart();
 
     return (
         <div>
@@ -55,7 +57,9 @@ const SmallHeader = () => {
                         </Link>
                     </div>
                     <div className='right-header'>
-                        <BiUserCircle size={25}/>
+                        <Link to={userLogged ? "/profile" : "/login"}>
+                            <BiUserCircle size={25}/>
+                        </Link>
                         <CartIconButton/>
                     </div>
                 </Toolbar>
