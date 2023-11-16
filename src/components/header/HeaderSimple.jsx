@@ -1,8 +1,8 @@
 import React from 'react';
 import { AppBar, Typography, Toolbar, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/icon.svg';
-import '../assets/styles/header.css';
+import logo from '../../assets/images/icon.svg';
+import '../../assets/styles/header.css';
 
 const HeaderSimple = () => {
   return (

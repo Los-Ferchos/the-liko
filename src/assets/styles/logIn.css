@@ -25,8 +25,16 @@
 }
 
 .cardContentLog {
-    padding: 30px;
-    margin: 40px 50px;
+    padding: 10px;
+    margin: 30px 40px;
+}
+
+/* Media Query para pantallas más grandes que 600px */
+@media screen and (max-width: 767px) {
+  .cardContentLog {
+    padding: 10px;
+    margin: 10px 10px;
+  }
 }
 
 .buttonLog {
@@ -62,7 +70,7 @@
 
 @media (max-width: 960px) {
     .cardLog {
-      width: 100%; /* Adjust the width as needed */
+      width: 100%; 
     }
   }
 
