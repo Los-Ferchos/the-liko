@@ -9,6 +9,13 @@
   gap: 50px;
 }
 
+@media (max-width: 992px) {
+  .container-form{
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -101,3 +108,21 @@ max-width: 200px;
 
 }
 
+
+/* Add media query for responsiveness */
+@media (max-width: 992px) {
+  .image-tr{
+    display: none;
+  }
+
+  table.table *{
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 720px) {
+  table.table *{
+    font-size: 14px;
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, TextField } from '@mui/material';
-import Header from '../components/Header';
+import { Container, Typography, TextField, Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
 import NewHeader from '../components/header/Header';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -17,7 +16,7 @@ const Checkout = () => {
   const [clientSecret, setClientSecret] = useState('');
   const amount = 100;
   const currency = 'usd';
-  const { cartItems, isLoadingGettingItems } = useGlobalCart();
+  const { cartItems, userLogged } = useGlobalCart();
   
   let total = 0;
   cartItems.map(cartItem => {
@@ -40,7 +39,6 @@ const Checkout = () => {
 
         const data = await response.json();
         setClientSecret(data.clientSecret);
-        console.log('clientSecret después de setClientSecret:', data.clientSecret);
       } catch (error) {
         console.log('Error al obtener el clientSecret:', error);
       }
@@ -56,6 +54,18 @@ const Checkout = () => {
   return (
     <Container>
      <NewHeader />
+     <Dialog
+        open={userLogged === null}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Please log in to an existing account or register a new one before proceeding with payment"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setIsFailed(false)}>Ok</Button>
+        </DialogActions>
+      </Dialog>
       {clientSecret && (
         <div className='container-form'>
           <div className='form'>

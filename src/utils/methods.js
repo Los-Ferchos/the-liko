@@ -38,3 +38,27 @@ export const getInactivePaths = (name) => {
  * @returns {string} - The hyphened string.
  */
 export const getHyphenedString = (str) => str.toLowerCase().replace(" ", "-");
+
+export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+            userId,
+            nit: nit.trim() === '' ? "SIN NIT" : nit, 
+            name: name.trim() === '' ? "SIN NOMBRE" : name,
+            cartItems,
+            totalCost
+        }),
+    };
+
+    try {
+        const response = await fetch(`${API_URL_LINK}/send-invoice`, requestOptions);
+        const data = await response.json();
+        if (response.ok) {
+            return true;
+        } else return false;
+    } catch (e) {
+        return false;
+    }
+}

@@ -1,16 +1,28 @@
 
-import {TextField, Typography, Tab,Tabs, Button} from '@mui/material';
+import {TextField, Typography, Tab,Tabs, Button, DialogTitle, DialogActions, Dialog, CircularProgress} from '@mui/material';
 import { useState , useRef} from 'react';
 import '../../assets/styles/checkout.css'
 import { API_URL_LINK } from '../../utils/constants';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import ComingSoon from '../ComingSoon';
+import { useGlobalCart } from '../contexts/CartContext';
+import { sendInvoice } from '../../utils/methods';
+import { useNavigate } from 'react-router-dom';
 const CheckoutForm = ({totalCost}) => {
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [telephone, setTelephone] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
-  const {nit, setNit} = useState('');
+  const [nit, setNit] = useState('');
+  const [isFailed, setIsFailed] = useState(false);
+  const [invalidData, setInvalidData] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { cartItems, clearShoppingCart, userLogged } = useGlobalCart();
 
 
   const [value, setValue] = useState(0);
@@ -28,8 +40,6 @@ const CheckoutForm = ({totalCost}) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make  sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -37,14 +47,9 @@ const CheckoutForm = ({totalCost}) => {
     const result = await stripe.createToken(card);
 
     if (result.error) {
-      // Show error to your customer.
-      console.log(result.error.message);
+      setInvalidData(true);
     } else {
-      // Send the token to your server.
-      // This function does not exist yet; we will define it in the next step.
-      // stripeTokenHandler(result.token);
-      console.log('Tengo token', result.token);
-
+      setLoading(true);
       const response = await fetch(`${API_URL_LINK}/confirmCheckout`, {
         method: 'POST',
         headers: {
@@ -62,18 +67,42 @@ const CheckoutForm = ({totalCost}) => {
       });
 
       if (response.ok) {
-        // El pago fue procesado correctamente en el servidor
-        console.log('Pago procesado con éxito');
+        await clearShoppingCart();
+        setSuccess(true)
+        sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
+        setTimeout(() => {
+          navigate("/products")
+        }, 3000);
       } else {
-        // Manejar un error en la respuesta del servidor
-        console.log('Error al procesar el pago en el servidor');
+        setIsFailed(true)
       }
+      setLoading(false);
     }
   };
 
   return (
     <form className='checkout-form'>
-      <Typography variant='h6' >1. DELIBERY ADDRESS</Typography>
+      <Dialog
+        open={isFailed || invalidData}
+        onClose={() => {
+          setIsFailed(false)
+          setInvalidData(false);
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {invalidData ? "Please fill the fields with the correct data" : 
+          "Error processing payment, please try again"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => {
+          setIsFailed(false)
+          setInvalidData(false);
+        }}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+      <Typography variant='h6' >1. Delivery ADDRESS</Typography>
       <TextField
       label="First Name"
       size='normal' 
@@ -92,6 +121,7 @@ const CheckoutForm = ({totalCost}) => {
       label="Telephone"
       size='normal' 
       variant="outlined"
+      type='number'
       onChange={e => setTelephone(e.target.value)}
       />
 
@@ -108,6 +138,7 @@ const CheckoutForm = ({totalCost}) => {
       label="NIT"
       size='normal' 
       variant="outlined"
+      type="number"
       onChange={e => setNit(e.target.value)}
       />
       <div className='payment-method'>
@@ -125,9 +156,13 @@ const CheckoutForm = ({totalCost}) => {
           </div>
          
     </div>
-         <Button onClick={handleSubmit} id='button-order' variant='contained' color='primary'>
-                Place Order
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center '}}>
+          <Button onClick={!loading && !success && handleSubmit} id='button-order' variant='contained' color='primary'>
+              Place Order
           </Button>
+          {loading && <CircularProgress style={{ marginTop: 12 }}/>}
+          </div>
+          {success && <Typography color="green">Successful Payment</Typography>}
     </form>
   );
 };
