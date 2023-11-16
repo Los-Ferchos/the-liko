@@ -1,10 +1,7 @@
 import {PaymentElement, CardElement} from '@stripe/react-stripe-js';
-import {TextField, Typography, Tab, Box} from '@mui/material';
+import {TextField, Typography, Tab,Tabs, Box} from '@mui/material';
 import { useState } from 'react';
 import '../../assets/styles/checkout.css'
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 
 const CheckoutForm = () => {
   const [FirstName, setFirstName] = useState('');
@@ -13,7 +10,7 @@ const CheckoutForm = () => {
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const {nit, setNit} = useState('');
 
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,19 +59,18 @@ const CheckoutForm = () => {
       />
       <div className='payment-method'>
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
-          <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Credit Card" value="1" />
-                <Tab label="QR" value="2" />
-              </TabList>
-            </Box>
-            <TabPanel value="1"><PaymentElement/></TabPanel>
-            <TabPanel value="2">Item Two</TabPanel>
-          </TabContext>
-          </Box>
-      </div>
+         <Tabs value={value} onChange={handleChange} variant='fullWidth'>
+            <Tab label="Credit card" />
+            <Tab label="QR" />
+          </Tabs>
+          <div>
+          {value === 0 && 
+            <div className='card-payment'>
+            <PaymentElement />
+             </div>}
+          {value === 1 && <p>QR</p>}
+          </div>
+    </div>
      
     </form>
   );

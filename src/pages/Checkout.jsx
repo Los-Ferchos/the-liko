@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../components/checkout/CheckoutForm';
+import ProductList from '../components/checkout/ProductsList';
 import { API_URL_LINK, STRIPE_KEY } from '../utils/constants';
 import '../assets/styles/checkout.css'
 import '../assets/styles/index.css'
@@ -55,10 +56,9 @@ const Checkout = () => {
               <CheckoutForm />
              </Elements>
           </div>
-          <div>
-            <h1>Hola-----------------------------------------------____________________________________________</h1>
+          <div className='card-items'>
+            <ProductList subtotal={25}/>
           </div>
-          
         </div>
       )}
     </Container>
