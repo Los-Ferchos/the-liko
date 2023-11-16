@@ -1,3 +1,5 @@
+import { API_URL_LINK } from "./constants";
+
 /**
  * Filters an array of objects based on a specific property and value, while ignoring case and replacing spaces with hyphens.
  *
@@ -48,7 +50,7 @@ export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
             nit: nit.trim() === '' ? "SIN NIT" : nit, 
             name: name.trim() === '' ? "SIN NOMBRE" : name,
             cartItems,
-            totalCost
+            totalCost: totalCost.toFixed(2)
         }),
     };
 
