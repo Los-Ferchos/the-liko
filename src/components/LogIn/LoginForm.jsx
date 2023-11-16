@@ -29,7 +29,6 @@ const LoginForm = ({ width }) => {
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
 
   useEffect(() => {
@@ -56,6 +55,7 @@ const LoginForm = ({ width }) => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+    setUserLogged(false);
 
     validateEmail();
     validatePassword();
@@ -110,21 +110,21 @@ const LoginForm = ({ width }) => {
         <CardContent className='cardContentLog'>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
             <PrevButton onClick={handleClick} iconSize={width < 768 ? 32 : 20} />
-            <Typography variant={width < 768 ? 'h5' : 'h4'} className='textTitleToStyle' style={{ fontWeight: 'bold', marginLeft: 12 }}>
-              Log In <span className='textToStyle'>to</span> The Likos
+            <Typography variant={width < 768 ? 'h5' : 'h4'} className='textTitleToStyle' style={{ fontWeight: 'bold' }}>
+              Log In <span className='textToStyle'>to</span> The Liko
             </Typography>
           </div>
           <Typography variant={width < 768 ? 'body2' : 'body1'} className='subTitleStyle' marginBottom={12}>
             Enter your details below
           </Typography>
           <Grid container direction='column' spacing={3}>
-            <Grid item sx={{ paddingTop: 6, paddingBottom: 12, position: 'relative' }}>
+            <Grid item sx={{ paddingTop: 6, paddingBottom: 6, position: 'relative' }}>
               <TextField
                 label='Email' variant='outlined' fullWidth value={email} onChange={(e) => setEmail(e.target.value)}
                 onBlur={validateEmail} error={emailError !== ''} helperText={emailError} required inputProps={{ maxLength: 256 }}
               />
             </Grid>
-            <Grid item sx={{ paddingTop: 6, paddingBottom: 12, position: 'relative' }}>
+            <Grid item sx={{ paddingTop: 6, paddingBottom: 6, position: 'relative' }}>
               <TextField
                 label='Password' variant='outlined' fullWidth type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)}
                 onBlur={validatePassword} error={passwordError !== ''} helperText={passwordError} required inputProps={{ maxLength: 256 }}
