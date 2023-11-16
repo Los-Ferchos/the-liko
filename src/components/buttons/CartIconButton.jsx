@@ -1,10 +1,10 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
-import { useAppSelector } from '../hooks/store';
 import { TiShoppingCart } from 'react-icons/ti';
 import { useTheme } from '@emotion/react';
 import { useGlobalCart } from '../contexts/CartContext';
+import { CircularProgress } from '@mui/material';
 
 /**
  * CartIconButton component displays a shopping cart icon with a badge showing the number of items in the cart.
@@ -12,7 +12,7 @@ import { useGlobalCart } from '../contexts/CartContext';
  * @returns {JSX.Element} - The rendered CartIconButton component.
  */
 const CartIconButton = () => {
-  const { cartItems, addProductToCart, updateQuantity, removeProductFromCart, clearShoppingCart } = useGlobalCart();
+  const { cartItems, isLoadingGettingItems } = useGlobalCart();
 
   return (
     <IconButton 
@@ -24,9 +24,16 @@ const CartIconButton = () => {
                 } 
             }}
     >
-      <Badge badgeContent={cartItems.length.toString()} color="error">
-        <TiShoppingCart />
-      </Badge>
+        <Badge 
+            badgeContent={
+                isLoadingGettingItems 
+                ? <CircularProgress color='white' size={10} /> 
+                : cartItems.length.toString()
+            } 
+            color="error"
+        >
+            <TiShoppingCart />
+        </Badge>
     </IconButton>
   );
 };

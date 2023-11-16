@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from './store';
 import { addItemToCart, clearCart, removeItemFromCart, setCartState, updateCartItemQuantity } from '../../store/cartSlice';
@@ -22,6 +22,7 @@ export const useCart = () => {
     const dispatch = useDispatch();
     const [cartItems, setCartItems] = useLocalStorage(CART_STORAGE_KEY, []);
     const [userLogged, setUserLogged] = useLocalStorage(USER_ID_KEY, null);
+    const [isLoadingGettingItems, setIsLoadingGettingItems] = useState(false);
 
     const reduxCartItems = useAppSelector((state) => state.cart.items);
 
@@ -30,19 +31,21 @@ export const useCart = () => {
      */
     useEffect(() => {
         const addToCart = async () => {
-        if (userLogged == null) {
-            dispatch(setCartState(cartItems));
-        } else if(userLogged != undefined) {
-            try {
-            const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`);
-            if (response.ok) {
-                const data = await response.json();
-                dispatch(setCartState(data))
-            } else dispatch(setCartState([]))
-            } catch (e) {
-                alert("There was an error getting your cart items. Please, reload the page to try again " + e);
+            setIsLoadingGettingItems(true);
+            if (userLogged == null) {
+                dispatch(setCartState(cartItems));
+            } else if(userLogged != undefined) {
+                try {
+                    const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        dispatch(setCartState(data))
+                    } else dispatch(setCartState([]))
+                } catch (e) {
+                    alert("There was an error getting your cart items. Please, reload the page to try again " + e);
+                }
             }
-        }
+            setIsLoadingGettingItems(false);
         };
 
         addToCart();
@@ -86,7 +89,7 @@ export const useCart = () => {
      */
     const uploadCartToDatabase = async (userData) => {
         try {
-            if(cartItems.length > 0) uploadLocalStoragedCartItems(userData);
+            if(cartItems.length > 0) await uploadLocalStoragedCartItems(userData);
         } catch (error) {
             console.error('Error uploading cart items to the user database', error);
         }
@@ -198,6 +201,7 @@ export const useCart = () => {
         clearShoppingCart,
         setUserLogged,
         setCartItems,
-        uploadCartToDatabase
+        uploadCartToDatabase,
+        isLoadingGettingItems
     };
 };
