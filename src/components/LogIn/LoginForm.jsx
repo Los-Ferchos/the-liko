@@ -29,7 +29,7 @@ const LoginForm = ({ width }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { setUserLogged } = useGlobalCart();
+  const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
 
   useEffect(() => {
     setIsLoading(false);
@@ -72,14 +72,15 @@ const LoginForm = ({ width }) => {
         if (response.ok) {
           const data = await response.json();
           dispatch(userSlice.actions.loginUser(data));
+          
+          setIsLoading(true);
+
+          await uploadCartToDatabase(data);
+          setCartItems([])
 
           setTimeout(() => {
             setIsLoading(false);
-          }, 2000);
-
-          setUserLogged(JSON.stringify(data))
-
-          setIsLoading(true);
+          }, 800);
 
           navigate(-1);
         } else {

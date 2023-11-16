@@ -29,14 +29,13 @@ export const useCart = () => {
     const addToCart = async () => {
       if (userLogged == null) {
         dispatch(setCartState(cartItems));
-      } else {
+      } else if(userLogged != undefined) {
         try {
           const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`);
-  
           if (response.ok) {
             const data = await response.json();
-            dispatch(setCartState(data));
-          } else alert("There was an error getting your cart items. Please, reload the page to try again");
+            dispatch(setCartState(data))
+          } else dispatch(setCartState([]))
         } catch (e) {
             alert("There was an error getting your cart items. Please, reload the page to try again " + e);
         }
@@ -50,6 +49,38 @@ export const useCart = () => {
     if(userLogged == null)
         setCartItems(reduxCartItems);
   }, [reduxCartItems]);
+
+    const uploadLocalStoragedCartItems = () => {
+        
+    }
+
+    /**
+     * Method to upload the cart items to the user's database.
+     */
+    const uploadCartToDatabase = async (userData) => {
+        try {
+            if(cartItems.length > 0){
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userData.userId,
+                        cartItems: cartItems.map((item) => ({
+                            productId: item.productInfo._id,
+                            quantity: item.quantity,
+                        })),
+                    }),
+                };
+            
+                await fetch(`https://apitheliko.azurewebsites.net/multipleCart`, requestOptions);
+            }
+        } catch (error) {
+            console.error('Error uploading cart items to the user database', error);
+        }
+        setUserLogged(userData);
+    };
 
   /**
    * Method to add a product to the shopping cart.
@@ -131,6 +162,8 @@ export const useCart = () => {
     updateQuantity,
     removeProductFromCart,
     clearShoppingCart,
-    setUserLogged
+    setUserLogged,
+    setCartItems,
+    uploadCartToDatabase
   };
 };
