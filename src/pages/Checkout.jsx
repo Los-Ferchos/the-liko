@@ -8,6 +8,7 @@ import ProductList from '../components/checkout/ProductsList';
 import { API_URL_LINK, STRIPE_KEY } from '../utils/constants';
 import '../assets/styles/checkout.css'
 import '../assets/styles/index.css'
+import { useGlobalCart } from '../components/contexts/CartContext';
 
 const stripePromise = loadStripe(STRIPE_KEY);
 

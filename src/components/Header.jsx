@@ -7,7 +7,7 @@ import { BiUserCircle } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
 import { useAppSelector } from './hooks/store';
-import Subcategories from './Subcategories'
+import Subcategories from './header/Subcategories';
 import logo from "../assets/images/icon.svg"
 import { getHyphenedString } from '../utils/methods';
 import CustomLink from './links/CustomLink';
