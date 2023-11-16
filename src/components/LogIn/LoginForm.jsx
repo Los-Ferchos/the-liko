@@ -56,6 +56,7 @@ const LoginForm = ({ width }) => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+    setUserLogged(false);
 
     validateEmail();
     validatePassword();
