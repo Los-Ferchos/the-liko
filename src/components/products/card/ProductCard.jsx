@@ -37,7 +37,7 @@ const ProductCard = ({ product = {} }) => (
               {product.price.currency} {product.price.value} 
             </Typography>
           </div>
-          <AddToCartButton productId={product._id}/>
+          <AddToCartButton product={product}/>
         </CardContent>
       </Card>
     </Grid>

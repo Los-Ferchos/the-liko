@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Page404 from "./pages/404"
 import Home from "./pages/Home"
 import AboutUs from "./pages/AboutUs"
+import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
@@ -11,7 +12,7 @@ import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import { API_URL_LINK } from "./utils/constants";
-import Checkout from "./pages/Checkout";
+import useLocalStorage from "./components/hooks/useLocalStorage";
 
 const theme = createTheme({
   spacing: 2,
@@ -27,6 +28,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#FF0000',
+      hover: '#DB4444'
     },
     gray: {
       main: "#727070"
@@ -112,9 +114,9 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path='/checkout' Component={Checkout} />
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/logIn' Component={LogIn} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
