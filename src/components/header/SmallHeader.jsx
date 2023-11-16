@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CustomLink from '../links/CustomLink';
+import CartIconButton from '../buttons/CartIconButton';
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -55,7 +56,7 @@ const SmallHeader = () => {
                     </div>
                     <div className='right-header'>
                         <BiUserCircle size={25}/>
-                        <TiShoppingCart size={25}/>
+                        <CartIconButton/>
                     </div>
                 </Toolbar>
             </div>

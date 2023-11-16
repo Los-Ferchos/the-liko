@@ -6,8 +6,9 @@ import validator from 'validator';
 import { API_URL_LINK } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import PrevButton from '../buttons/PrevButton';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * LoginForm component for user login.
@@ -22,11 +23,14 @@ const LoginForm = ({ width }) => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
 
   useEffect(() => {
     setIsLoading(false);
@@ -69,19 +73,19 @@ const LoginForm = ({ width }) => {
         if (response.ok) {
           const data = await response.json();
           dispatch(userSlice.actions.loginUser(data));
+          
+          setIsLoading(true);
+
+          await uploadCartToDatabase(data);
+          setCartItems([])
 
           setTimeout(() => {
             setIsLoading(false);
-          }, 2000);
-
-          localStorage.setItem('userData', JSON.stringify(data));
-          const savedData = localStorage.getItem('userData');
-
-          setIsLoading(true);
+          }, 800);
 
           navigate(-1);
         } else {
-          console.log('Request failed');
+          setLoginError('Incorrect email or password.');
         }
       } catch (error) {
         console.error('Error:', error);
@@ -145,7 +149,14 @@ const LoginForm = ({ width }) => {
                   Log In
                 </Button>
               )}
+
             </Grid>
+            {loginError && (
+              <Typography variant="body2" color="error" sx={{ textAlign: 'center', marginTop: 2 }}>
+                {loginError}
+              </Typography>
+            )}
+
             <Grid item sx={{ display: 'flex', justifyContent: 'center' }} marginTop={12}>
               <Typography variant={width < 768 ? 'h6' : 'h5'} className='forgotPasswordLink'>
                 <a href='#'>Forgot password?</a>
