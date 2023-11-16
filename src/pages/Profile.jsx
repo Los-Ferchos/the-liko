@@ -20,7 +20,7 @@ const Profile = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
         </Grid>
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md={9} container justifyContent="center" alignItems="center">
           <div className='buttonLogOut'>
             <Button
               variant="contained"
