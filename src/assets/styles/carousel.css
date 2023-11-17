@@ -1,0 +1,21 @@
+.carousel-card {
+    width: 230px;
+    height: 440px;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: color 0.5s ease;
+}
+.buttons :hover{
+    cursor: pointer;
+    color: red;
+}

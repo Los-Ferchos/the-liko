@@ -1,6 +1,15 @@
+import { Container } from '@mui/material';
+import CommingSoon from '../components/ComingSoon';
+import NewHeader from '../components/header/Header';
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <NewHeader />
+      <Container>
+        <CommingSoon />
+      </Container>
+    </>
   )
 }
 

@@ -1,0 +1,128 @@
+.titleStyle {
+    font-weight: bold;
+    color: #DB4444;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.subTitleStyle {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.textToStyle {
+    color: black;
+    font-weight: bold;
+}
+
+.textTitleToStyle {
+    color: #DB4444;
+}
+
+.cardLog {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.cardContentLog {
+    padding: 10px;
+    margin: 30px 40px;
+}
+
+/* Media Query para pantallas más grandes que 600px */
+@media screen and (max-width: 767px) {
+  .cardContentLog {
+    padding: 10px;
+    margin: 10px 10px;
+  }
+}
+
+.buttonLog {
+    background-color: #DB4444;
+    color: white;
+}
+
+.divContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fcfcf4;
+}
+
+.forgotPasswordLink {
+    text-align: center;
+    color: #DB4444; 
+    margin-top: 20px; 
+}
+
+.createAccountLink {
+    text-align: center;
+    color: var(--black-color);  
+    margin-top: 22px; 
+    font-weight: bold;
+}
+.createText{
+    color: #DB4444;
+    font-weight: bold;
+
+}
+
+@media (max-width: 960px) {
+    .cardLog {
+      width: 100%; 
+    }
+  }
+
+  .loader-container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: .5;
+}
+
+.loader {
+  width: 40px;
+  height: 98px;
+  display: inline-block;
+  position: relative;
+  border: 2px solid black;
+  box-sizing: border-box;
+  color: rgba(255, 61, 0, 0.9);
+  border-radius: 20px 20px 4px 4px;
+  background: #fff;
+  animation: fill 2s linear infinite alternate;
+}
+
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50%, -95%);
+  border: 2px solid black;
+  border-bottom: none;
+  background: #fff;
+  width: 15px;
+  height: 35px;
+  animation: fillNeck 2s linear infinite alternate;
+}
+
+@keyframes fill {
+  0% {
+    box-shadow: 0 0 inset;
+  }
+  50%, 100% {
+    box-shadow: 0 -98px inset;
+  }
+}
+
+@keyframes fillNeck {
+  0%, 50% {
+    box-shadow: 0 0 inset;
+  }
+  100% {
+    box-shadow: 0 -20px inset;
+  }
+}
