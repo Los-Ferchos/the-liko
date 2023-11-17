@@ -1,3 +1,5 @@
+import { API_URL_LINK } from "./constants";
+
 /**
  * Filters an array of objects based on a specific property and value, while ignoring case and replacing spaces with hyphens.
  *
@@ -38,3 +40,27 @@ export const getInactivePaths = (name) => {
  * @returns {string} - The hyphened string.
  */
 export const getHyphenedString = (str) => str.toLowerCase().replace(" ", "-");
+
+export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+            userId,
+            nit: nit.trim() === '' ? "SIN NIT" : nit, 
+            name: name.trim() === '' ? "SIN NOMBRE" : name,
+            cartItems,
+            totalCost: totalCost.toFixed(2)
+        }),
+    };
+
+    try {
+        const response = await fetch(`${API_URL_LINK}/send-invoice`, requestOptions);
+        const data = await response.json();
+        if (response.ok) {
+            return true;
+        } else return false;
+    } catch (e) {
+        return false;
+    }
+}

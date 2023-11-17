@@ -6,6 +6,7 @@ import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
@@ -116,6 +117,7 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/checkout' Component={Checkout} />
           <Route path='/logIn' Component={LogIn} />
           <Route path='/profile' Component={Profile}></Route>
           <Route path='/:name' Component={() => <Products destination="/category" />} />
