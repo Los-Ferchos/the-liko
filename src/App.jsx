@@ -14,6 +14,7 @@ import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
+import SignUp from "./pages/SignUp"
 
 const theme = createTheme({
   spacing: 2,
@@ -118,6 +119,7 @@ const App = () => {
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
           <Route path='/checkout' Component={Checkout} />
+          <Route path='/sign_up' Component={SignUp} />
           <Route path='/logIn' Component={LogIn} />
           <Route path='/profile' Component={Profile}></Route>
           <Route path='/:name' Component={() => <Products destination="/category" />} />
