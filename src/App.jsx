@@ -13,6 +13,7 @@ import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import { API_URL_LINK } from "./utils/constants";
 import useLocalStorage from "./components/hooks/useLocalStorage";
+import Cart from "./pages/Cart"
 
 const theme = createTheme({
   spacing: 2,
@@ -123,6 +124,7 @@ const App = () => {
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
           <Route path='*' Component={Page404} />
+          <Route path="/cart" Component={Cart} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

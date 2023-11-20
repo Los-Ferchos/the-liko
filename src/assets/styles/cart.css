@@ -1,0 +1,43 @@
+.products {
+    width: 70%;
+}
+
+.order-summary {
+    width: 30%;
+    position: sticky;
+}
+
+.titles {
+    display: flex;
+    align-items: center;
+}
+
+.details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@media (max-width: 960px) {
+    .products {
+        width: 100%;
+    }
+
+    .order-summary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .titles {
+        display: none;
+    }
+}
+
+@media (max-width: 550px) {
+    .details {
+        display: block;
+        align-items: center;
+        width: auto;
+    }
+}
