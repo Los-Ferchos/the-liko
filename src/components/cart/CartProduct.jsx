@@ -5,6 +5,14 @@ import bottleLoaderImg from '../../assets/images/bottle-loader.png';
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
 import CartActionsManager from './CartActionsManager';
 
+/**
+ * This the cart product component to render the product details when it is in the cart.
+ * 
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} cart - The current cart in the localstorage with the cart items.
+ * @param {Object} product - The specific item in the shopping cart.
+ * @returns {JSX.Element} Rendered CartProduct component.
+ */
 function CartProduct({cart, product}) {
     const [quantity, setQuantity] = useState(product.quantity)
     const cartActions = CartActionsManager();

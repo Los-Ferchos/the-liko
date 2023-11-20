@@ -10,6 +10,9 @@
 .order-summary {
     width: 30%;
     position: sticky;
+    z-index: 100;
+    margin-top: 20px;
+    top: 20px;
 }
 
 .titles {

@@ -7,6 +7,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalCart } from '../components/contexts/CartContext'
 
+/**
+ * This the cart page to render all the products and details in the shopping cart.
+ * 
+ * @returns {JSX.Element} Rendered Cart component.
+ */
 function Cart() {
     const navigate = useNavigate();
     const cart = useGlobalCart();
@@ -35,7 +40,7 @@ function Cart() {
             />
             <Typography variant='h4' color='primary' component='h1' marginTop={8} marginBottom={8}>Shopping Cart</Typography>
             {
-                cart.cartItems.length > 0 ?
+                cart.cartItems.length > 0 || cart.isLoadingGettingItems ?
                     <div >
                         <div className='container'>
                             <div className='products'>
@@ -48,26 +53,42 @@ function Cart() {
                                         <Typography variant='h5' color='black' component='h1' style={{ fontWeight: "bold" }} marginBottom={6} width={"12%"}>Trash</Typography>
 
                                     </div>
-                                    {cart.cartItems.map((product, index) => (
-                                        <CartProduct
-                                            cart={cart}
-                                            product={product}
-                                            key={index}
-                                        />
-                                    ))}
-                                    <Button variant='outlined' style={{ marginTop: 10 }} onClick={() => {
-                                        navigate("/products")
-                                    }}>Continue Shopping</Button>
+                                    {
+                                        cart.isLoadingGettingItems ?
+                                            <div className="loader-container center" style={{ position: 'center' }}>
+                                                <div className="loader" style={{ position: 'center' }}></div>
+                                            </div> :
+                                            cart.cartItems.map((product, index) => (
+                                                <CartProduct
+                                                    cart={cart}
+                                                    product={product}
+                                                    key={index}
+                                                />
+                                            ))
+                                    }
+
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <Button variant='outlined' style={{ marginTop: 10 }} onClick={() => {
+                                            navigate("/products")
+                                        }}>Continue Shopping</Button>
+                                        <Button variant='outlined' style={{ marginTop: 10 }} onClick={() => {
+                                            cart.clearShoppingCart()
+                                        }}>Clear All</Button>
+                                        <Button variant='contained' style={{ marginTop: 10, alignContent: "center" }}
+                                            onClick={() => {
+                                                navigate("/checkout")
+                                            }}>Checkout</Button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='order-summary' style={{ position: "sticky", top: "20px" }}>
+                            <div className='order-summary'>
                                 <Card style={{ padding: 20, alignContent: "center", alignItems: "center" }}>
                                     <div>
                                         <Typography variant='h5' color='black' component='h1' style={{ fontWeight: "bold" }} marginBottom={6}>Order Summary</Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <Typography variant='h6' color='black' component='h1'>Subtotal</Typography>
-                                        <Typography variant='h6' color='black' component='h1'>{getTotal()}</Typography>
+                                        <Typography variant='h6' color='black' component='h1'>{getTotal().toFixed(2)}</Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <Typography variant='h6' color='black' component='h1'>Tax</Typography>
@@ -78,12 +99,11 @@ function Cart() {
                                         <Typography variant='h6' color='black' component='h1'>{((getTotal()) + (getTotal() * tax / 100)).toFixed(2)}</Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "center" }}>
-                                        <Button variant='outlined' style={{ marginTop: 10, alignContent: "center" }}
+                                        <Button variant='contained' style={{ marginTop: 10, alignContent: "center" }}
                                             onClick={() => {
                                                 navigate("/checkout")
                                             }}>Checkout</Button>
                                     </div>
-
                                 </Card>
                             </div>
                         </div>
@@ -96,7 +116,6 @@ function Cart() {
                         }}>Continue Shopping</Button>
                     </div>
             }
-
         </Container>
     )
 }
