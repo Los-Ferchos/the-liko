@@ -4,16 +4,27 @@ import NavigationText from '../components/navText/NavigationText'
 import CartProduct from '../components/cart/CartProduct'
 import '../assets/styles/cart.css'
 import { useState, useEffect } from 'react';
-import { API_URL_LINK } from '../utils/constants'
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../components/hooks/useCart'
+import { useGlobalCart } from '../components/contexts/CartContext'
 
 function Cart() {
-    const [products, setProducts] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const navigate = useNavigate();
-    const cart = useCart();
+    const cart = useGlobalCart();
+    const [tax, setTax] = useState(5.3);
 
+    const getSubtotalProduct = (product) => {
+        return (product.quantity * product.productInfo.price.value)
+    }
+
+    const getTotal = () => {
+        var total = 0;
+        {cart.cartItems.map((product) => (
+            total+=getSubtotalProduct(product)
+        ))}
+        return total
+    }
+    
     return (
         <Container component={"section"} style={{ position: "relative" }}>
             <Header />
@@ -27,6 +38,7 @@ function Cart() {
                     <div style={{ padding: 20 }}>
                             {cart.cartItems.map((product, index) => (
                                 <CartProduct
+                                    cart={cart}
                                     product={product}
                                     key={index}
                                 />
@@ -43,15 +55,15 @@ function Cart() {
                         </Grid>
                         <Grid item style={{ display: "flex", justifyContent: "space-between" }}>
                             <Typography variant='h6' color='black' component='h1'>Subtotal</Typography>
-                            <Typography variant='h6' color='black' component='h1'>{subtotal}</Typography>
+                            <Typography variant='h6' color='black' component='h1'>{getTotal()}</Typography>
                         </Grid>
                         <Grid item style={{ display: "flex", justifyContent: "space-between" }}>
                             <Typography variant='h6' color='black' component='h1'>Tax</Typography>
-                            <Typography variant='h6' color='black' component='h1'>0%</Typography>
+                            <Typography variant='h6' color='black' component='h1'>{tax}%</Typography>
                         </Grid>
                         <Grid item style={{ display: "flex", justifyContent: "space-between" }}>
                             <Typography variant='h6' color='black' component='h1'>Total</Typography>
-                            <Typography variant='h6' color='black' component='h1'>{subtotal}</Typography>
+                            <Typography variant='h6' color='black' component='h1'>{((getTotal())+(getTotal()*tax/100)).toFixed(2)}</Typography>
                         </Grid>
                         <Button variant='outlined' style={{marginTop:10, alignContent:"center"}}
                             onClick={() => {

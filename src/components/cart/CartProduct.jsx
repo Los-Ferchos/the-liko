@@ -3,10 +3,16 @@ import { Typography, Grid, IconButton } from '@mui/material';
 import LazyImage from '../images/LazyImage';
 import bottleLoaderImg from '../../assets/images/bottle-loader.png';
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
-import { useCart } from '../hooks/useCart';
+import CartActionsManager from './CartActionsManager';
 
-function CartProduct({product}) {
-    const cart = useCart();
+function CartProduct({cart, product}) {
+    const [quantity, setQuantity] = useState(product.quantity)
+    const cartActions = CartActionsManager();
+
+    const updateQuantity = (newQuantity) => {
+        cartActions.updateQuantity(cart.userLogged.userId, product.productInfo._id, newQuantity)
+        cart.updateQuantity(product.productInfo._id, newQuantity)
+    }
 
     return (
         <div style={{ padding: 15 }}>
@@ -36,8 +42,10 @@ function CartProduct({product}) {
                     <div >
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <IconButton onClick={() => {
-                                if(product.quantity > 1)
-                                    cart.updateQuantity(product.productInfo._id, (product.quantity - 1));
+                                if(quantity > 1) {
+                                    updateQuantity(quantity-1);
+                                    setQuantity(quantity-1);
+                                }
                             }}>
                                 <FaMinus size={20} />
                             </IconButton>
@@ -45,7 +53,8 @@ function CartProduct({product}) {
                                 {product.quantity}
                             </Typography>
                             <IconButton onClick={() => {
-                                cart.updateQuantity(product.productInfo._id, product.quantity + 1);
+                                updateQuantity(quantity+1);
+                                setQuantity(quantity+1);
                             }}>
                                 <FaPlus size={20} />
                             </IconButton>
@@ -57,7 +66,11 @@ function CartProduct({product}) {
                         </Typography>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <IconButton color='primary'>
+                        <IconButton color='primary' onClick={() => {
+                            cart.removeProductFromCart(product.productInfo._id)
+                            cartActions.removeItem(cart.userLogged.userId, product.productInfo._id)
+                            setSubtotal(0)
+                        }}>
                             <FaRegTrashAlt />
                         </IconButton>
                     </div>
