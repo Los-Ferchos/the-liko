@@ -1,0 +1,128 @@
+.container-form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  gap: 50px;
+}
+
+@media (max-width: 992px) {
+  .container-form{
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  width: 100%;
+  gap: 20px;
+  max-width: 500px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  width: 100%;
+  gap: 18px;
+}
+
+.payment-method{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  width: 100%;
+}
+
+.card-payment{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card-items{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: max-content;
+  width: 100%;
+  max-width: 600px;
+  gap: 10px;
+}
+
+.text-order{
+  display: flex;
+  flex-direction: row;
+}
+
+#number{
+  text-align: center;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td, .table th {
+  /*border: 1px solid #ddd;*/
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table tr:nth-child(even){background-color: #f2f2f2;}
+
+.table tr:hover {background-color: #ddd;}
+
+.table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4CAF50;
+  color: white;
+}
+
+p{
+  text-align: center;
+}
+
+#text-right{
+  text-align: right;
+}
+
+#button-order{
+width: 100%;
+max-width: 200px;
+
+}
+
+
+/* Add media query for responsiveness */
+@media (max-width: 992px) {
+  .image-tr{
+    display: none;
+  }
+
+  table.table *{
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 720px) {
+  table.table *{
+    font-size: 14px;
+  }
+}

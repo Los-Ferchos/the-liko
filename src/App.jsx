@@ -6,14 +6,17 @@ import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
 import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
+import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
 import useLocalStorage from "./components/hooks/useLocalStorage";
 import Cart from "./pages/Cart"
+
 
 const theme = createTheme({
   spacing: 2,
@@ -117,7 +120,9 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/checkout' Component={Checkout} />
           <Route path='/logIn' Component={LogIn} />
+          <Route path='/profile' Component={Profile}></Route>
           <Route path='/:name' Component={() => <Products destination="/category" />} />
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />

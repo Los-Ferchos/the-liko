@@ -189,8 +189,27 @@ export const useCart = () => {
     /**
      * Method to clear all items from the shopping cart.
      */
-    const clearShoppingCart = () => {
-        dispatch(clearCart());
+    const clearShoppingCart = async () => {
+        try{
+            if(userLogged == null){
+                setCartItems([]);
+                dispatch(clearCart());
+            } else {
+                const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    return { error: false, message: response.json().error }
+                }
+               
+                dispatch(clearCart());
+                return { error: false, message: `Success` }
+            }
+
+        } catch(e){
+            return { error: true, message: `There was an error ${e}. Please, try again.` }
+        }
     };
 
     return {
@@ -201,6 +220,7 @@ export const useCart = () => {
         clearShoppingCart,
         userLogged,
         setUserLogged,
+        userLogged,
         setCartItems,
         uploadCartToDatabase,
         isLoadingGettingItems

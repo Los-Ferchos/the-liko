@@ -5,7 +5,7 @@ import useWindowSize from '../components/hooks/useWindowSize';
 import './../assets/styles/about-us.css'
 import AdvantagesSection from '../components/aboutUs/AdvantagesSection';
 import LikoServicesSection from '../components/aboutUs/LikoServicesSection';
-import NewHeader from '../components/header/Header';
+import Header from '../components/header/Header';
 
 /**
  * A React component that represents the About Us page.
@@ -20,7 +20,7 @@ const AboutUs = () => {
    */
   return (
     <Container>
-      <NewHeader />
+      <Header />
       <Box mt={4}>
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='About Us' />
       <br />

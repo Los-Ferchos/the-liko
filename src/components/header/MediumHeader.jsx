@@ -1,14 +1,15 @@
-import {useState} from 'react';
-import {Typography, Toolbar} from '@mui/material';
+import { useState } from 'react';
+import { Typography, Toolbar } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
-import { TiShoppingCart } from 'react-icons/ti';
+import { BiUserCircle } from 'react-icons/bi';
 import CustomLink from '../links/CustomLink';
 import '../../assets/styles/header.css'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -16,7 +17,8 @@ import CartIconButton from '../buttons/CartIconButton';
  */
 const MediumHeader = () => {
     const categories = useAppSelector((state) => state.categories.categories);
-    const [currentCategory, setCurrentCategory] = useState()
+    const [currentCategory, setCurrentCategory] = useState();
+    const { userLogged } = useGlobalCart();
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
 
     return (
@@ -41,9 +43,9 @@ const MediumHeader = () => {
                 <div className='center-header'>
                     <ul className='menu'>
                         <li onMouseOver={() => {
-                                setCurrentCategory("")
-                                setInferiorHeader('inferior-header-enabled')
-                            }}>
+                            setCurrentCategory("")
+                            setInferiorHeader('inferior-header-enabled')
+                        }}>
                             <CustomLink
                                 href='/products'
                                 title='All Products'
@@ -52,10 +54,10 @@ const MediumHeader = () => {
                         </li>
                         {categories.map(category => (
                             <li key={category._id}
-                            onMouseOver={() => {
-                                setCurrentCategory(category)
-                                setInferiorHeader('inferior-header-enabled')
-                            }}>
+                                onMouseOver={() => {
+                                    setCurrentCategory(category)
+                                    setInferiorHeader('inferior-header-enabled')
+                                }}>
                                 <CustomLink
                                     href={`/${getHyphenedString(category.name)}`}
                                     title={category.name}
@@ -65,22 +67,33 @@ const MediumHeader = () => {
                     </ul>
                 </div>
                 <div className='right-header'>
-                    <ul className='profile-options'>
-                        <li>
-                            <CustomLink variant="body2" title='Log In' href= '/logIn' />
-                        </li>
-                        <li>
-                            <Typography variant="body2" color="black">|</Typography>
-                        </li>
-                        <li>
-                            <CustomLink variant="body2" title='Create Account'/>
-                        </li>
-                    </ul>
-                    <CartIconButton/>
+                    {
+                        userLogged != null ? (
+                            <ul className='profile-options'>
+                                <li style={{ display: 'flex' }}>
+                                    <BiUserCircle/>
+                                    <CustomLink variant="body2" title='Profile' href='/profile' />
+                                </li>
+                            </ul>
+                        ) : (
+                            <ul className='profile-options'>
+                                <li>
+                                    <CustomLink variant="body2" title='Log In' href='/logIn' />
+                                </li>
+                                <li>
+                                    <Typography variant="body2" color="black">|</Typography>
+                                </li>
+                                <li>
+                                    <CustomLink variant="body2" title='Create Account' />
+                                </li>
+                            </ul>
+                        )
+                    }
+                    <CartIconButton />
                 </div>
             </Toolbar>
             <div className={inferiorHeader} onMouseLeave={() => setInferiorHeader('inferior-header-disabled')}>
-                <SubcategoriesHeader category={currentCategory}/>
+                <SubcategoriesHeader category={currentCategory} />
             </div>
         </div>
     )
