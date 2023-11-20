@@ -1,15 +1,19 @@
-import { useState } from 'react';
-import { Typography, Toolbar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import { BiUserCircle } from 'react-icons/bi';
 import CustomLink from '../links/CustomLink';
 import '../../assets/styles/header.css'
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
+import { FaSistrix } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import useWindowSize from '../../components/hooks/useWindowSize';
+import SearchBar from '../header/SearchBar'
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -20,6 +24,26 @@ const MediumHeader = () => {
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [searchText, setSearchText] = useState('');
+    const navigate = useNavigate();
+    const { width } = useWindowSize();
+    const [isSearchVisible, setIsSearchVisible] = useState(true); // Nuevo estado
+    
+      const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          searchProducts();
+        }
+      };
+    
+      const searchProducts = () => {
+        console.log(searchText);
+        console.log('searching products');
+        navigate(`/products/${searchText}`);
+      };
+    
+      const handleIconClick = () => {
+        setIsSearchVisible(!isSearchVisible);
+      };
 
     return (
         <div>
@@ -67,6 +91,7 @@ const MediumHeader = () => {
                     </ul>
                 </div>
                 <div className='right-header'>
+                    <SearchBar width={width} handleIconClick={handleIconClick} searchText={searchText} setSearchText={setSearchText} onKeyPress={handleKeyPress}/>
                     {
                         userLogged != null ? (
                             <ul className='profile-options'>
