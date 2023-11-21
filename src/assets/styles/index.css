@@ -6,7 +6,6 @@
   --gray-color: #727070;
   --gray-light-color: #c6c6c6;
   --black-color: #000;
-<<<<<<< HEAD
   }
   
   * {
@@ -64,9 +63,6 @@
     text-decoration: none;
     color: inherit;
   }
-=======
-}
->>>>>>> develop
 
 * {
   font-family: var(--body-font);
