@@ -23,32 +23,53 @@ const ProductForm = () => {
     type: '',
   });
 
+  const [formError, setFormError] = useState({
+    name: '',
+    description: '',
+    stock: '',
+    image: '', 
+    category: '',
+    subcategory: '',
+    price: '',
+    brand: '',
+    abv: '',
+    type: ''
+  })
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleErrorMsg = (name, val) => {
+    setFormError({ ...formError, [name]: val });
+  };
+
   const handleSubmit = (e) => {
+    const formErrorCopy = { ...formError }
+    Object.entries(formData).forEach(([key, value]) => {
+        if(value === ''){
+            formErrorCopy[key] = "This field is required, please fill it";
+        }
+    });
+    setFormError(formErrorCopy)
     e.preventDefault();
-    // Implement form submission logic
-    console.log('Form submitted:', formData);
   };
 
   const { width, height } = useWindowSize();
 
   const [file, setFile] = useState("");
 
-  console.log(file)
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
         <Grid container spacing={width > 960 ? 12 : 0}>
-            {/* Two-column layout for large and medium screens */}
             <Grid item xs={12} md={6}>
                 <FieldText
                     label="Name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    errorMsg={formError.name}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
                 <FieldText
@@ -58,6 +79,8 @@ const ProductForm = () => {
                     onChange={handleChange}
                     multiline
                     rows={4}
+                    errorMsg={formError.description}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
                 <FieldText
@@ -66,9 +89,12 @@ const ProductForm = () => {
                     type="number"
                     value={formData.stock}
                     onChange={handleChange}
+                    errorMsg={formError.stock}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
-                <ImageUploader setFile={setFile} file={file} />
+                <ImageUploader setFile={setFile} file={file} errorMsg={formError.image}
+                    handleErrorMsg={handleErrorMsg} />
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -76,6 +102,8 @@ const ProductForm = () => {
                     formData={formData} 
                     setFormData={setFormData} 
                     handleChange={handleChange}
+                    formError={formError}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
                 <FieldText
@@ -84,6 +112,9 @@ const ProductForm = () => {
                     type="number"
                     value={formData.price}
                     onChange={handleChange}
+                    errorMsg={formError.price}
+                    handleErrorMsg={handleErrorMsg}
+                    typeNumber='price'
                 />
 
                 <FieldText
@@ -91,6 +122,8 @@ const ProductForm = () => {
                     name="brand"
                     value={formData.brand}
                     onChange={handleChange}
+                    errorMsg={formError.brand}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
                 <FieldText
@@ -99,7 +132,8 @@ const ProductForm = () => {
                     type="number"
                     value={formData.abv}
                     onChange={handleChange}
-                    fullWidth
+                    errorMsg={formError.abv}
+                    handleErrorMsg={handleErrorMsg}
                 />
 
                 <FieldText
@@ -107,6 +141,8 @@ const ProductForm = () => {
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
+                    errorMsg={formError.type}
+                    handleErrorMsg={handleErrorMsg}
                 />
             </Grid>
 

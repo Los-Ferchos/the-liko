@@ -1,12 +1,14 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { API_URL_LINK } from '../../../utils/constants';
 import FieldText from '../../fields/FieldText';
+import { IoClose } from 'react-icons/io5';
 
 const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingSub, setLoadingSub] = useState(false);
   
     useEffect(() => {
       
@@ -29,7 +31,7 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
     const handleCategoryChange = (e) => {
       const selectedCategory = e.target.value
       const fetchSubcategories = async () => {
-        setLoading(true);
+        setLoadingSub(true);
         try {
           const response = await fetch(`${API_URL_LINK}/categories/${selectedCategory}/subcategories`);
           const data = await response.json();
@@ -37,7 +39,7 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
         } catch (error) {
           // Handle error
         } finally {
-          setLoading(false);
+          setLoadingSub(false);
         }
       };
   
@@ -77,7 +79,18 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
                   ))}                  
             </FieldText>
 
-
+            {loadingSub && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: 12
+                }}
+              >
+                <CircularProgress size={24}/>
+                <Typography variant='body2' marginLeft={8}>Checking if there are subcategories available...</Typography>
+              </div>
+            )}
 
             {formData.category && subcategories.length > 0 && (
                 <FieldText

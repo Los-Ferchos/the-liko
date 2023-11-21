@@ -5,7 +5,7 @@ import { IoCloudUploadOutline, IoCloseSharp } from "react-icons/io5";
 const allowedFormats = ['image/bmp', 'image/tiff', 'image/jpeg', 'image/gif', 'image/png', 'image/svg', 'image/webp'];
 const maxSize = 5 * 1024 * 1024;
 
-const ImageUploader = ({ file, setFile, text = "Selected image:" }) => {
+const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   console.log(file)
@@ -52,57 +52,65 @@ const ImageUploader = ({ file, setFile, text = "Selected image:" }) => {
   }
 
   return (
-    <Box
-      onDrop={handleDrop}
-      onDragOver={handleOnDragOver}
-      onDragLeave={handleOnDragOut}
-      p={3}
-      textAlign="center"
-      borderTop={1.4}
-      borderBottom={1.4}
-      borderLeft={1.4}
-      borderRight={1.4}
-      style={{
-        marginTop: 24,
-        paddingTop: 24,
-        paddingBottom: 24,
-        borderRadius: "6px",
-        borderColor: borderColor
-      }}
-    >
-      <Typography variant="h6">Product image: </Typography>
-      {imageUrl ? (
-        <>
-          <Box mb={2}>
-            <Typography>{text} {file.name}</Typography>
-          </Box>
-          <img src={imageUrl} alt="Selected" style={{ maxHeight: 200, width: 'auto' }} />
-          <IconButton onClick={deleteImage}>
-            <IoCloseSharp />
-          </IconButton>
-        </>
-      ) : (
-        <>
-          <Box mb={4} mt={4}>
-            <IoCloudUploadOutline size={64} color={"#999"} />
-            <Typography color={"grey"}>Drag & drop an image here</Typography>
-            <Typography color={"grey"}>or</Typography>
-          </Box>
-          <input
-            accept="image/*"
-            id="contained-button-file"
-            type="file"
-            style={{ display: "none" }}
-            onChange={handleFileSelect}
-          />
-          <label htmlFor="contained-button-file">
-            <Button variant="outlined" component="span">
-              Select an image from your device
-            </Button>
-          </label>
-        </>
-      )}
-    </Box>
+    <>
+        <Box
+            onDrop={handleDrop}
+            onDragOver={handleOnDragOver}
+            onDragLeave={handleOnDragOut}
+            p={3}
+            textAlign="center"
+            borderTop={1.4}
+            borderBottom={1.4}
+            borderLeft={1.4}
+            borderRight={1.4}
+            style={{
+                marginTop: 24,
+                paddingTop: 24,
+                paddingBottom: 24,
+                borderRadius: "6px",
+                borderColor: borderColor
+            }}
+            >
+            <Typography variant="h6">Product image: </Typography>
+            {imageUrl ? (
+                <>
+                <Box mb={2}>
+                    <Typography>{text} {file.name}</Typography>
+                </Box>
+                <img src={imageUrl} alt="Selected" style={{ maxHeight: 200, width: 'auto' }} />
+                <IconButton onClick={deleteImage}>
+                    <IoCloseSharp />
+                </IconButton>
+                </>
+            ) : (
+                <>
+                <Box mb={4} mt={4}>
+                    <IoCloudUploadOutline size={64} color={"#999"} />
+                    <Typography color={"grey"}>Drag & drop an image here</Typography>
+                    <Typography color={"grey"}>or</Typography>
+                </Box>
+                <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={handleFileSelect}
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="outlined" component="span">
+                    Select an image from your device
+                    </Button>
+                </label>
+                </>
+            )}
+        </Box>
+        <br />
+        {
+            errorMsg !== "" && (
+                <Typography color={"error"}>{errorMsg}</Typography>
+            )
+        }
+    </>
   );
 };
 
