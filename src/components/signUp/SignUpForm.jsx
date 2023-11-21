@@ -7,7 +7,19 @@ import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import PrevButton from '../buttons/PrevButton';
 import { API_URL_LINK } from '../../utils/constants';
+import VerificacionModal from './VerificationModal';
+import BottleLoader from '../loaderAnimations/bottleLoader';
 
+/**
+ * VerificacionModal Component
+ * 
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.open - Specifies whether the modal is open or closed.
+ * @param {function} props.onClose - Callback function to handle the closing of the modal.
+ * @param {string} props.token - Unique token associated with the user for verification.
+ * 
+ * @returns {JSX.Element} - Returns the JSX element representing the VerificacionModal.
+ */
 function SignUpForm() {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -21,7 +33,10 @@ function SignUpForm() {
     const [showPasswordVerified, setShowPasswordVerified] = useState(false);
     const [responseApi, setResponseApi] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [token, setToken] = useState(''); 
     const navigate = useNavigate();
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[+,\.\-_'"!¿?])[A-Za-z\d+,\.\-_'"!¿?]{6,80}$/;
     const validateEmail = () => {
         if (email.trim() === '') {
           setEmailError('Please enter an email');
@@ -33,12 +48,15 @@ function SignUpForm() {
       }
 
     const verifyPassword = () => {
-        if (password.trim() === '') {
-          setPasswordError('Password is required');
-        } else {
+        if (!passwordPattern.test(password)) {
+          setPasswordError('The password must have at least one lowercase, one uppercase, one number and one special character. Length: 6-80 characters.');
+        } else if (password.trim() === ''){
+            setPasswordError('Password is required');
+        }else {
           setPasswordError('');
         }
-      }
+      };
+      
 
     const confirmSimilarPassword = () => {
         if (confirmPassword !== password) {
@@ -82,16 +100,19 @@ function SignUpForm() {
                 });
                 
                 const data = await response.json();
-                console.log(data);
                 setResponseApi(data);
                 setIsLoading(false);
-                if(response.ok){
-                    // tengo que desplegar el modal
+                
+                if(response.status === 201){
+                    setToken(data.token);
+                    setModalOpen(true);
                 }
                 
             } catch (error) {
                 console.error('Error:', error);
             }
+        }else{
+            setResponseApi({message: 'Please enter valid data'});
         }
     }
                     
@@ -138,9 +159,7 @@ function SignUpForm() {
                     </InputAdornment>
                 ),}} />
         {isLoading ? 
-        ( <div className="loader-container center" style={{ position: 'center' }}>
-                  <div className="loader" style={{ position: 'center' }}></div>
-                </div>)
+         <BottleLoader/>
         : (<Button onClick={processSignUp} variant='contained' className='button-sign-up' fullWidth>
             <Typography variant='h5' sx={{fontWeight: 'bold'}}>
                 Create Account
@@ -152,6 +171,7 @@ function SignUpForm() {
         <Typography variant='body1' className='description-text' align='center' sx={{color: 'primary.main'}}>
             <span>Already have an account?</span> <Link to='/logIn'>Log In</Link>
         </Typography>
+        <VerificacionModal open={modalOpen} onClose={() => setModalOpen(false)} token={token} />
     </Card>
   )
 }
