@@ -38,14 +38,14 @@ const FilterList = () => {
                 </List>
 
 
-                <ListSubheader sx={{fontWeight:'800', fontSize:'1.4rem', display:'flex', justifyContent:'center'}} component="div" id="nested-list-subheader">
+                <ListSubheader sx={{fontWeight:'800', fontSize:'1.4rem', display:'flex', justifyContent:'center', marginTop:'.5rem'}} component="div" id="nested-list-subheader">
                 Filter By
                 </ListSubheader>
                 <Divider sx={{marginBottom:'.5rem'}}/>
 
-                <FilterItem children='Price Range ' icon={PaidOutlinedIcon}  subtext1='Most Popular' subtext2='Less Popular'/>
-                <FilterItem children='Rating ' icon={StarsIcon} subtext1='A-Z' subtext2='Z-A'/>
-                <FilterItem children='ABV ' icon={LocalBarIcon} subtext1='High - Low' subtext2='Low - High' />
+                <FilterItem children='Price Range ' range={true} icon={PaidOutlinedIcon}  subtext1='Most Popular' subtext2='Less Popular'/>
+                <FilterItem children='Rating ' range={true} icon={StarsIcon} subtext1='A-Z' subtext2='Z-A' max={5}/>
+                <FilterItem children='ABV ' range={true} icon={LocalBarIcon} subtext1='High - Low' subtext2='Low - High' />
         </>
     );
 };

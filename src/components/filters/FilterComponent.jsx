@@ -22,7 +22,7 @@ const FilterComponent = () => {
 
     const list = (anchor) => (
         <Box
-          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, display:'flex', flexDirection: 'column'  }}
+          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 270, display:'flex', flexDirection: 'column'  }}
           role="presentation"
           onClick={toggleDrawer(anchor, false)}
           onKeyDown={toggleDrawer(anchor, false)}
