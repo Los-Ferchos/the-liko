@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Typography, Grid, IconButton } from '@mui/material';
 import LazyImage from '../images/LazyImage';
 import bottleLoaderImg from '../../assets/images/bottle-loader.png';
@@ -18,7 +18,8 @@ function CartProduct({cart, product}) {
     const cartActions = CartActionsManager();
 
     const updateQuantity = (newQuantity) => {
-        cartActions.updateQuantity(cart.userLogged.userId, product.productInfo._id, newQuantity)
+        if(cart.userLogged)
+            cartActions.updateQuantity(cart.userLogged.userId, product.productInfo._id, newQuantity)
         cart.updateQuantity(product.productInfo._id, newQuantity)
     }
 
@@ -76,8 +77,8 @@ function CartProduct({cart, product}) {
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <IconButton color='primary' onClick={() => {
                             cart.removeProductFromCart(product.productInfo._id)
-                            cartActions.removeItem(cart.userLogged.userId, product.productInfo._id)
-                            setSubtotal(0)
+                            if(cart.userLogged)
+                                cartActions.removeItem(cart.userLogged.userId, product.productInfo._id)
                         }}>
                             <FaRegTrashAlt />
                         </IconButton>
