@@ -14,7 +14,13 @@
     margin-top: 20px;
     top: 20px;
 }
-
+.no-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 150px;
+}
 .titles {
     display: flex;
     align-items: center;
@@ -41,6 +47,9 @@
     .container{
         display: block;
     }
+    .no-items{
+        padding: 80px;
+    }
 }
 
 @media (max-width: 650px) {
@@ -53,6 +62,9 @@
     .title-details{
         display: none;
     }
+    .no-items{
+        padding: 20px;
+    }
 }
 
 @media (max-width: 550px) {
@@ -60,5 +72,8 @@
         display: block;
         align-items: center;
         width: auto;
+    }
+    .no-items{
+        padding: 5px;
     }
 }

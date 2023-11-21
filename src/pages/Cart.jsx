@@ -1,9 +1,9 @@
 import Header from '../components/header/Header'
-import { Container, Typography, Grid, Button, Card } from '@mui/material'
+import { Container, Typography, Button, Card } from '@mui/material'
 import NavigationText from '../components/navText/NavigationText'
 import CartProduct from '../components/cart/CartProduct'
 import '../assets/styles/cart.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalCart } from '../components/contexts/CartContext'
 
@@ -109,7 +109,7 @@ function Cart() {
                         </div>
                     </div>
                     :
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", height: "12vh", padding: "150px" }}>
+                    <div className='no-items'>
                         <Typography variant='h5' color='black' component='h1' style={{ fontWeight: "bold" }} marginBottom={6}>No Items in Cart</Typography>
                         <Button variant='outlined' style={{ marginTop: 10 }} onClick={() => {
                             navigate("/products")
