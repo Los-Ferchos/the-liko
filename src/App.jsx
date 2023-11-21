@@ -14,6 +14,8 @@ import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
+import Cart from "./pages/Cart"
+
 import AdminMenu from "./pages/AdminMenu"
 
 const theme = createTheme({
@@ -127,6 +129,7 @@ const App = () => {
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
           <Route path="/admin" Component={AdminMenu}/>
+          <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
