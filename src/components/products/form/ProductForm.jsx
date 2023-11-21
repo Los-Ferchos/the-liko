@@ -8,6 +8,7 @@ import FieldText from '../../fields/FieldText';
 import CategoriesSubcategories from './CategoriesSubcategories';
 import useWindowSize from '../../hooks/useWindowSize';
 import ImageUploader from './ImgUploader';
+import AbvSlider from './ABVSlider';
 
 const ProductForm = () => {
   const [formData, setFormData] = useState({
@@ -126,15 +127,7 @@ const ProductForm = () => {
                     handleErrorMsg={handleErrorMsg}
                 />
 
-                <FieldText
-                    label="ABV (Alcohol By Volume)"
-                    name="abv"
-                    type="number"
-                    value={formData.abv}
-                    onChange={handleChange}
-                    errorMsg={formError.abv}
-                    handleErrorMsg={handleErrorMsg}
-                />
+                <AbvSlider value={formData.abv} handleChange={handleChange}/>
 
                 <FieldText
                     label="Type"
