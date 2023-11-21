@@ -95,6 +95,26 @@ const theme = createTheme({
         },
       },
     },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          flexDirection: 'column'
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center"
+        },
+      },
+    },
   },
 });
 

@@ -5,7 +5,7 @@ const FieldText = (
     { label, name, type, value, onChange, required = true, fullWidth = true, multiline, rows = 1, select, children }
 ) => {
   return (
-    <Grid container xs={12} sm={12}>
+    <Grid item xs={12} sm={12}>
         <TextField
         label={label}
         name={name}
@@ -20,13 +20,13 @@ const FieldText = (
         select={select}
         variant='outlined'
         SelectProps={{
-            MenuProps: {
-                style: {
-                  maxHeight: 700, // Set the maximum height for the dropdown
-                },
-            },
+          MenuProps: {
+              style: {
+                display: "block"
+              },
+          },
         }}
-    >
+      >
         {children}
     </TextField>
     </Grid>

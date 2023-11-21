@@ -6,6 +6,8 @@ import {
 } from '@mui/material';
 import FieldText from '../../fields/FieldText';
 import CategoriesSubcategories from './CategoriesSubcategories';
+import useWindowSize from '../../hooks/useWindowSize';
+import ImageUploader from './ImgUploader';
 
 const ProductForm = () => {
   const [formData, setFormData] = useState({
@@ -31,9 +33,15 @@ const ProductForm = () => {
     console.log('Form submitted:', formData);
   };
 
+  const { width, height } = useWindowSize();
+
+  const [file, setFile] = useState("");
+
+  console.log(file)
+
   return (
     <form onSubmit={handleSubmit}>
-        <Grid container spacing={12}>
+        <Grid container spacing={width > 960 ? 12 : 0}>
             {/* Two-column layout for large and medium screens */}
             <Grid item xs={12} md={6}>
                 <FieldText
@@ -59,7 +67,8 @@ const ProductForm = () => {
                     value={formData.stock}
                     onChange={handleChange}
                 />
-            {/* Add image upload component here */}
+
+                <ImageUploader setFile={setFile} file={file} />
             </Grid>
 
             <Grid item xs={12} md={6}>

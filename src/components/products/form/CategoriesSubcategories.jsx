@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { API_URL_LINK } from '../../../utils/constants';
 import FieldText from '../../fields/FieldText';
@@ -27,7 +27,7 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
     }, []); 
   
     const handleCategoryChange = (e) => {
-      const selectedCategory = e.target.value;
+      const selectedCategory = e.target.value
       const fetchSubcategories = async () => {
         setLoading(true);
         try {
@@ -35,7 +35,6 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
           const data = await response.json();
           setSubcategories(data);
         } catch (error) {
-          console.error('Error fetching subcategories:', error);
           // Handle error
         } finally {
           setLoading(false);
@@ -54,40 +53,33 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
 
     return (
         <>
-        <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={10}
-    label="Age"
-  >
-    <div>
-    <div style={{ width: "100vw", display: "block" }} value={10}>Ten</div>
-    <div style={{ width: "100vw", display: "block" }} value={20}>Twenty</div>
-    <div style={{ width: "100vw", display: "block" }} value={30}>Thirty</div>
-    </div>
-  </Select>
-</FormControl>
             <FieldText
                 label="Category"
                 name="category"
                 select
                 value={formData.category}
-                onChange={handleCategoryChange}
                 required
                 fullWidth
+                onChange={handleCategoryChange}
             >
-                {loading && <MenuItem full value="" disabled>Loading Categories...</MenuItem>}
-                {!loading && <MenuItem value="" disabled>Select a Category</MenuItem>}
-                {categories.map((category) => (
-                        <MenuItem key={category._id} value={category._id} dense>
-                        {category.name}
+
+                {loading && <MenuItem value="" disabled>Loading Categories...</MenuItem>}
+                  {!loading && <MenuItem value="" disabled>Select a Category</MenuItem>}
+                  {categories.map((category) => (
+                    <MenuItem 
+                      fullWidth
+                      color={formData.category === category._id ? "primary" : "black"} 
+                      key={category._id} 
+                      value={category._id}
+                    >
+                      {category.name}
                     </MenuItem>
-                ))}
+                  ))}                  
             </FieldText>
 
-            {formData.category && (
+
+
+            {formData.category && subcategories.length > 0 && (
                 <FieldText
                     label="Subcategory"
                     name="subcategory"
