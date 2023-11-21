@@ -1,0 +1,13 @@
+.admin-panel-menu-button{ 
+    font-size: 1.15em;
+    padding: 12px 40px;
+    width: 280px;
+}
+
+@media (max-width: 400px) {
+    .admin-panel-menu-button{ 
+        font-size: 1.12em;
+        padding: 12px 32px;
+        width: 260px;
+    }
+}

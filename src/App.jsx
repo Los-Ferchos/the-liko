@@ -15,6 +15,9 @@ import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
 import SignUp from "./pages/SignUp"
+import Cart from "./pages/Cart"
+import AdminMenu from "./pages/AdminMenu"
+
 
 const theme = createTheme({
   spacing: 2,
@@ -127,6 +130,8 @@ const App = () => {
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
+          <Route path="/admin" Component={AdminMenu}/>
+          <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
