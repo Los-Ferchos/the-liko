@@ -67,6 +67,7 @@ const ProductForm = () => {
                 <FieldText
                     label="Name"
                     name="name"
+                    placeholder='Eg: Fernet'
                     value={formData.name}
                     onChange={handleChange}
                     errorMsg={formError.name}
@@ -76,6 +77,7 @@ const ProductForm = () => {
                 <FieldText
                     label="Description"
                     name="description"
+                    placeholder='Eg: Bitter alcoholic drink made from several types of herbs, which are macerated in grape alcohol.'
                     value={formData.description}
                     onChange={handleChange}
                     multiline
@@ -88,6 +90,7 @@ const ProductForm = () => {
                     label="Stock"
                     name="stock"
                     type="number"
+                    placeholder='Eg: 50'
                     value={formData.stock}
                     onChange={handleChange}
                     errorMsg={formError.stock}
@@ -111,6 +114,7 @@ const ProductForm = () => {
                     label="Price in USD"
                     name="price"
                     type="number"
+                    placeholder='Eg: 15.99'
                     value={formData.price}
                     onChange={handleChange}
                     errorMsg={formError.price}
@@ -121,6 +125,7 @@ const ProductForm = () => {
                 <FieldText
                     label="Brand"
                     name="brand"
+                    placeholder='Eg: ABC Company'
                     value={formData.brand}
                     onChange={handleChange}
                     errorMsg={formError.brand}
@@ -132,6 +137,7 @@ const ProductForm = () => {
                 <FieldText
                     label="Type"
                     name="type"
+                    placeholder='Eg: Mint Fernet'
                     value={formData.type}
                     onChange={handleChange}
                     errorMsg={formError.type}
@@ -140,7 +146,7 @@ const ProductForm = () => {
             </Grid>
 
             <Grid item xs={12} md={12}>
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="primary" size='large'>
                     Save
                 </Button>
             </Grid>
