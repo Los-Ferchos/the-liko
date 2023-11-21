@@ -7,30 +7,37 @@ const maxSize = 5 * 1024 * 1024;
 
 const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg }) => {
   const [imageUrl, setImageUrl] = useState(null);
+  const [error, setError] = useState("")
 
-  console.log(file)
+  const validateImage = (file) => {
+    if(!allowedFormats.includes(file.type)){
+        handleErrorMsg("image", "Invalid image file format, allowed formats are: BMP, TIFF, JPEG, GIF, PNG, SVG, WEBP");
+        return false;
+    } else if(file.size > maxSize) {
+        handleErrorMsg("image", "Invalid image file size, maximum size allowed is 5MB");
+        return false;
+    }
+    return true;
+  }
+
   const handleDrop = (e) => {
     setBorderColor("#ccc");
     e.preventDefault();
     if(file) return;
     const imageFile = e.dataTransfer.files[0];
-    console.log(imageFile)
-
-    if(!imageFile.type.includes())
-    if(imageFile.size > maxSize) {
-        console.log('mal hermano')
-        return;
-    }
-    console.log(imageFile)
+    if(!validateImage(imageFile)) return;
     setFile(imageFile);
     setImageUrl(URL.createObjectURL(imageFile));
+    handleErrorMsg("image", "")
   };
 
   const handleFileSelect = (e) => {
     if(file) return;
     const imageFile = e.target.files[0];
+    if(!validateImage(imageFile)) return;
     setFile(imageFile);
     setImageUrl(URL.createObjectURL(imageFile));
+    handleErrorMsg("image", "")
   };
 
   const [borderColor, setBorderColor] = useState("#ccc")
@@ -53,25 +60,25 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
 
   return (
     <>
+        <Typography marginLeft={3} variant="subtitle1" color={"#555"} marginTop={12}>Product image *</Typography>
         <Box
             onDrop={handleDrop}
             onDragOver={handleOnDragOver}
             onDragLeave={handleOnDragOut}
             p={3}
             textAlign="center"
-            borderTop={1.4}
-            borderBottom={1.4}
-            borderLeft={1.4}
-            borderRight={1.4}
+            borderTop={2}
+            borderBottom={2}
+            borderLeft={2}
+            borderRight={2}
             style={{
-                marginTop: 24,
                 paddingTop: 24,
                 paddingBottom: 24,
                 borderRadius: "6px",
-                borderColor: borderColor
+                borderColor: borderColor,
+                borderStyle: "dashed"
             }}
             >
-            <Typography variant="h6">Product image: </Typography>
             {imageUrl ? (
                 <>
                 <Box mb={2}>
@@ -107,7 +114,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
         <br />
         {
             errorMsg !== "" && (
-                <Typography color={"error"}>{errorMsg}</Typography>
+                <Typography marginLeft={6} color={"error"} variant="body2" textAlign={"left"}>{errorMsg}</Typography>
             )
         }
     </>

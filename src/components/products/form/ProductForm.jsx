@@ -11,11 +11,12 @@ import ImageUploader from './ImgUploader';
 import AbvSlider from './ABVSlider';
 
 const ProductForm = () => {
+  const [file, setFile] = useState("");
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     stock: 1,
-    image: null, 
     category: '',
     subcategory: '',
     price: 1,
@@ -45,20 +46,28 @@ const ProductForm = () => {
     setFormError({ ...formError, [name]: val });
   };
 
-  const handleSubmit = (e) => {
+  const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === ''){
+        if(value === '')
             formErrorCopy[key] = "This field is required, please fill it";
-        }
     });
+    if(file === '')
+        formErrorCopy.image = "This field is required, please upload an image of your product."
+    
     setFormError(formErrorCopy)
+    Object.entries(formErrorCopy).forEach(([key, value]) => {
+        if(value !== '') return false;
+    });
+    return true;
+  }
+
+  const handleSubmit = (e) => {
+    if(!validateFiles()) return;
     e.preventDefault();
   };
 
   const { width, height } = useWindowSize();
-
-  const [file, setFile] = useState("");
 
   return (
     <form onSubmit={handleSubmit} noValidate>
@@ -98,7 +107,7 @@ const ProductForm = () => {
                 />
 
                 <ImageUploader setFile={setFile} file={file} errorMsg={formError.image}
-                    handleErrorMsg={handleErrorMsg} />
+                    handleErrorMsg={handleErrorMsg} handleChange={handleChange} />
             </Grid>
 
             <Grid item xs={12} md={6}>
@@ -146,7 +155,7 @@ const ProductForm = () => {
             </Grid>
 
             <Grid item xs={12} md={12}>
-                <Button type="submit" variant="contained" color="primary" size='large'>
+                <Button style={{ fontSize: 17 }} type="submit" variant="contained" color="primary" size='large'>
                     Save
                 </Button>
             </Grid>

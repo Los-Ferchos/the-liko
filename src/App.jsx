@@ -115,6 +115,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: '13.5px',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: '16px',
+        },
+      },
+    },
   },
 });
 

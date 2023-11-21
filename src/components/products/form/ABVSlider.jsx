@@ -11,7 +11,7 @@ import { Slider, Typography, Box } from '@mui/material';
  */
 const AbvSlider = ({ value, handleChange }) => (
   <Box marginTop={12} paddingRight={2} paddingLeft={2}>
-    <Typography gutterBottom textAlign={"left"}>ABV (Alcohol By Volume)</Typography>
+    <Typography gutterBottom textAlign={"left"} variant='subtitle1' color={"#555"}>ABV (Alcohol By Volume) *</Typography>
     <Slider
       value={value}
       name='abv'
