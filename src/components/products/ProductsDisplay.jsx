@@ -4,6 +4,9 @@ import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
+import { useDispatch } from 'react-redux';
+import { setActualApiLink } from '../../store/sortSlice';
+import { useAppSelector } from '../hooks/store';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -23,6 +26,16 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
+
+  const sortQuery = useAppSelector((state) => state.sort.sortSelected);
+  const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+  const [actualUrl, setUrl] = useState(`${apiUrl}?page=${currentPage}&limit=${limit}`);
+
+
+  const setUrlSort = async () => {
+    await setUrl(`${apiUrl}?page=${currentPage}&limit=${limit}&sort=1`)
+  }
+
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
    * Updates the products, total pages, and loading state.
@@ -34,12 +47,16 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   useEffect(() => {
     setIsLoading(true);
 
+    if (sortQuery.length) {
+      setUrlSort()
+    }
+
     const fetchProducts = async () => {
       setIsLoading(true);
       if(loading) return;
       setFailed(false);
       try {
-        const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${limit}`);
+        const response = await fetch(actualUrl);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.products);
@@ -54,7 +71,15 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     };
   
     fetchProducts();
-  }, [currentPage, apiUrl, limit, page, loading]);
+  }, [sortQuery, actualUrl, currentPage, apiUrl, limit, page, loading]);
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setActualApiLink({actualUrl}));
+  }, [actualUrl])
+
   
   /**
    * Handles the change of the current page.

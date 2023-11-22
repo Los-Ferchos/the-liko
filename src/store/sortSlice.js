@@ -17,9 +17,12 @@ export const sortSlice = createSlice({
         },
         setSortSelected(state, action) {
             state.sortSelected = action.payload;
+        },
+        setActualApiLink(state, action) {
+            state.actualApiLink = action.payload;
         }
     },
 });
 
-export const { setSelected, setFiltersSelected, setSortSelected } = sortSlice.actions;
+export const { setSelected, setFiltersSelected, setSortSelected, setActualApiLink } = sortSlice.actions;
 export default sortSlice.reducer;
