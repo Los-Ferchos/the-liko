@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Divider, List, ListSubheader } from '@mui/material';
+import { Divider, List, ListItemText, ListSubheader, Typography } from '@mui/material';
 import '../../assets/styles/filter.css';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
@@ -18,25 +18,15 @@ const FilterList = () => {
 
     return (
         <>
-        <ClearIcon sx={{marginLeft:'.7rem', marginTop:'.5rem', cursor:'pointer'}}/>
-         <List
-            sx={{ width: '100%', maxWidth: 260, bgcolor: 'background.paper' }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            subheader={
-                <ListSubheader sx={{fontWeight:'800', fontSize:'1.4rem', display:'flex', justifyContent:'center', color:'var(--main-color)'}} component="div" id="nested-list-subheader">
+                <Typography sx={{fontWeight:'800', fontSize:'1.4rem', display:'flex', justifyContent:'center', color:'var(--main-color)'}} component="div" id="nested-list-subheader">
                 Sort By
-                </ListSubheader>
-            }
-        >
+                </Typography>
             <Divider sx={{marginBottom:'.5rem'}}/>
-                <FilterItem children='Popularity ' icon={SellIcon}  subtext1='Most Popular' subtext2='Less Popular'/>
-                <FilterItem children='Name ' icon={SortByAlphaIcon} subtext1='A-Z' subtext2='Z-A'/>
-                <FilterItem children='Price ' icon={AttachMoneyIcon} subtext1='High - Low' subtext2='Low - High' />
-                <FilterItem children='Rating ' icon={StarIcon} subtext1='High Rating' subtext2='Less Rating' />
-                <FilterItem children='Reviews ' icon={ReviewsIcon} subtext1='High - Low' subtext2='Low - High' />
-                </List>
-
+                <FilterItem children='Popularity ' sortWay={5} icon={SellIcon}  subtext1='Most Popular' subtext2='Less Popular'/>
+                <FilterItem children='Name ' sortWay={1} icon={SortByAlphaIcon} subtext1='Z-A' subtext2='A-Z'/>
+                <FilterItem children='Price ' sortWay={2} icon={AttachMoneyIcon} subtext1='High - Low' subtext2='Low - High' />
+                <FilterItem children='Rating ' sortWay={3} icon={StarIcon} subtext1='High Rating' subtext2='Less Rating' />
+                <FilterItem children='Reviews ' sortWay={4} icon={ReviewsIcon} subtext1='High - Low' subtext2='Low - High' />
 
                 <ListSubheader sx={{fontWeight:'800', fontSize:'1.4rem', display:'flex', justifyContent:'center', marginTop:'.5rem', color:'var(--main-color)' }} component="div" id="nested-list-subheader">
                 Filter By

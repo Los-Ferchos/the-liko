@@ -5,7 +5,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppSelector } from '../hooks/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addFilter, removeFilter, setSelected } from '../../store/sortSlice';
+import { addFilter, removeFilter, setSelected, setSortSelected } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
 
 
@@ -15,7 +15,8 @@ const FilterItem = ({
     icon: Icon, 
     subtext1='', 
     subtext2='',
-    max=100
+    max=100,
+    sortWay=0
 }) => {
 
 
@@ -35,18 +36,20 @@ const FilterItem = ({
 
     const handleCheckboxFirst = (event) => {
     dispatch(setSelected(event.target.checked))
-    if (!isSortSelected || second || first) {
-        setSecond(false)
-        setFirst(event.target.checked)
-    } 
+        if (!isSortSelected || second || first) {
+            setSecond(false)
+            setFirst(event.target.checked)
+            dispatch(setSortSelected([`&sort=-${sortWay}`]))
+        } 
     }
 
     const handleCheckboxSecond = (event) => {
     dispatch(setSelected(event.target.checked))
-    if (!isSortSelected || first || second) {
-        setFirst(false)
-        setSecond(event.target.checked)
-    }
+        if (!isSortSelected || first || second) {
+            setFirst(false)
+            setSecond(event.target.checked)
+            dispatch(setSortSelected([`&sort=${sortWay}`]))
+        }
     }
 
     const handleCheckboxFilter = (event) => {

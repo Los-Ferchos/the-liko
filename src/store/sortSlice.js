@@ -5,13 +5,12 @@ export const sortSlice = createSlice({
     initialState: {
         send: false,
         isSelected: false,
-        actualApiLink: {},
         filtersSelected: [],
         sortSelected: []
     },
     reducers: {
-        sendOrders(state, action) {
-            state.send = action.payload;
+        sendOrders(state) {
+            state.send = !state.send;
         },
         setSelected(state, action) {
             state.isSelected = action.payload;
@@ -21,9 +20,6 @@ export const sortSlice = createSlice({
         },
         setSortSelected(state, action) {
             state.sortSelected = action.payload;
-        },
-        setActualApiLink(state, action) {
-            state.actualApiLink = action.payload;
         },
         addFilter(state, action) {
             state.filtersSelected[state.filtersSelected.length] = action.payload;

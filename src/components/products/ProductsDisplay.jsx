@@ -5,7 +5,7 @@ import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
 import { useDispatch } from 'react-redux';
-import { setActualApiLink } from '../../store/sortSlice';
+import { clearAll } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
 
 /**
@@ -26,10 +26,10 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [failed, setFailed] = useState(false);
 
-
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+  const dispatch = useDispatch();
 
 
   function setUrlSort(link) {
@@ -68,7 +68,9 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
       console.log(apiActualLink)
-    }
+    } 
+
+    dispatch(clearAll());
 
     const fetchProducts = async () => {
       setIsLoading(true);
