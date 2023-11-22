@@ -47,9 +47,10 @@ const CategoriesSubcategories = (
      * @param {Object} e - The change event.
      */
     const handleCategoryChange = (e) => {
-        handleErrorMsg('category', '')
         handleErrorMsg('subcategory', '')
         const selectedCategory = e.target.value;
+        handleErrorMsg("category", '')
+
         /**
          * Fetches subcategories for the selected category from the API.
          * @async

@@ -119,6 +119,7 @@ export const uploadProduct = async (
         type: ''
     }
 ) => {
+  console.log(productData)
     const productJSON = {
         name: productData.name,
         description: productData.description,
@@ -128,7 +129,6 @@ export const uploadProduct = async (
         quantity: productData.stock,
         imgUrl: productData.image,
         category: productData.category,
-        subcategory: productData.subcategory,
         price: {
             value: productData.price,
             currency: "USD"
@@ -141,6 +141,11 @@ export const uploadProduct = async (
         drinkMixes: [],
         combos: []
     }
+
+    if(productData.subcategory !== ""){
+      productJSON["subcategory"] = productData.subcategory;
+    }
+
     try {
       const response = await fetch(`${API_URL_LINK}/products`, {
         method: 'POST',

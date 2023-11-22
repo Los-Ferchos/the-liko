@@ -125,7 +125,7 @@ const ProductForm = () => {
       setSuccess(true);
       setTimeout(() => {
         navigate("/admin/view-products")
-      }, 3000);
+      }, 1500);
     }
   };
 
