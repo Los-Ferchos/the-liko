@@ -10,7 +10,7 @@ import { Slider, Typography, Box } from '@mui/material';
  * @returns {JSX.Element} - The rendered ABVSlider component.
  */
 const AbvSlider = ({ value, handleChange }) => (
-  <Box marginTop={12} paddingRight={2} paddingLeft={2}>
+  <Box marginTop={12} paddingRight={3} paddingLeft={3}>
     <Typography gutterBottom textAlign={"left"} variant='subtitle1' color={"#555"}>ABV (Alcohol By Volume) *</Typography>
     <Slider
       value={value}

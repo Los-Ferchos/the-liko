@@ -18,6 +18,7 @@ import Cart from "./pages/Cart"
 
 import AdminMenu from "./pages/AdminMenu"
 import AddProductFormPage from "./pages/AddProductFormPage"
+import AdminViewProducts from "./pages/AdminViewProducts"
 
 const theme = createTheme({
   spacing: 2,
@@ -165,6 +166,7 @@ const App = () => {
           <Route path='/404' Component={Page404} />
           <Route path="/admin" Component={AdminMenu}/>
           <Route path="/admin/add-product" Component={AddProductFormPage}/>
+          <Route path="/admin/view-products" Component={AdminViewProducts}/>
           <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>

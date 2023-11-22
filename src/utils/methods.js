@@ -65,6 +65,12 @@ export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
     }
 }
 
+/**
+ * Handles the upload of an image to ImgBB using the provided file.
+ *
+ * @param {File} file - The image file to be uploaded.
+ * @returns {Promise<{success: boolean, url: string}>} - An object indicating the success of the upload and the URL of the uploaded image.
+ */
 export const handleUploadImage = async(file) => {
     try {
       const imgbbApiKey = "a35353a7fbe2c639caeed1d21af3820b";
@@ -82,3 +88,75 @@ export const handleUploadImage = async(file) => {
       return { success: false, url: '' }
     }
 }
+
+/**
+ * Uploads product data to the specified API endpoint.
+ *
+ * @param {Object} productData - The product data to be uploaded.
+ * @param {string} productData.name - The name of the product.
+ * @param {string} productData.description - The description of the product.
+ * @param {number} productData.stock - The stock quantity of the product.
+ * @param {string} productData.image - The URL of the product image.
+ * @param {string} productData.category - The category of the product.
+ * @param {string} productData.subcategory - The subcategory of the product.
+ * @param {number} productData.price - The price of the product.
+ * @param {string} productData.brand - The brand of the product.
+ * @param {number} productData.abv - The Alcohol By Volume (ABV) of the product.
+ * @param {string} productData.type - The type of the product.
+ * @returns {Promise<boolean>} - A promise indicating whether the product upload was successful.
+ */
+export const uploadProduct = async (
+    productData = {
+        name: '',
+        description: '',
+        stock: 0,
+        image: '', 
+        category: '',
+        subcategory: '',
+        price: 0,
+        brand: '',
+        abv: 0,
+        type: ''
+    }
+) => {
+    const productJSON = {
+        name: productData.name,
+        description: productData.description,
+        rating: 0,
+        totalReviews: 0,
+        sells: 0,
+        quantity: productData.stock,
+        imgUrl: productData.image,
+        category: productData.category,
+        subcategory: productData.subcategory,
+        price: {
+            value: productData.price,
+            currency: "USD"
+        },
+        details: {
+            abv: productData.abv,
+            brand: productData.brand,
+            type: productData.type
+        },
+        drinkMixes: [],
+        combos: []
+    }
+    try {
+      const response = await fetch(`${API_URL_LINK}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productJSON),
+      });
+  
+      if (!response.ok) {
+        return false;
+      }
+  
+      const result = await response.json();
+      return true;
+    } catch (error) {
+      return false;
+    }
+};

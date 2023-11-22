@@ -9,14 +9,23 @@ import CategoriesSubcategories from './CategoriesSubcategories';
 import useWindowSize from '../../hooks/useWindowSize';
 import ImageUploader from './ImgUploader';
 import AbvSlider from './ABVSlider';
-import { handleUploadImage } from '../../../utils/methods';
+import { handleUploadImage, uploadProduct } from '../../../utils/methods';
 import '../../../assets/styles/loaderBottle.css'
+import { useNavigate } from 'react-router-dom';
 
+/**
+ * Component for rendering a form to add a new product.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered ProductForm component.
+ */
 const ProductForm = () => {
+  const navigate = useNavigate();
+
   const [file, setFile] = useState("");
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [nonRequiredFields, setNonRequiredFields] = useState(["subcategory"]);
 
@@ -45,15 +54,33 @@ const ProductForm = () => {
     type: ''
   })
 
+  /**
+   * Handles changes in form fields.
+   *
+   * @param {Object} e - The event object.
+   */
   const handleChange = (e) => {
+    setError(false);
+    setSuccess(false);
     setFormData({ ...formData, [e.target.name]: e.target.value });
     handleErrorMsg(e.target.name, '')
   };
 
+  /**
+   * Sets the error message for a specific form field.
+   *
+   * @param {string} name - The name of the form field.
+   * @param {string} val - The error message.
+   */
   const handleErrorMsg = (name, val) => {
     setFormError({ ...formError, [name]: val });
   };
 
+  /**
+   * Validates form fields and file upload before submission.
+   *
+   * @returns {boolean} - Indicates whether the form is valid.
+   */
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
@@ -72,7 +99,11 @@ const ProductForm = () => {
     return !isThereError;
   }
 
-
+  /**
+   * Handles the form submission.
+   *
+   * @param {Object} e - The event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!validateFiles()) return;
@@ -83,9 +114,22 @@ const ProductForm = () => {
       setError(true);
       return;
     }
+
+    const productData = { ...formData, image: imageStatus.url };
+    setFormData(productData);
+    const success = await uploadProduct(productData);
+    setLoading(false);
+    setError(!success);
+
+    if(success){
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/admin/view-products")
+      }, 3000);
+    }
   };
 
-  const { width, height } = useWindowSize();
+  const { width } = useWindowSize();
 
   return (
     <form onSubmit={handleSubmit} noValidate>
