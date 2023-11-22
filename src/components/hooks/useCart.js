@@ -218,6 +218,7 @@ export const useCart = () => {
         updateQuantity,
         removeProductFromCart,
         clearShoppingCart,
+        userLogged,
         setUserLogged,
         userLogged,
         setCartItems,

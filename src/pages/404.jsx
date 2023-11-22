@@ -5,6 +5,8 @@ import '../assets/styles/404.css'
 import bottle from '../assets/images/bottle.jpg'
 import useWindowSize from "../components/hooks/useWindowSize"
 import NewHeader from "../components/header/Header"
+import Footer from '../components/footer/Footer';
+
 
 /**
  * Functional component representing the 404 Not Found page.
@@ -15,6 +17,7 @@ import NewHeader from "../components/header/Header"
 const Page404 = () => {
   const { width, height } = useWindowSize();
   return (
+    <>
     <Container>
       <NewHeader/>
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='404 Page' />
@@ -30,6 +33,8 @@ const Page404 = () => {
         </div>
       </div>
     </Container>
+    <Footer />
+    </>
   )
 }
 

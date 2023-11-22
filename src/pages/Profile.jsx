@@ -9,7 +9,9 @@ import OrderTable from '../components/products/table/ControlledAccordionGroup';
 import '../assets/styles/profile.css';
 import NavigationText from '../components/navText/NavigationText';
 import CustomLink from '../components/links/CustomLink';
-import { ConstructionSection, ProfileSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
+import { ConstructionSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
+import ProfileSection from '../components/profile/ProfileSection';
+import Footer from '../components/footer/Footer';
 
 const Profile = () => {
   const { width } = useWindowSize();
@@ -33,6 +35,8 @@ const Profile = () => {
   };
 
   return (
+    <>
+    
     <Container>
       <Header />
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Profile' />
@@ -46,11 +50,14 @@ const Profile = () => {
           <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')} /></div>
           <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')} /></div>
         </div>
-        <div className="button-log-out">
+        <div className="button-log-out" >
           {renderProfileSection()}
         </div>
       </div>
     </Container>
+    <Footer/>
+
+    </>
   );
 };
 

@@ -1,10 +1,9 @@
-import {useState} from 'react';
-import {Typography, Toolbar, IconButton} from '@mui/material';
+import { useState } from 'react';
+import { Typography, Toolbar, IconButton } from '@mui/material';
 import logo from '../../assets/images/icon.svg'
-import { TiShoppingCart } from 'react-icons/ti';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
-import { BiUserCircle } from 'react-icons/bi';
+import { FaUser } from "react-icons/fa6";
 import '../../assets/styles/header.css'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
@@ -28,15 +27,15 @@ const SmallHeader = () => {
                 <Toolbar className='header'>
                     <div className='left-header'>
                         <div>
-                            <IconButton color='black' style={{display:inferiorHeader==='inferior-header-enabled'?'none':'block'}} onClick={() => {
+                            <IconButton color='black' style={{ display: inferiorHeader === 'inferior-header-enabled' ? 'none' : 'block' }} onClick={() => {
                                 setInferiorHeader('inferior-header-enabled')
                             }}>
-                                <GiHamburgerMenu className='hamburguer-menu' size={25}/>
+                                <GiHamburgerMenu className='hamburguer-menu' size={25} />
                             </IconButton>
-                            <IconButton color='black' style={{display:inferiorHeader==='inferior-header-disabled'?'none':'block'}} onClick={() => {
+                            <IconButton color='black' style={{ display: inferiorHeader === 'inferior-header-disabled' ? 'none' : 'block' }} onClick={() => {
                                 setInferiorHeader('inferior-header-disabled')
                             }}>
-                                <RxCross2 className='cancel-hamburguer-menu'  size={25}/>
+                                <RxCross2 className='cancel-hamburguer-menu' size={25} />
                             </IconButton>
                         </div>
                     </div>
@@ -58,17 +57,17 @@ const SmallHeader = () => {
                     </div>
                     <div className='right-header'>
                         <Link to={userLogged ? "/profile" : "/login"}>
-                            <BiUserCircle size={25}/>
+                            <FaUser />
                         </Link>
-                        <CartIconButton/>
+                        <CartIconButton />
                     </div>
                 </Toolbar>
             </div>
-            <div className={inferiorHeader} style={{justifyContent:'center'}}>
+            <div className={inferiorHeader} style={{ justifyContent: 'center' }}>
                 <ul className='small-menu'>
                     <li onClick={() => {
-                            setInferiorHeader('inferior-header-disabled')
-                        }}>
+                        setInferiorHeader('inferior-header-disabled')
+                    }}>
                         <CustomLink
                             href='/products'
                             title='All Products'
@@ -88,7 +87,7 @@ const SmallHeader = () => {
                 </ul>
             </div>
         </div>
-        
+
     )
 }
 

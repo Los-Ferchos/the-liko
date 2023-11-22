@@ -7,6 +7,7 @@ import NavigationText from '../components/navText/NavigationText';
 import { API_URL_LINK } from '../utils/constants';
 import ProductCarousel from '../components/products/carousel/ProductCarousel'
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 
 /**
  * ProductsBySubcategories component displays products based on subcategories.
@@ -51,27 +52,33 @@ const ProductsBySubcategories = () => {
   }, [categoriesState, subcategoriesState, categoryName]);
 
   return (
-    <Container>
-      <Header />
-      <NavigationText 
-            inactivePath={[{ title: "Home", href: "/" }, { title: capitalizeString(categoryName), href: `/${categoryName}` }]}
-            activePath='All'
+    <>
+
+      <Container>
+        <Header />
+        <NavigationText
+          inactivePath={[{ title: "Home", href: "/" }, { title: capitalizeString(categoryName), href: `/${categoryName}` }]}
+          activePath='All'
         />
-      <Typography variant='h4' color='primary' component='h1' marginTop={6}>
-            {capitalizeString(categoryName)}
-      </Typography>
-      {
-        subcategories.map(subcat => (
-          <React.Fragment key={subcat._id}>            
-            <ProductCarousel
-              apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}?page=1&limit=16`}
-              categoryName={categoryName}
-              subcat={subcat}>
-            </ProductCarousel>
-          </React.Fragment>
-        ))
-      }
-    </Container>
+        <Typography variant='h4' color='primary' component='h1' marginTop={6}>
+          {capitalizeString(categoryName)}
+        </Typography>
+        {
+          subcategories.map(subcat => (
+            <React.Fragment key={subcat._id}>
+              <ProductCarousel
+                apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}?page=1&limit=16`}
+                categoryName={categoryName}
+                subcat={subcat}>
+              </ProductCarousel>
+            </React.Fragment>
+          ))
+        }
+      </Container>
+      <Footer />
+
+    </>
+
   );
 };
 

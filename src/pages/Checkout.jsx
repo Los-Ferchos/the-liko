@@ -9,6 +9,7 @@ import { API_URL_LINK, STRIPE_KEY } from '../utils/constants';
 import '../assets/styles/checkout.css'
 import '../assets/styles/index.css'
 import { useGlobalCart } from '../components/contexts/CartContext';
+import Footer from '../components/footer/Footer';
 
 const stripePromise = loadStripe(STRIPE_KEY);
 
@@ -52,6 +53,7 @@ const Checkout = () => {
   }, [amount, currency, setClientSecret]); 
 
   return (
+    <>
     <Container>
      <NewHeader />
      <Dialog
@@ -80,6 +82,8 @@ const Checkout = () => {
         </div>
       )}
     </Container>
+    <Footer />
+    </>
   );
 };
 
