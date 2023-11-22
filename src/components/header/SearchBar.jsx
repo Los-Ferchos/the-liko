@@ -1,20 +1,16 @@
 import React from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { FaSistrix } from 'react-icons/fa';
-import '../../assets/styles/header.css';
+import '../../assets/styles/search.css'
 
 const SearchBar = ({
-  width,
   handleIconClick,
   searchText,
   setSearchText,
   onKeyPress,
 }) => {
-  const isWideScreen = width > 1284;
-
   return (
-    <div className={`search-bar`}>
-      {isWideScreen ? (
+    <div className={`search-bar ${isVisible ? 'visible' : 'hidden'}`}>
         <TextField
           size='small'
           placeholder='Search'
@@ -32,11 +28,6 @@ const SearchBar = ({
           }}
           onKeyDown={onKeyPress}
         />
-      ) : (
-        <IconButton edge="end" onClick={handleIconClick}>
-          <FaSistrix />
-        </IconButton>
-      )}
     </div>
   );
 };
