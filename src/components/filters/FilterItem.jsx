@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Box, Checkbox, Collapse, FormControlLabel, FormGroup, List, ListItemButton, ListItemIcon, ListItemText, Slider } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useAppSelector } from '../hooks/store';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSelected } from '../../store/sortSlice';
 
 function valuetext(value) {
     return `${value}BOB`;
@@ -17,6 +21,10 @@ const FilterItem = ({
     max=100
 }) => {
 
+    const isSortSelected = useAppSelector((state) => state.sort.isSelected);
+
+    const dispatch = useDispatch();
+
     const [isOpen, setOpen] = useState(false);
 
     const handleClick = () => {
@@ -25,6 +33,22 @@ const FilterItem = ({
 
       const [first, setFirst] = useState(false);
       const [second, setSecond] = useState(false);
+
+      const handleCheckboxFirst = (event) => {
+        dispatch(setSelected(event.target.checked))
+        if (!isSortSelected || second || first) {
+            setSecond(false)
+            setFirst(event.target.checked)
+        } 
+      }
+
+      const handleCheckboxSecond = (event) => {
+        dispatch(setSelected(event.target.checked))
+        if (!isSortSelected || first || second) {
+            setFirst(false)
+            setSecond(event.target.checked)
+        }
+      }
 
       const [value1, setValue1] = useState([20, 37]);
       const minDistance = 0;
@@ -41,53 +65,42 @@ const FilterItem = ({
         }
       };
 
-      const getFilterSlider = () => {
-        <Box sx={{ display:'flex', paddingLeft:25}}>
+      const getFilterSlider = <> <Box sx={{ display:'flex', paddingLeft:25}}>
                         <FormGroup row={false}>
                         <FormControlLabel
-                        control={
-                            <Checkbox
-                            sx={{
-                                padding: 2, 
-                                '& .MuiSvgIcon-root': {
-                                  width: 20,
-                                  height: 20,
-                                },
-                              }}
-                            checked={first}
-                            onChange={(event) => setFirst(event.target.checked)}
-                            />
-                        }
-                        label={subtext1}
+                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                            control={
+                                <Checkbox
+                                sx={{padding: 1.5,
+                                    '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                                checked={first}
+                                onChange={handleCheckboxFirst}
+                                />
+                        } label={subtext1}
                         />
                         <FormControlLabel
-                        control={
-                            <Checkbox
-                            sx={{
-                                padding: 2, 
-                                '& .MuiSvgIcon-root': {
-                                  width: 20,
-                                  height: 20,
-                                },
-                              }}
-                            checked={second}
-                            onChange={(event) => setSecond(event.target.checked)}
-                            />
-                        }
-                        label={subtext2}
+                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                            control={
+                                <Checkbox
+                                sx={{
+                                    padding: 1.5, 
+                                    '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                                checked={second}
+                                onChange={handleCheckboxSecond}
+                                />
+                        } label={subtext2}
                         />
                     </FormGroup>
 
                     </Box>
-      }
-
+      </>
     return (
         <>
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                 <Icon />
                 </ListItemIcon>
-                <ListItemText primary={children} />
+                <ListItemText sx={{ '& .MuiListItemText-primary': { fontWeight:'501', color:'rgb(90, 90, 89)', fontSize:'.95rem' } }} primary={children} />
                 {isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
@@ -107,7 +120,7 @@ const FilterItem = ({
                         />
                     </Box>
                     :
-                   getFilterSlider()
+                   getFilterSlider
                 
                 }
             </Collapse>

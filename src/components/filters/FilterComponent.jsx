@@ -3,6 +3,7 @@ import { FaSortAmountDown, FaFilter } from "react-icons/fa";
 import { Box, Drawer } from '@mui/material';
 import '../../assets/styles/filter.css';
 import FilterList from './FilterList';
+import FilterButton from '../buttons/FilterButton';
 
 const FilterComponent = () => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -59,6 +60,7 @@ const FilterComponent = () => {
                     {list("right")}
                     
                 </div>
+                <FilterButton/>
             </Drawer>
         </div>
     );

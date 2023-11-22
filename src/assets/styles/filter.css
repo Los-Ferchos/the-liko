@@ -64,3 +64,21 @@
     padding-inline: 0.4rem;
 }
 
+.filter-final-button {
+    display: flex;
+    padding: .2rem;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.2rem;
+    font-weight: 900;
+    background-color: var(--main-color);
+    border-radius: 20px;
+    margin-inline: auto;
+    margin-top: 2rem;
+    width: 60%;
+    cursor: pointer;
+}
+
+.filter-final-button:hover {
+    background-color: #b91515;
+}
