@@ -23,15 +23,8 @@ export const OrderHistorySection = () => {
     <Box
       className="user-info"
       sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '16px',
-        padding: '20px',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px',
+        padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
       }}
     >
       <OrderTable />

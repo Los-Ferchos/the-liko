@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Button, Typography } from '@mui/material';
-import { FaArrowRightFromBracket } from 'react-icons/fa6';
+import { Container, Typography } from '@mui/material';
 import Header from '../components/header/Header';
 import useWindowSize from '../components/hooks/useWindowSize';
-import { useGlobalCart } from '../components/contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
-import OrderTable from '../components/products/table/ControlledAccordionGroup';
 import '../assets/styles/profile.css';
 import NavigationText from '../components/navText/NavigationText';
 import CustomLink from '../components/links/CustomLink';
@@ -13,11 +9,14 @@ import { ConstructionSection, OrderHistorySection, DefaultSection } from '../com
 import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
 
+/**
+ * A React component that displays a profile page for a user to manage their account information.
+ *
+ * @return {React.Component} A React component representing the profile page.
+ */
 const Profile = () => {
   const { width } = useWindowSize();
-  const { setUserLogged } = useGlobalCart();
-  const navigate = useNavigate();
-  const [profileSection, setProfileSection] = useState('Manage My Account'); // Valor predeterminado
+  const [profileSection, setProfileSection] = useState('My Profile'); 
 
   const renderProfileSection = () => {
     switch (profileSection) {

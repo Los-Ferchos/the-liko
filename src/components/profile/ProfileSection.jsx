@@ -3,10 +3,17 @@ import { Typography, Button, Box } from '@mui/material';
 import { FaArrowRightFromBracket } from 'react-icons/fa6';
 import { useGlobalCart } from '../contexts/CartContext';
 import useWindowSize from '../../components/hooks/useWindowSize';
+import { useNavigate } from 'react-router-dom';
 
+/**
+ * A React component that displays user information and a "Log Out" button.
+ *
+ * @return {React.Component} A React component representing the profile section.
+ */
 const ProfileSection = () => {
   const { setUserLogged } = useGlobalCart();
   const { width } = useWindowSize();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -52,7 +59,11 @@ const ProfileSection = () => {
         variant="contained"
         color="primary"
         startIcon={<FaArrowRightFromBracket style={{ color: 'white' }} />}
-        onClick={() => setUserLogged(null)}
+        onClick={() => {
+            setUserLogged(null);
+            navigate(-1);
+
+          }}
       >
         Log Out
       </Button>

@@ -6,7 +6,13 @@ import { FaInstagram } from "react-icons/fa";
 import '../../assets/styles/footer.css';
 import { useGlobalCart } from '../contexts/CartContext';
 
-
+/**
+ * Footer component for the application.
+ * Displays links to user account, information about The Liko, and social media links.
+ *
+ * @component
+ * @returns {JSX.Element} Rendered Footer component.
+ */
 const Footer = () => {
   const { userLogged } = useGlobalCart();
 
@@ -34,7 +40,6 @@ const Footer = () => {
               </Link>
             </Typography>
           </Grid>
-
           <Grid item xs={10} sm={4}>
             <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold', textAlign: 'center' }}>
               About The Liko
@@ -45,12 +50,11 @@ const Footer = () => {
               </Link>
             </Typography>
             <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-            <Link href="/drink-mixes" color="inherit">
-            The Liko Drinks
+              <Link href="/drink-mixes" color="inherit">
+                The Liko Drinks
               </Link>
             </Typography>
           </Grid>
-
           <Grid item xs={10} sm={4}>
             <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold', textAlign: 'center' }}>
               Social Links
