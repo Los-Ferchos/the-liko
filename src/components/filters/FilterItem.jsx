@@ -5,7 +5,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppSelector } from '../hooks/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSelected } from '../../store/sortSlice';
+import { addFilter, removeFilter, setSelected } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
 
 
@@ -18,100 +18,117 @@ const FilterItem = ({
     max=100
 }) => {
 
+
     const isSortSelected = useAppSelector((state) => state.sort.isSelected);
-
     const dispatch = useDispatch();
-
     const [isOpen, setOpen] = useState(false);
 
+    const [first, setFirst] = useState(false);
+    const [second, setSecond] = useState(false);
+    const [filterCheck, setFilterCheck] = useState(false);
+
+
     const handleClick = () => {
-        setOpen(!isOpen);
-      };
+    setOpen(!isOpen);
+    };
 
-      const [first, setFirst] = useState(false);
-      const [second, setSecond] = useState(false);
 
-      const handleCheckboxFirst = (event) => {
-        dispatch(setSelected(event.target.checked))
-        if (!isSortSelected || second || first) {
-            setSecond(false)
-            setFirst(event.target.checked)
-        } 
-      }
+    const handleCheckboxFirst = (event) => {
+    dispatch(setSelected(event.target.checked))
+    if (!isSortSelected || second || first) {
+        setSecond(false)
+        setFirst(event.target.checked)
+    } 
+    }
 
-      const handleCheckboxSecond = (event) => {
-        dispatch(setSelected(event.target.checked))
-        if (!isSortSelected || first || second) {
-            setFirst(false)
-            setSecond(event.target.checked)
-        }
-      }
+    const handleCheckboxSecond = (event) => {
+    dispatch(setSelected(event.target.checked))
+    if (!isSortSelected || first || second) {
+        setFirst(false)
+        setSecond(event.target.checked)
+    }
+    }
 
-      const [value1, setValue1] = useState([20, 37]);
-      const minDistance = 0;
-
-      const handleChange1 = (event, newValue, activeThumb) => {
-        if (!Array.isArray(newValue)) {
-          return;
-        }
-    
-        if (activeThumb === 0) {
-          setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+    const handleCheckboxFilter = (event) => {
+        setFilterCheck(event.target.checked)
+        if (event.target.checked) {
+            console.log("POSI")
+            dispatch(addFilter("1_15_20"))
         } else {
-          setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+            console.log("remove")
+            dispatch(removeFilter("1_15_20"))
         }
-      };
+    }
 
-      const getFilterSlider = <> <Box sx={{ display:'flex', paddingLeft:25}}>
-                        <FormGroup row={false}>
-                        <FormControlLabel
-                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
-                            control={
-                                <Checkbox
-                                sx={{padding: 1.5,
-                                    '& .MuiSvgIcon-root': {width: 20,height: 20}}}
-                                checked={first}
-                                onChange={handleCheckboxFirst}
-                                />
-                        } label={subtext1}
-                        />
-                        <FormControlLabel
-                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
-                            control={
-                                <Checkbox
-                                sx={{
-                                    padding: 1.5, 
-                                    '& .MuiSvgIcon-root': {width: 20,height: 20}}}
-                                checked={second}
-                                onChange={handleCheckboxSecond}
-                                />
-                        } label={subtext2}
-                        />
-                    </FormGroup>
 
-                    </Box>
-      </>
+    const [value1, setValue1] = useState([20, 37]);
+    const minDistance = 0;
+
+    const handleChange1 = (event, newValue, activeThumb) => {
+    if (!Array.isArray(newValue)) {
+        return;
+    }
+
+    if (activeThumb === 0) {
+        setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+    } else {
+        setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+    }
+    };
+
+    const getSortWays = <> <Box sx={{ display:'flex', paddingLeft:25}}>
+                    <FormGroup row={false}>
+                    <FormControlLabel
+                        name='sortBox'
+                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                        control={
+                            <Checkbox
+                            sx={{padding: 1.5,
+                                '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                            checked={first}
+                            onChange={handleCheckboxFirst}
+                            />
+                    } label={subtext1}
+                    />
+                    <FormControlLabel
+                        name='sortBox'
+                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                        control={
+                            <Checkbox
+                            sx={{
+                                padding: 1.5, 
+                                '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                            checked={second}
+                            onChange={handleCheckboxSecond}
+                            />
+                    } label={subtext2}
+                    />
+                </FormGroup>
+
+                </Box>
+    </>
 
       const getFiltersCheckbox = 
-      <>
-        <Box sx={{ display:'flex', flexDirection:'row'}}>
-            <FormGroup row>
-            <FormControlLabel
-                sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
-                control={
-                    <Checkbox
-                    sx={{padding: 1.5,
-                        '& .MuiSvgIcon-root': {width: 20,height: 20}}}
-                    checked={first}
-                    onChange={handleCheckboxFirst}
+            <>
+                <Box sx={{ display:'flex', flexDirection:'row'}}>
+                    <FormGroup row>
+                    <FormControlLabel
+                        name='filterBox'
+                        sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                        control={
+                            <Checkbox
+                            sx={{padding: 1.5,
+                                '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                            checked={filterCheck}
+                            onChange={handleCheckboxFilter}
+                            />
+                    } label={"Add"}
                     />
-            } label={"Add"}
-            />
-        </FormGroup>
+                </FormGroup>
 
-        </Box>
-      
-      </>
+                </Box>
+            
+            </>
     return (
         <>
             <ListItemButton onClick={handleClick}>
@@ -141,7 +158,7 @@ const FilterItem = ({
                         {getFiltersCheckbox}
                     </Box>
                     :
-                   getFilterSlider
+                   getSortWays
                 
                 }
             </Collapse>

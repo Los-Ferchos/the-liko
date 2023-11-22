@@ -27,13 +27,26 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
   const [failed, setFailed] = useState(false);
 
 
+  const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
-  const [actualUrl, setUrl] = useState(`${apiUrl}?page=${currentPage}&limit=${limit}`);
 
 
-  const setUrlSort = async () => {
-    await setUrl(`${apiUrl}?page=${currentPage}&limit=${limit}&sort=1`)
+  function setUrlSort(link) {
+    return link+sortQuery[0];
+  }
+
+  function setUrlFilter(link) {
+    switch (filterQueryArray.length) {
+      case 1:
+        return link+`&ft1=`+filterQueryArray[0];
+      case 2:
+          return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1];
+          case 3:
+            return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1]+`&ft3=`+filterQueryArray[2];
+      default:
+        return link;
+    }
   }
 
   /**
@@ -45,10 +58,16 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
    * @returns {void}
    */
   useEffect(() => {
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
-      setUrlSort()
+      apiActualLink = setUrlSort(apiActualLink);
+    }
+
+    if (filterQueryArray.length) {
+      apiActualLink = setUrlFilter(apiActualLink);
+      console.log(apiActualLink)
     }
 
     const fetchProducts = async () => {
@@ -56,7 +75,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
       if(loading) return;
       setFailed(false);
       try {
-        const response = await fetch(actualUrl);
+        const response = await fetch(apiActualLink);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.products);
@@ -71,14 +90,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     };
   
     fetchProducts();
-  }, [sortQuery, actualUrl, currentPage, apiUrl, limit, page, loading]);
-
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setActualApiLink({actualUrl}));
-  }, [actualUrl])
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading]);
 
   
   /**
