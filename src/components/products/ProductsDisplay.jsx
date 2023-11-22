@@ -65,6 +65,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
       apiActualLink = setUrlSort(apiActualLink);
     }
 
+    console.log(filterQueryArray)
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
       console.log(apiActualLink)

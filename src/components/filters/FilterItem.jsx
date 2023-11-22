@@ -21,12 +21,14 @@ const FilterItem = ({
 
 
     const isSortSelected = useAppSelector((state) => state.sort.isSelected);
+    const isFilterRequest = useAppSelector((state) => state.sort.send);
     const dispatch = useDispatch();
     const [isOpen, setOpen] = useState(false);
 
     const [first, setFirst] = useState(false);
     const [second, setSecond] = useState(false);
     const [filterCheck, setFilterCheck] = useState(false);
+    const [valuesArray, setValuesArray] = useState([0, max]);
 
 
     const handleClick = () => {
@@ -55,16 +57,14 @@ const FilterItem = ({
     const handleCheckboxFilter = (event) => {
         setFilterCheck(event.target.checked)
         if (event.target.checked) {
-            console.log("POSI")
-            dispatch(addFilter("1_15_20"))
+            dispatch(addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`))
         } else {
-            console.log("remove")
-            dispatch(removeFilter("1_15_20"))
+            dispatch(removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`))
         }
     }
 
 
-    const [value1, setValue1] = useState([20, 37]);
+    const [value1, setValue1] = useState([0, max]);
     const minDistance = 0;
 
     const handleChange1 = (event, newValue, activeThumb) => {
@@ -72,11 +72,12 @@ const FilterItem = ({
         return;
     }
 
-    if (activeThumb === 0) {
-        setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
-    } else {
-        setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
-    }
+        if (activeThumb === 0) {
+            setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+        } else {
+            setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+        }
+        setValuesArray(newValue);
     };
 
     const getSortWays = <> <Box sx={{ display:'flex', paddingLeft:25}}>
@@ -147,12 +148,12 @@ const FilterItem = ({
                     <Box sx={{ display:'flex', justifyContent:'center',
                     flexDirection:'column', alignItems:'center', marginInline:'auto', marginTop:'1rem', width:'80%'}}>
                         <Slider
-                        
+                        disabled={ filterCheck ? true: false}
                         style={{color:'red'}}
                             getAriaLabel={() => 'Minimum distance'}
                             value={value1}
                             onChange={handleChange1}
-                            valueLabelDisplay="auto"
+                            valueLabelDisplay={ filterCheck ? "on": "auto"}
                             disableSwap
                             size='small'
                             step={0.11}

@@ -22,6 +22,13 @@ export const sortSlice = createSlice({
             state.sortSelected = action.payload;
         },
         addFilter(state, action) {
+            const array = state.filtersSelected;
+            for (let index = 0; index < array.length; index++) {
+                if (array[index] == action.payload) {
+                    return;
+                }
+            }
+
             state.filtersSelected[state.filtersSelected.length] = action.payload;
         },
         removeFilter(state, action) {
