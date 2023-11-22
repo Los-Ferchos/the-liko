@@ -12,7 +12,9 @@ import FieldText from '../../fields/FieldText';
  * @param {function} props.handleChange - The callback function to handle form field changes.
  * @returns {JSX.Element} - The rendered CategoriesSubcategories component.
  */
-const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
+const CategoriesSubcategories = (
+    { formData, setFormData, handleChange, formError, handleErrorMsg, setNonRequiredFields, nonRequiredFields }
+) => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -45,6 +47,8 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
      * @param {Object} e - The change event.
      */
     const handleCategoryChange = (e) => {
+        handleErrorMsg('category', '')
+        handleErrorMsg('subcategory', '')
         const selectedCategory = e.target.value;
         /**
          * Fetches subcategories for the selected category from the API.
@@ -56,9 +60,13 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
             try {
                 const response = await fetch(`${API_URL_LINK}/categories/${selectedCategory}/subcategories`);
                 const data = await response.json();
+                if(data.length > 0){
+                    const nonRequiredFieldsCopy = nonRequiredFields.filter(field => field != "subcategory")
+                    setNonRequiredFields(nonRequiredFieldsCopy);
+                } else setNonRequiredFields([...nonRequiredFields, "subcategory"])
                 setSubcategories(data);
             } catch (error) {
-                // Handle error
+                console.error('Error fetching subcategories:', error);
             } finally {
                 setLoadingSub(false);
             }
@@ -84,12 +92,13 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
                 required
                 fullWidth
                 onChange={handleCategoryChange}
+                errorMsg={formError.category}
+                handleErrorMsg={handleErrorMsg}
             >
                 {loading && <MenuItem value="" disabled>Loading Categories...</MenuItem>}
                 {!loading && <MenuItem value="" disabled>Select a Category</MenuItem>}
                 {categories.map((category) => (
                     <MenuItem
-                        fullWidth
                         color={formData.category === category._id ? "primary" : "black"} 
                         key={category._id} 
                         value={category._id}
@@ -119,6 +128,8 @@ const CategoriesSubcategories = ({ formData, setFormData, handleChange }) => {
                     select
                     value={formData.subcategory}
                     onChange={handleChange}
+                    errorMsg={formError.subcategory}
+                    handleErrorMsg={handleErrorMsg}
                     required
                     fullWidth
                 >

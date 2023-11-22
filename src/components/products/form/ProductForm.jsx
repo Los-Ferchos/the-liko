@@ -13,6 +13,8 @@ import AbvSlider from './ABVSlider';
 const ProductForm = () => {
   const [file, setFile] = useState("");
 
+  const [nonRequiredFields, setNonRequiredFields] = useState(["subcategory"]);
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -40,6 +42,7 @@ const ProductForm = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    handleErrorMsg(e.target.name, '')
   };
 
   const handleErrorMsg = (name, val) => {
@@ -49,22 +52,24 @@ const ProductForm = () => {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === '')
+        if(value === '' && !nonRequiredFields.includes(key))
             formErrorCopy[key] = "This field is required, please fill it";
     });
     if(file === '')
         formErrorCopy.image = "This field is required, please upload an image of your product."
     
     setFormError(formErrorCopy)
+
+    let isThereError = false;
     Object.entries(formErrorCopy).forEach(([key, value]) => {
-        if(value !== '') return false;
+        if(value !== '') isThereError = true;
     });
-    return true;
+    return !isThereError;
   }
 
   const handleSubmit = (e) => {
-    if(!validateFiles()) return;
     e.preventDefault();
+    if(!validateFiles()) return;
   };
 
   const { width, height } = useWindowSize();
@@ -117,6 +122,8 @@ const ProductForm = () => {
                     handleChange={handleChange}
                     formError={formError}
                     handleErrorMsg={handleErrorMsg}
+                    nonRequiredFields={nonRequiredFields}
+                    setNonRequiredFields={setNonRequiredFields}
                 />
 
                 <FieldText
