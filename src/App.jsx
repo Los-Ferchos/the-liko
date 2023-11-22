@@ -6,6 +6,7 @@ import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
@@ -13,6 +14,10 @@ import {useEffect} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
+import SignUp from "./pages/SignUp"
+import Cart from "./pages/Cart"
+import AdminMenu from "./pages/AdminMenu"
+
 
 const theme = createTheme({
   spacing: 2,
@@ -116,6 +121,8 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/checkout' Component={Checkout} />
+          <Route path='/sign_up' Component={SignUp} />
           <Route path='/logIn' Component={LogIn} />
           <Route path='/profile' Component={Profile}></Route>
           <Route path='/:name' Component={() => <Products destination="/category" />} />
@@ -123,6 +130,8 @@ const App = () => {
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
+          <Route path="/admin" Component={AdminMenu}/>
+          <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>

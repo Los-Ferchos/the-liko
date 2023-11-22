@@ -1,0 +1,52 @@
+.modal-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 80%;
+    max-width: 400px;
+    padding: 20px;
+    gap: 20px;
+
+}
+
+.box-letters{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.modal-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.button-modal{
+    height: 40px;
+    width: 100%;
+}
+
+.Tittle-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 440px) {
+    .box-letters {
+        gap: 10px;
+    }
+    
+}
+
+@media screen and (max-width: 380px) {
+    .box-letters {
+        gap: 5px;
+    }
+}
