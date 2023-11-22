@@ -1,17 +1,22 @@
-// ProductForm.js
 import React, { useState } from 'react';
 import {
   Button,
   Grid,
+  Typography,
 } from '@mui/material';
 import FieldText from '../../fields/FieldText';
 import CategoriesSubcategories from './CategoriesSubcategories';
 import useWindowSize from '../../hooks/useWindowSize';
 import ImageUploader from './ImgUploader';
 import AbvSlider from './ABVSlider';
+import { handleUploadImage } from '../../../utils/methods';
+import '../../../assets/styles/loaderBottle.css'
 
 const ProductForm = () => {
   const [file, setFile] = useState("");
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [nonRequiredFields, setNonRequiredFields] = useState(["subcategory"]);
 
@@ -67,9 +72,17 @@ const ProductForm = () => {
     return !isThereError;
   }
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if(!validateFiles()) return;
+
+    setLoading(true);
+    const imageStatus = await handleUploadImage(file);
+    if(!imageStatus.success){
+      setError(true);
+      return;
+    }
   };
 
   const { width, height } = useWindowSize();
@@ -161,10 +174,29 @@ const ProductForm = () => {
                 />
             </Grid>
 
-            <Grid item xs={12} md={12}>
-                <Button style={{ fontSize: 17 }} type="submit" variant="contained" color="primary" size='large'>
-                    Save
+            <Grid 
+              item 
+              xs={12} md={12} 
+              display={"flex"} alignItems={"center"} justifyContent={"center"} 
+              marginTop={width > 960 ? 0 : 16}
+            >
+                <Button 
+                  style={{ fontSize: 17, marginRight: 15, paddingLeft: 100, paddingRight: 100 }} 
+                  type="submit" 
+                  variant="contained" 
+                  color="primary" 
+                  size='large'
+                  disabled={loading}
+                >
+                    {loading ? "Saving..." : "Save"}
                 </Button>
+
+                { loading && <span className="small-loader"></span> }
+            </Grid>
+
+            <Grid item xs={12} md={12} marginTop={width > 960 ? 0 : 12}>
+                { error && <Typography color={"error"} textAlign={"center"}>There was an error, please try again.</Typography>}
+                { success && <Typography color={"green"} textAlign={"center"}>Product added succesfully</Typography>}
             </Grid>
         </Grid>
     </form>

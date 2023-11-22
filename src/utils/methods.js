@@ -64,3 +64,21 @@ export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
         return false;
     }
 }
+
+export const handleUploadImage = async(file) => {
+    try {
+      const imgbbApiKey = "a35353a7fbe2c639caeed1d21af3820b";
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await fetch("https://api.imgbb.com/1/upload?key=" + imgbbApiKey, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      return { success: true, url: data.data.url }
+    } catch (error) {
+      return { success: false, url: '' }
+    }
+}
