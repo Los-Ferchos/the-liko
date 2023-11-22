@@ -7,8 +7,8 @@ import { useAppSelector } from '../components/hooks/store';
 import SubcategoriesList from '../components/categories/SubcategoriesList';
 import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
 import { API_URL_LINK } from '../utils/constants';
-import NewHeader from '../components/header/Header';
 import FilterComponent from '../components/filters/FilterComponent';
+import Header from '../components/header/Header';
 
 /**
  * Products component displays a list of products based on the specified category or subcategory.
@@ -72,7 +72,7 @@ const Products = ({ destination = "" }) => {
 
   return (
     <Container component={"section"} className='vertical-container-padding'>
-      <NewHeader />
+      <Header />
       {isLoading ? (
         <div className='full-centered-container'>
           <CircularProgress />

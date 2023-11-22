@@ -6,11 +6,8 @@ import { useAppSelector } from '../hooks/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/sortSlice';
+import '../../assets/styles/filter.css';
 
-function valuetext(value) {
-    return `${value}BOB`;
-  }
-  
 
 const FilterItem = ({
     children="", 
@@ -94,6 +91,27 @@ const FilterItem = ({
 
                     </Box>
       </>
+
+      const getFiltersCheckbox = 
+      <>
+        <Box sx={{ display:'flex', flexDirection:'row'}}>
+            <FormGroup row>
+            <FormControlLabel
+                sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                control={
+                    <Checkbox
+                    sx={{padding: 1.5,
+                        '& .MuiSvgIcon-root': {width: 20,height: 20}}}
+                    checked={first}
+                    onChange={handleCheckboxFirst}
+                    />
+            } label={"Add"}
+            />
+        </FormGroup>
+
+        </Box>
+      
+      </>
     return (
         <>
             <ListItemButton onClick={handleClick}>
@@ -106,18 +124,21 @@ const FilterItem = ({
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                 {
                     range ? 
-                    <Box sx={{ display:'flex', justifyContent:'center', alignItems:'center', marginInline:'auto', marginTop:'1rem', width:'80%' }}>
-                        <Slider 
+                    <Box sx={{ display:'flex', justifyContent:'center',
+                    flexDirection:'column', alignItems:'center', marginInline:'auto', marginTop:'1rem', width:'80%'}}>
+                        <Slider
+                        
+                        style={{color:'red'}}
                             getAriaLabel={() => 'Minimum distance'}
                             value={value1}
                             onChange={handleChange1}
                             valueLabelDisplay="auto"
-                            getAriaValueText={valuetext}
                             disableSwap
                             size='small'
                             step={0.11}
                             max={max}
                         />
+                        {getFiltersCheckbox}
                     </Box>
                     :
                    getFilterSlider

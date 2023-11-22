@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {Typography, Toolbar, IconButton} from '@mui/material';
 import logo from '../../assets/images/icon.svg'
-import { TiShoppingCart } from 'react-icons/ti';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
 import { BiUserCircle } from 'react-icons/bi';
