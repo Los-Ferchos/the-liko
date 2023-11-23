@@ -100,7 +100,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           padding: '20px',
-          paddingTop: '100px'
+          paddingTop: '100px',
         },
       },
     },
