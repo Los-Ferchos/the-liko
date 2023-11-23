@@ -20,25 +20,30 @@ const Footer = () => {
     <footer className="footer">
       <Container style={{ padding: 0 }}>
         <Grid container spacing={3} className="footer-container" justifyContent="center" alignItems="center">
-          <Grid item xs={10} sm={4}>
+        <Grid item xs={10} sm={4}>
             <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold', textAlign: 'center' }}>
               My Account
             </Typography>
-            <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-              <Link color="inherit" href={userLogged ? "/profile" : "/login"}>
-                Profile
-              </Link>
-            </Typography>
-            <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-              <Link href="/logIn" color="inherit">
-                Log In
-              </Link>
-            </Typography>
-            <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-              <Link href="/sign_up" color="inherit">
-                Create Account
-              </Link>
-            </Typography>
+            {userLogged ? (
+              <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
+                <Link color="inherit" href="/profile">
+                  Profile
+                </Link>
+              </Typography>
+            ) : (
+              <>
+                <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
+                  <Link href="/logIn" color="inherit">
+                    Log In
+                  </Link>
+                </Typography>
+                <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
+                  <Link href="/sign_up" color="inherit">
+                    Create Account
+                  </Link>
+                </Typography>
+              </>
+            )}
           </Grid>
           <Grid item xs={10} sm={4}>
             <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold', textAlign: 'center' }}>
