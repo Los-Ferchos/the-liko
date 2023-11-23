@@ -36,6 +36,7 @@ const EditProductFormPage = () => {
                     { 
                         ...productData, 
                         price: productData.price.value, 
+                        stock: productData.quantity,
                         brand: productData.details.brand != null ? productData.details.brand : "",
                         abv: productData.details.abv != null ? productData.details.abv : "",
                         type: productData.details.type != null ? productData.details.type : ""

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import { IoCloudUploadOutline, IoCloseSharp } from "react-icons/io5";
+import { truncateString } from "../../../utils/methods";
 
 const allowedFormats = ['image/bmp', 'image/tiff', 'image/jpeg', 'image/gif', 'image/png', 'image/svg', 'image/webp'];
 const maxSize = 5 * 1024 * 1024;
@@ -16,9 +17,13 @@ const maxSize = 5 * 1024 * 1024;
  * @param {function} props.handleErrorMsg - The callback function to handle error messages.
  * @returns {JSX.Element} - The rendered ImageUploader component.
  */
-const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg }) => {
+const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
+  useEffect(() => {
+    setImageUrl(productData.imgUrl ? productData.imgUrl : null)
+  }, [productData])
+  
   /**
    * Validates the selected image file based on allowed formats and maximum size.
    * @param {File} file - The selected image file.
@@ -26,7 +31,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
    */
   const validateImage = (file) => {
     if (!allowedFormats.includes(file.type)) {
-      handleErrorMsg("image", "Invalid image file format, allowed formats are: BMP, TIFF, JPEG, GIF, PNG, SVG, WEBP");
+      handleErrorMsg("image", "Invalid image file format, allowed formats are: BMP, TIFF, JPEG, GIF, PNG, SVG and WEBP");
       return false;
     } else if (file.size > maxSize) {
       handleErrorMsg("image", "Invalid image file size, maximum size allowed is 5MB");
@@ -116,7 +121,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
         {imageUrl ? (
           <>
             <Box mb={2}>
-              <Typography>{text} {file.name}</Typography>
+              <Typography>{text} {file.name && truncateString(file.name)}</Typography>
             </Box>
             <img src={imageUrl} alt="Selected" style={{ maxHeight: 200, width: 'auto' }} />
             <IconButton onClick={deleteImage}>

@@ -41,16 +41,8 @@ const CategoriesSubcategories = (
   
         fetchCategories();
     }, []); 
-  
-    /**
-     * Handles the change of the selected category.
-     * @param {Object} e - The change event.
-     */
-    const handleCategoryChange = (e) => {
-        handleErrorMsg('subcategory', '')
-        const selectedCategory = e.target.value;
-        handleErrorMsg("category", '')
 
+    useEffect(() => {
         /**
          * Fetches subcategories for the selected category from the API.
          * @async
@@ -59,7 +51,7 @@ const CategoriesSubcategories = (
         const fetchSubcategories = async () => {
             setLoadingSub(true);
             try {
-                const response = await fetch(`${API_URL_LINK}/categories/${selectedCategory}/subcategories`);
+                const response = await fetch(`${API_URL_LINK}/categories/${formData.category}/subcategories`);
                 const data = await response.json();
                 if(data.length > 0){
                     const nonRequiredFieldsCopy = nonRequiredFields.filter(field => field != "subcategory")
@@ -72,44 +64,67 @@ const CategoriesSubcategories = (
                 setLoadingSub(false);
             }
         };
-  
+
         // Fetch subcategories only if a category is selected
-        if (selectedCategory) {
+        if (formData.category && formData.category !=='') {
             fetchSubcategories();
         } else {
             setSubcategories([]);
         }
+
+    }, [formData.category])
   
+    /**
+     * Handles the change of the selected category.
+     * @param {Object} e - The change event.
+     */
+    const handleCategoryChange = (e) => {
+        handleErrorMsg('subcategory', '')
+        const selectedCategory = e.target.value;
+        handleErrorMsg("category", '')
         setFormData({ ...formData, category: selectedCategory, subcategory: '' });
     };
 
     return (
         <>
-            <FieldText
-                label="Category"
-                name="category"
-                select
-                value={formData.category}
-                required
-                fullWidth
-                onChange={handleCategoryChange}
-                errorMsg={formError.category}
-                handleErrorMsg={handleErrorMsg}
-            >
-                {loading && <MenuItem value="" disabled>Loading Categories...</MenuItem>}
-                {!loading && <MenuItem value="" disabled>Select a Category</MenuItem>}
-                {categories.map((category) => (
-                    <MenuItem
-                        color={formData.category === category._id ? "primary" : "black"} 
-                        key={category._id} 
-                        value={category._id}
-                    >
-                        {category.name}
-                    </MenuItem>
-                ))}                  
-            </FieldText>
+             {loading ? (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: 12
+                    }}
+                >
+                    <CircularProgress size={24}/>
+                    <Typography variant='body2' marginLeft={8}>Fetching categories...</Typography>
+                </div>
+            ) : (
+                <FieldText
+                    label="Category"
+                    name="category"
+                    select
+                    value={formData.category}
+                    required
+                    fullWidth
+                    onChange={handleCategoryChange}
+                    errorMsg={formError.category}
+                    handleErrorMsg={handleErrorMsg}
+                >
+                    {loading && <MenuItem value="" disabled>Loading Categories...</MenuItem>}
+                    {!loading && <MenuItem value="" disabled>Select a Category</MenuItem>}
+                    {categories.map((category) => (
+                        <MenuItem
+                            color={formData.category === category._id ? "primary" : "black"} 
+                            key={category._id} 
+                            value={category._id}
+                        >
+                            {category.name}
+                        </MenuItem>
+                    ))}                  
+                </FieldText>
+            )}
 
-            {loadingSub && (
+            {loadingSub && !loading && (
                 <div
                     style={{
                         display: "flex",

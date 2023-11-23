@@ -171,8 +171,14 @@ const ProductForm = ({ productData = {
                     handleErrorMsg={handleErrorMsg}
                 />
 
-                <ImageUploader setFile={setFile} file={file} errorMsg={formError.image}
-                    handleErrorMsg={handleErrorMsg} handleChange={handleChange} />
+                <ImageUploader 
+                  setFile={setFile} 
+                  file={file} 
+                  errorMsg={formError.image}
+                  handleErrorMsg={handleErrorMsg} 
+                  handleChange={handleChange} 
+                  productData={productData}
+                />
             </Grid>
 
             <Grid item xs={12} md={6}>
