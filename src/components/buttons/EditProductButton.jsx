@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '@mui/material';
 import { FaRegEdit } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 /**
  * EditProductButton component display the edit prodcut button, to edit the information of a product
@@ -8,13 +9,15 @@ import { FaRegEdit } from "react-icons/fa";
  * @param {Object} props - The properties of the component.
  * @returns {JSX.Element} - Rendered EditProductButton component.
  */
-function EditProductButton() {
+function EditProductButton({ product }) {
+    const navigate = useNavigate()
     return (
         <Button
             variant="outlined"
             color="success"
             startIcon={<FaRegEdit />}
-            style={{width:"85%"}}
+            style={{width:"100%"}}
+            onClick={() => navigate(`/admin/edit-product/${product._id}`)}
         >
             Edit Product
         </Button>
