@@ -7,6 +7,7 @@ import { useAppSelector } from '../components/hooks/store';
 import SubcategoriesList from '../components/categories/SubcategoriesList';
 import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/methods';
 import { API_URL_LINK } from '../utils/constants';
+import FilterComponent from '../components/filters/FilterComponent';
 import Header from '../components/header/Header';
 
 /**
@@ -66,6 +67,9 @@ const Products = ({ destination = "" }) => {
       navigate("/404");
   }, [idParam, categories, subcategories, name]);
 
+  const actualUrl = `${API_URL_LINK}/products${destination}/${idParam}`;
+
+
   return (
     <Container component={"section"} className='vertical-container-padding'>
       <Header />
@@ -76,11 +80,12 @@ const Products = ({ destination = "" }) => {
       ) : (
         <>
           <NavigationText inactivePath={getInactivePaths(nameCat)} activePath={capitalizeString(name)} />
+          <FilterComponent/>
           <Typography variant='h4' color='primary' component='h1' marginTop={6}>
             {capitalizeString(name)}
           </Typography>
           <SubcategoriesList categoryName={name} />
-          <ProductsDisplay apiUrl={`${API_URL_LINK}/products${destination}/${idParam}`} loading={isLoading} />
+          <ProductsDisplay apiUrl={actualUrl} loading={isLoading} />
         </>
       )}
     </Container>

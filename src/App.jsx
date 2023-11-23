@@ -37,6 +37,10 @@ const theme = createTheme({
       main: '#FF0000',
       hover: '#DB4444'
     },
+    red: {
+      main: '#EEBB58',
+      hover: '#DB4444'
+    },
     gray: {
       main: "#727070"
     },

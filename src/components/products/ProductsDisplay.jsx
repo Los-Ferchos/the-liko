@@ -4,6 +4,9 @@ import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
+import { useDispatch } from 'react-redux';
+import { clearAll } from '../../store/sortSlice';
+import { useAppSelector } from '../hooks/store';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -16,12 +19,35 @@ import ProductsList from './list/ProductsList';
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
+const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "client"}) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+
+  const isFilterRequest = useAppSelector((state) => state.sort.send);
+  const sortQuery = useAppSelector((state) => state.sort.sortSelected);
+  const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+  const dispatch = useDispatch();
+
+
+  function setUrlSort(link) {
+    return link+sortQuery[0];
+  }
+
+  function setUrlFilter(link) {
+    switch (filterQueryArray.length) {
+      case 1:
+        return link+`&ft1=`+filterQueryArray[0];
+      case 2:
+          return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1];
+          case 3:
+            return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1]+`&ft3=`+filterQueryArray[2];
+      default:
+        return link;
+    }
+  }
 
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
@@ -32,14 +58,25 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
    * @returns {void}
    */
   useEffect(() => {
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}`;
     setIsLoading(true);
+
+    if (sortQuery.length) {
+      apiActualLink = setUrlSort(apiActualLink);
+    }
+
+    if (filterQueryArray.length) {
+      apiActualLink = setUrlFilter(apiActualLink);
+    } 
+
+    dispatch(clearAll());
 
     const fetchProducts = async () => {
       setIsLoading(true);
       if(loading) return;
       setFailed(false);
       try {
-        const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${limit}`);
+        const response = await fetch(apiActualLink);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.products);
@@ -54,7 +91,8 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     };
   
     fetchProducts();
-  }, [currentPage, apiUrl, limit, page, loading]);
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading]);
+
   
   /**
    * Handles the change of the current page.
@@ -72,7 +110,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     <div>
       {(isLoading || loading) ? 
         <ProductsListLoader /> : 
-        <ProductsList load={loading || isLoading} products={products} failed={failed} />
+        <ProductsList load={loading || isLoading} products={products} failed={failed} type={type}/>
       }
 
       {(totalPages > 1 && !failed) && (

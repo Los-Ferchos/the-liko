@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import categorySlice from './categorySlice';
 import subcategorySlice from "./subcategorySlice";
 import cartSlice from "./cartSlice";
+import sortSlice from "./sortSlice";
 
 /**
  * @typedef {Object} RootState
@@ -15,6 +16,7 @@ export const store = configureStore({
   reducer: {
     categories: categorySlice,
     subcategories: subcategorySlice,
-    cart: cartSlice
+    cart: cartSlice,
+    sort: sortSlice,
   },
 });
