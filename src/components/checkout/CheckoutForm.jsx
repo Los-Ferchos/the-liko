@@ -14,11 +14,17 @@ const CheckoutForm = ({totalCost}) => {
   const [telephone, setTelephone] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [nit, setNit] = useState('');
+
   const [isFailed, setIsFailed] = useState(false);
   const [invalidData, setInvalidData] = useState(false);
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [direcctionMessage, setDirecctionMessage] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [telephoneError, setTelephoneError] = useState('');
+  const [nitError, setNitError] = useState('');
 
   const navigate = useNavigate();
 
@@ -35,9 +41,16 @@ const CheckoutForm = ({totalCost}) => {
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     event.preventDefault();
+    if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
+      setInvalidData(true);
+      return;
+    }
+
+    if(!await validateUserInformation()) {
+      setInvalidData(true);
+      return;
+    }
 
     if (!stripe || !elements) {
       return;
@@ -47,6 +60,7 @@ const CheckoutForm = ({totalCost}) => {
     const result = await stripe.createToken(card);
 
     if (result.error) {
+      console.log('entro2');
       setInvalidData(true);
     } else {
       setLoading(true);
@@ -80,6 +94,79 @@ const CheckoutForm = ({totalCost}) => {
     }
   };
 
+  const validateAdress = () => {
+    if(deliveryAddress.length < 10) {
+      setDirecctionMessage('The address must be at least 10 characters long')
+    } else {
+      setDirecctionMessage('')
+    }
+  }
+
+  const validateFistName = () => {
+    if(FirstName.trim() === '') {
+      setFirstNameError('First Name is required')
+    }
+    else {
+      setFirstNameError('')
+    }
+  }
+
+  const validateLastName = () => {
+    if(LastName.trim() === '') {
+      setLastNameError('Last Name is required')
+    }
+    else {
+      setLastNameError('')
+    }
+  }
+
+  const validateTelephone = () => {
+    if(telephone.trim() === '') {
+      setTelephoneError('Telephone is required')
+    }
+    else {
+      setTelephoneError('')
+
+    }
+  }
+
+  const validateNit = () => {
+    if(nit.trim() === '') {
+      setNitError('Nit is required')
+    }
+    else {
+      setNitError('')
+    }
+  
+  }
+
+  const validateUserInformation = async () => {
+     try{
+      const response = await fetch(`${API_URL_LINK}/validateUserInformation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            FirstName,
+            LastName,
+            telephone,
+            deliveryAddress,
+            nit,
+         }),
+      });
+
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+     }catch(error){
+        return false;
+      }
+  }
+
+
   return (
     <form className='checkout-form'>
       <Dialog
@@ -97,50 +184,33 @@ const CheckoutForm = ({totalCost}) => {
         </DialogTitle>
         <DialogActions>
           <Button onClick={() => {
-          setIsFailed(false)
+          setIsFailed(false);
           setInvalidData(false);
         }}>Ok</Button>
         </DialogActions>
       </Dialog>
+
       <Typography variant='h6' >1. Delivery ADDRESS</Typography>
-      <TextField
-      label="First Name"
-      size='normal' 
-      variant="outlined"
-      onChange={e => setFirstName(e.target.value)}
-      />
+
+      <TextField 
+      required label="First Name" size='normal' variant="outlined" helperText={firstNameError} error={firstNameError !== '' }
+      onChange={e => {setFirstName(e.target.value); validateFistName();}}  inputProps={{maxLength: 256}} onBlur={validateFistName}/>
+
+      <TextField 
+      required label="Last Name" size='normal' variant="outlined" helperText={lastNameError} error={lastNameError !== '' }
+      onChange={e => {setLastName(e.target.value); validateLastName();}}  inputProps={{maxLength: 256}} onBlur={validateLastName}/>
 
       <TextField
-      label="Last Name"
-      size='normal' 
-      variant="outlined"
-      onChange={e => setLastName(e.target.value)}
-      />
+       required label="Telephone" size='normal' variant="outlined" type='number' helperText={telephoneError} error={telephoneError !== '' }
+       onChange={e =>{ setTelephone(e.target.value); validateTelephone();}}  inputProps={{maxLength: 256}} onBlur={validateTelephone}/>
 
-      <TextField
-      label="Telephone"
-      size='normal' 
-      variant="outlined"
-      type='number'
-      onChange={e => setTelephone(e.target.value)}
-      />
+      <TextField 
+          required label="Delivery Address" size='normal' variant="outlined" onChange={e =>{setDeliveryAddress(e.target.value); validateAdress();} }
+          helperText={direcctionMessage} inputProps={{ maxLength: 256 }} error={direcctionMessage !== '' } onBlur={validateAdress}/>
+      <TextField 
+          required label="NIT" size='normal' variant="outlined" type="number" helperText={nitError} error={nitError !== '' }
+          onChange={e => { setNit(e.target.value); validateNit(); }} onBlur={validateNit}/>
 
-      <TextField
-      required
-      label="Delivery Address"
-      size='normal' 
-      variant="outlined"
-      onChange={e => setDeliveryAddress(e.target.value)}
-      />
-
-
-      <TextField
-      label="NIT"
-      size='normal' 
-      variant="outlined"
-      type="number"
-      onChange={e => setNit(e.target.value)}
-      />
       <div className='payment-method'>
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
          <Tabs value={value} onChange={handleChange} variant='fullWidth'>
