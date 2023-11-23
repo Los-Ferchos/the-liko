@@ -3,6 +3,15 @@ import { Grid } from "@mui/material";
 import { getHyphenedString } from "../../utils/methods";
 import CustomLink from "../links/CustomLink";
 
+/**
+ * A React component that displays subcategories for a given category.
+ *
+ * @param {object} category - The category for which to display subcategories.
+ * @param {string} category._id - The ID of the category.
+ * @param {string} category.name - The name of the category.
+ *
+ * @return {React.Component} A React component representing the subcategories.
+ */
 function Subcategories({ category = { _id: "", name: "" } }) {
     const subcategories = useAppSelector((state) => state.subcategories.subcategories);
 
@@ -18,7 +27,6 @@ function Subcategories({ category = { _id: "", name: "" } }) {
         );
       }
     return(
-        
         <Grid container>
             {filteredSubcategories.map((subcategory, index) => (
                 <Grid 

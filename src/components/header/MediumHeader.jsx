@@ -2,25 +2,21 @@ import { useState, useEffect } from 'react';
 import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
-import { BiUserCircle } from 'react-icons/bi';
 import CustomLink from '../links/CustomLink';
 import '../../assets/styles/header.css'
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
-import useWindowSize from '../../components/hooks/useWindowSize';
-import '../../assets/styles/search.css'
+import { FaUser } from "react-icons/fa6";
 import { FaSistrix } from 'react-icons/fa';
-
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
 const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
-    const { width } = useWindowSize();  // Mueve la línea aquí para obtener el valor de width
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
@@ -81,8 +77,10 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                     {
                         userLogged != null ? (
                             <ul className='profile-options'>
-                                <li style={{ display: 'flex' }}>
-                                    <BiUserCircle />
+                                <li style={{ display: 'flex', gap: '5px' }}>
+                                    <NavLink to='/profile'>
+                                        <FaUser />
+                                    </NavLink>
                                     <CustomLink variant="body2" title='Profile' href='/profile' />
                                 </li>
                             </ul>

@@ -1,9 +1,4 @@
-/**
- * A React component displaying the advantages of The Liko.
- * @component
- */
 import React from 'react';
-
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 import RoundedIcon from '../icons/RoundedIcon';
 import { FaStore, FaMoneyBillWave, FaShoppingBag, FaMoneyCheck } from "react-icons/fa";

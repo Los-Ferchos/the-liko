@@ -6,6 +6,7 @@ import './../assets/styles/about-us.css'
 import AdvantagesSection from '../components/aboutUs/AdvantagesSection';
 import LikoServicesSection from '../components/aboutUs/LikoServicesSection';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 
 /**
  * A React component that represents the About Us page.
@@ -19,6 +20,7 @@ const AboutUs = () => {
    * @returns {JSX.Element} The AboutUs component.
    */
   return (
+    <>
     <Container>
       <Header />
       <Box mt={4}>
@@ -59,6 +61,8 @@ const AboutUs = () => {
 
       <LikoServicesSection />
     </Container>
+    <Footer />
+    </>
   );
 };
 
