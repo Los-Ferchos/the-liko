@@ -17,11 +17,11 @@ const maxSize = 5 * 1024 * 1024;
  * @param {function} props.handleErrorMsg - The callback function to handle error messages.
  * @returns {JSX.Element} - The rendered ImageUploader component.
  */
-const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData }) => {
+const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData, edit }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
-    setImageUrl(productData.imgUrl ? productData.imgUrl : null)
+    if(edit) setImageUrl(productData.imgUrl ? productData.imgUrl : null)
   }, [productData])
   
   /**
@@ -95,6 +95,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
   const deleteImage = () => {
     setFile("");
     setImageUrl(null);
+    handleErrorMsg("imgUrl", "")
   }
 
   return (
@@ -123,7 +124,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
             <Box mb={2}>
               <Typography>{text} {file.name && truncateString(file.name)}</Typography>
             </Box>
-            <img src={imageUrl} alt="Selected" style={{ maxHeight: 200, width: 'auto' }} />
+            <img src={imageUrl} alt="Selected" style={{ maxHeight: 200, width: 'auto', maxWidth: '100%' }} />
             <IconButton onClick={deleteImage}>
               <IoCloseSharp />
             </IconButton>

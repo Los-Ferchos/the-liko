@@ -38,7 +38,7 @@ const EditProductFormPage = () => {
                         price: productData.price.value, 
                         stock: productData.quantity,
                         brand: productData.details.brand != null ? productData.details.brand : "",
-                        abv: productData.details.abv != null ? productData.details.abv : "",
+                        abv: productData.details.abv != null ? productData.details.abv : 0,
                         type: productData.details.type != null ? productData.details.type : ""
                     }
                 );
@@ -72,7 +72,7 @@ const EditProductFormPage = () => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <ProductForm productData={product} />
+                    <ProductForm productData={product} edit={true} />
                 )
             }
         </Container>

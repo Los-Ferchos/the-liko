@@ -139,15 +139,14 @@ export const uploadProduct = async (
         brand: '',
         abv: 0,
         type: ''
-    }
+    }, edit = false, productId = ''
 ) => {
-  console.log(productData)
     const productJSON = {
         name: productData.name,
         description: productData.description,
-        rating: 0,
-        totalReviews: 0,
-        sells: 0,
+        rating: productData.rating ? productData.rating : 0,
+        totalReviews: productData.totalReviews ? productData.totalReviews : 0,
+        sells: productData.sells ? productData.sells : 0,
         quantity: productData.stock,
         imgUrl: productData.image,
         category: productData.category,
@@ -169,8 +168,8 @@ export const uploadProduct = async (
     }
 
     try {
-      const response = await fetch(`${API_URL_LINK}/products`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL_LINK}/products/${productId}`, {
+        method: edit ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },

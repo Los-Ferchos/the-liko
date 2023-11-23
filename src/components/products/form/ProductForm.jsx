@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
  * @component
  * @returns {JSX.Element} - The rendered ProductForm component.
  */
-const ProductForm = ({ productData = {
+const ProductForm = ({ edit = false, productData = {
     name: '',
     description: '',
     stock: 1,
@@ -90,7 +90,8 @@ const ProductForm = ({ productData = {
         if(value === '' && !nonRequiredFields.includes(key))
             formErrorCopy[key] = "This field is required, please fill it";
     });
-    if(file === '')
+
+    if(file === '' && (!productData.imgUrl || Object.keys(formError).includes("imgUrl")))
         formErrorCopy.image = "This field is required, please upload an image of your product."
     
     setFormError(formErrorCopy)
@@ -112,15 +113,19 @@ const ProductForm = ({ productData = {
     if(!validateFiles()) return;
 
     setLoading(true);
-    const imageStatus = await handleUploadImage(file);
-    if(!imageStatus.success){
-      setError(true);
-      return;
+    let imageStatus;
+    if(file !== ''){
+      imageStatus = await handleUploadImage(file);
+      if(!imageStatus.success){
+        setLoading(false);
+        setError(true);
+        return;
+      }
     }
 
-    const productData = { ...formData, image: imageStatus.url };
-    setFormData(productData);
-    const success = await uploadProduct(productData);
+    const productDataUp = { ...formData, image: (file === '' && productData.imgUrl) ? productData.imgUrl : imageStatus.url };
+    setFormData(productDataUp);
+    const success = await uploadProduct(productDataUp, edit, productData._id ? productData._id : "");
     setLoading(false);
     setError(!success);
 
@@ -178,6 +183,7 @@ const ProductForm = ({ productData = {
                   handleErrorMsg={handleErrorMsg} 
                   handleChange={handleChange} 
                   productData={productData}
+                  edit={edit}
                 />
             </Grid>
 
@@ -249,7 +255,11 @@ const ProductForm = ({ productData = {
 
             <Grid item xs={12} md={12} marginTop={width > 960 ? 0 : 12}>
                 { error && <Typography color={"error"} textAlign={"center"}>There was an error, please try again.</Typography>}
-                { success && <Typography color={"green"} textAlign={"center"}>Product added succesfully</Typography>}
+                { success && 
+                  <Typography color={"green"} textAlign={"center"}>
+                    {`Product ${edit ? "edited" : "added"} succesfully`}
+                  </Typography>
+                }
             </Grid>
         </Grid>
     </form>
