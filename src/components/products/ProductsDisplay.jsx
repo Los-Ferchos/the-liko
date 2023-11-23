@@ -19,7 +19,7 @@ import { useAppSelector } from '../hooks/store';
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
+const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "client"}) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -110,7 +110,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     <div>
       {(isLoading || loading) ? 
         <ProductsListLoader /> : 
-        <ProductsList load={loading || isLoading} products={products} failed={failed} />
+        <ProductsList load={loading || isLoading} products={products} failed={failed} type={type}/>
       }
 
       {(totalPages > 1 && !failed) && (

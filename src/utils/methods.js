@@ -34,6 +34,20 @@ export const getInactivePaths = (name) => {
 }
 
 /**
+ * Generates an array of inactive paths for admin navigation breadcrumbs.
+ *
+ * @param {string} name - The name to include in the inactive paths.
+ * @returns {Object[]} - The array of inactive paths.
+ */
+export const getInactiveAdminPaths = (name) => {
+  const inactivePaths = [{ title: "Admin", href: "/" }];
+  if (name !== "") {
+      inactivePaths.push({ title: capitalizeString(name), href: `/${name}`});
+  }
+  return inactivePaths;
+}
+
+/**
  * Converts a string to lowercase and replaces spaces with hyphens.
  *
  * @param {string} str - The string to convert.
