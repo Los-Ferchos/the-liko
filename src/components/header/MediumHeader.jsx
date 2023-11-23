@@ -75,7 +75,7 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                     </ul>
                 </div>
                 <div className='right-header'>
-                    <IconButton onClick={handleIconClick}>
+                    <IconButton onClick={handleIconClick} >
                         <FaSistrix />
                     </IconButton>
                     {

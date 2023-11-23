@@ -60,7 +60,7 @@ const SmallHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                             </ul>
                         </Link>
                     </div>
-                    <div className='right-header'>
+                    <div className='right-header' >
                     <IconButton onClick={handleIconClick}>
                         <FaSistrix />
                     </IconButton>
