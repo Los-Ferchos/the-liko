@@ -13,7 +13,8 @@ function SignUp() {
 
   return (
     <Container>
-        <HeaderSimple/>
+      
+        <HeaderSimple className='header-signup'/>
         <div className='main-container'>
             <SignUpForm/>
         </div>
