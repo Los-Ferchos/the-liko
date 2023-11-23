@@ -72,8 +72,6 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
       apiActualLink = setUrlFilter(apiActualLink);
     } 
 
-    dispatch(clearAll());
-
     const fetchProducts = async () => {
       setIsLoading(true);
       if(loading) return;
