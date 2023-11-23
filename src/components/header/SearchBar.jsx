@@ -11,7 +11,7 @@ const SearchBar = ({
 }) => {
   return (
     <div >
-        <TextField
+        <TextField 
           size='small'
           placeholder='Search'
           value={searchText}
