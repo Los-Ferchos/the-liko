@@ -49,6 +49,9 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
     }
   }
 
+  const searchText = useAppSelector((state) => state.search.searchText);
+  const search = useAppSelector((state) => state.search.search);
+
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
    * Updates the products, total pages, and loading state.
@@ -58,7 +61,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}`;
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
@@ -68,8 +71,6 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
     } 
-
-    dispatch(clearAll());
 
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -91,7 +92,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading]);
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
 
   
   /**

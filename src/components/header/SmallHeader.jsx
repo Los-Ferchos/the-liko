@@ -11,15 +11,20 @@ import { getHyphenedString } from "../../utils/methods";
 import CustomLink from '../links/CustomLink';
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
+import { FaSistrix } from 'react-icons/fa';
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const SmallHeader = () => {
+const SmallHeader = ({ isSearchVisible, setIsSearchVisible }) => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
     const { userLogged } = useGlobalCart();
+
+    const handleIconClick = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
 
     return (
         <div>
@@ -55,7 +60,10 @@ const SmallHeader = () => {
                             </ul>
                         </Link>
                     </div>
-                    <div className='right-header'>
+                    <div className='right-header' >
+                    <IconButton onClick={handleIconClick}>
+                        <FaSistrix />
+                    </IconButton>
                         <Link to={userLogged ? "/profile" : "/login"}>
                             <BiUserCircle size={25}/>
                         </Link>

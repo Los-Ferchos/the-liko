@@ -80,6 +80,28 @@ export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
 }
 
 /**
+ * Truncates a string if its length is greater than 30 characters.
+ * Replaces characters from the 30th character until three characters before a dot with '...'.
+ *
+ * @param {string} inputString - The input string to be truncated.
+ * @returns {string} - The truncated string.
+ */
+export const truncateString = (inputString) => {
+  const maxLength = 30;
+
+  if (inputString.length > maxLength) {
+    const indexOfDot = inputString.lastIndexOf('.');
+
+    if (indexOfDot !== -1 && indexOfDot > maxLength + 3) {
+      const truncatedString = inputString.substring(0, maxLength) + '...' + inputString.substring(indexOfDot - 3);
+      return truncatedString;
+    }
+  }
+
+  return inputString;
+}
+
+/**
  * Handles the upload of an image to ImgBB using the provided file.
  *
  * @param {File} file - The image file to be uploaded.
@@ -131,15 +153,14 @@ export const uploadProduct = async (
         brand: '',
         abv: 0,
         type: ''
-    }
+    }, edit = false, productId = ''
 ) => {
-  console.log(productData)
     const productJSON = {
         name: productData.name,
         description: productData.description,
-        rating: 0,
-        totalReviews: 0,
-        sells: 0,
+        rating: productData.rating ? productData.rating : 0,
+        totalReviews: productData.totalReviews ? productData.totalReviews : 0,
+        sells: productData.sells ? productData.sells : 0,
         quantity: productData.stock,
         imgUrl: productData.image,
         category: productData.category,
@@ -161,8 +182,8 @@ export const uploadProduct = async (
     }
 
     try {
-      const response = await fetch(`${API_URL_LINK}/products`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL_LINK}/products/${productId}`, {
+        method: edit ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Typography, Toolbar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import { BiUserCircle } from 'react-icons/bi';
@@ -10,17 +10,25 @@ import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
+import useWindowSize from '../../components/hooks/useWindowSize';
+import '../../assets/styles/search.css'
+import { FaSistrix } from 'react-icons/fa';
+
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const MediumHeader = () => {
+const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
+    const { width } = useWindowSize();  // Mueve la línea aquí para obtener el valor de width
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
-    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
 
+    const handleIconClick = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
     return (
         <div>
             <Toolbar className='header'>
@@ -67,11 +75,14 @@ const MediumHeader = () => {
                     </ul>
                 </div>
                 <div className='right-header'>
+                    <IconButton onClick={handleIconClick} >
+                        <FaSistrix />
+                    </IconButton>
                     {
                         userLogged != null ? (
                             <ul className='profile-options'>
                                 <li style={{ display: 'flex' }}>
-                                    <BiUserCircle/>
+                                    <BiUserCircle />
                                     <CustomLink variant="body2" title='Profile' href='/profile' />
                                 </li>
                             </ul>
