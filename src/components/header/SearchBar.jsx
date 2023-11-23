@@ -10,7 +10,7 @@ const SearchBar = ({
   onKeyPress,
 }) => {
   return (
-    <div className={`search-bar ${isVisible ? 'visible' : 'hidden'}`}>
+    <div >
         <TextField
           size='small'
           placeholder='Search'

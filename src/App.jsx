@@ -17,6 +17,8 @@ import { API_URL_LINK } from "./utils/constants";
 import SignUp from "./pages/SignUp"
 import Cart from "./pages/Cart"
 import AdminMenu from "./pages/AdminMenu"
+import AddProductFormPage from "./pages/AddProductFormPage"
+import AdminViewProducts from "./pages/AdminViewProducts"
 
 
 const theme = createTheme({
@@ -95,6 +97,40 @@ const theme = createTheme({
         },
       },
     },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          flexDirection: 'column'
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center"
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: '13.5px',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: '16px',
+        },
+      },
+    },
   },
 });
 
@@ -131,6 +167,8 @@ const App = () => {
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
           <Route path="/admin" Component={AdminMenu}/>
+          <Route path="/admin/add-product" Component={AddProductFormPage}/>
+          <Route path="/admin/view-products" Component={AdminViewProducts}/>
           <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
