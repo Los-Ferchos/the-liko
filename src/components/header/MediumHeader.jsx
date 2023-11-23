@@ -24,11 +24,22 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
+    const [isUserAdmin, setIsAdmin] = useState(true);
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
 
     const handleIconClick = () => {
         setIsSearchVisible(!isSearchVisible);
     };
+
+    useEffect(() => {
+      if (userLogged) {
+        setIsAdmin(userLogged.isAdmin);
+      } else{
+        setIsAdmin(false);
+      }
+    }, [userLogged]);
+
+
     return (
         <div>
             <Toolbar className='header'>
@@ -72,6 +83,11 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                                 />
                             </li>
                         ))}
+                            {
+                                isUserAdmin && (<li key={"adminKey"}>
+                                <CustomLink variant="body2" title='Admin' href='/admin' />
+                                </li> )
+                            }
                     </ul>
                 </div>
                 <div className='right-header'>
