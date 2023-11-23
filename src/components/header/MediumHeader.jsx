@@ -1,25 +1,42 @@
 import { useState } from 'react';
-import { Typography, Toolbar } from '@mui/material';
+import { Typography, Toolbar, TextField, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import { BiUserCircle } from 'react-icons/bi';
 import CustomLink from '../links/CustomLink';
 import '../../assets/styles/header.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
+import { useDispatch } from 'react-redux';
+import { setSearch, setSearchText } from '../../store/searchSlice';
+import { FaSearch } from 'react-icons/fa';
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
 const MediumHeader = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
-    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
+
+    const searchText = useAppSelector((state) => state.search.searchText);
+
+    const handleChangeSearch = (e) => {
+        dispatch(setSearchText(e.target.value))
+    }
+
+    const handleSearch = () => {
+        navigate("/products");
+        dispatch(setSearch());
+    }
 
     return (
         <div>
@@ -66,6 +83,14 @@ const MediumHeader = () => {
                         ))}
                     </ul>
                 </div>
+                <TextField
+                    value={searchText}
+                    onChange={handleChangeSearch}
+                    autoComplete='off'
+                />
+                <IconButton onClick={handleSearch}>
+                    <FaSearch/>
+                </IconButton>
                 <div className='right-header'>
                     {
                         userLogged != null ? (
