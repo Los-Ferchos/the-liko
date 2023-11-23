@@ -1,0 +1,7 @@
+.table-orders tbody tr{
+    border: 1px solid #c0c0c0;
+}
+
+.table-orders thead tr{
+    padding-top: 40px;
+}
