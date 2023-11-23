@@ -30,7 +30,7 @@ const ProfileSection = () => {
         boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
       }}
     >
-      <Typography variant={width < 768 ? 'h6' : 'h5'} style={{ color: 'red', fontWeight: 'bold' }}>
+      {/* <Typography variant={width < 768 ? 'h6' : 'h5'} style={{ color: 'red', fontWeight: 'bold' }}>
         User Information
       </Typography>
 
@@ -53,7 +53,7 @@ const ProfileSection = () => {
         <div className="user-value" >
           <Typography variant="user-value" style={{margin: '10px'}}> </Typography>
         </div>
-      </div>
+      </div> */}
 
       <Button
         variant="contained"

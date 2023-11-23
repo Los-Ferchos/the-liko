@@ -1,65 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { useGlobalCart } from '../../contexts/CartContext';
 import ProductList from '../../checkout/ProductsList';
 import { API_URL_LINK } from '../../../utils/constants';
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  '&:not(:last-child)': {
-    borderBottom: 0,
-  },
-  '&:before': {
-    display: 'none',
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? 'rgba(255, 255, 255, .05)'
-      : 'rgba(0, 0, 0, .03)',
-  flexDirection: 'row-reverse',
-  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(90deg)',
-  },
-  '& .MuiAccordionSummary-content': {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: '1px solid rgba(0, 0, 0, .125)',
-}));
+import { IconButton } from '@mui/material';
+import { FaChevronCircleDown, FaChevronCircleUp } from 'react-icons/fa';
+import '../../../assets/styles/orders.css'
 
 const OrdersTable = ({ orders, handleChange, expanded }) => (
-  <div>
+  <div style={{ width: '100%' }}>
     {orders ? (
-      orders.map((order, index) => (
-        <Accordion key={index} expanded={expanded === `panel${index + 1}`} onChange={handleChange(`panel${index + 1}`)}>
-          <AccordionSummary aria-controls={`panel${index + 1}d-content`} id={`panel${index + 1}d-header`}>
-            <Typography>{`Order #${index + 1}`}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              <ProductList cartItems={order.cartItems} total={order.total} />
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))
+      <table style={{ width: '100%' }} className='table-orders'>
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Total Cost</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <>
+              <tr key={order._id} >
+                <td><Typography>{`Order #${order._id}`}</Typography></td>
+                <td><Typography>{`${new Date(order.date).toISOString().substring(0, 10)}`}</Typography></td>
+                <td><Typography>{`${order.currency} ${order.totalCost}`}</Typography></td>
+                <td>
+                  {
+                    expanded === index ? (
+                      <IconButton onClick={() => handleChange(-1)}>
+                        <FaChevronCircleUp/>
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleChange(index)}>
+                        <FaChevronCircleDown/>
+                      </IconButton>
+                    )
+                  }
+                </td>
+              </tr>
+              {
+                expanded === index && (
+                  <div>
+                    <Typography>Here will be the product data</Typography>
+                  </div>
+                )
+              }
+            </>
+          ))}
+        </tbody>
+      </table>
     ) : (
       <Typography>No orders available</Typography>
     )}
@@ -67,30 +58,41 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
 );
 
 export default function CustomizedAccordions() {
-  const [expanded, setExpanded] = useState(null);
-  const { cartItems, userLogged } = useGlobalCart();
+  const [expanded, setExpanded] = useState(-1);
+  const { userLogged } = useGlobalCart();
   const [orders, setOrders] = useState(null);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      setLoading(true)
       try {
         const response = await fetch(`${API_URL_LINK}/users/${userLogged.userId}/orders`);
         const data = await response.json();
-        if (data.orders) {
-          setOrders(data.orders);
+        if (response.ok) {
+          setOrders(data);
         }
       } catch (error) {
         console.error('Error fetching orders:', error);
       }
+      setLoading(false)
     };
     
     fetchOrders();
   }, [userLogged.userId]);
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  const handleChange = (newExpanded) => {
+    setExpanded(newExpanded);
   };
 
-  return <OrdersTable orders={orders} handleChange={handleChange} expanded={expanded} />;
+  return (
+    <>
+      {
+        loading ? <div className="full-centered-container"><span className="fast-loader"></span></div>
+        : (
+          <OrdersTable orders={orders} handleChange={handleChange} expanded={expanded} />
+        )
+      }
+    </>
+  );
 }

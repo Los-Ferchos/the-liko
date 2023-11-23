@@ -33,8 +33,7 @@ const Profile = () => {
 
   return (
     <>
-    
-    <Container>
+    <Container style={{ minHeight: '90vh' }}>
       <Header />
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Profile' />
       <div className="profile-container">

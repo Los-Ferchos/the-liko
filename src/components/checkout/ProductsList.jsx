@@ -31,8 +31,8 @@ const ProductList = (props) => {
                 <td className='image-tr' ><img src={cartItems.productInfo.imgUrl} alt={cartItems.productInfo.name} width="50" height="50" /></td>
                 <td ><Typography variant='h6'>{cartItems.productInfo.name}</Typography></td>
                 <td id='number'><Typography variant='h6'>{cartItems.quantity}</Typography></td>
-                <td id='number'> <Typography variant='h6'>{`${cartItems.productInfo.price.value} USD`}</Typography></td>
-              </tr>
+                <td id='number'> <Typography variant='h6'>{`USD ${cartItems.productInfo.price.value}`}</Typography></td>
+              </tr> 
             ))
           }
         </table>
