@@ -10,7 +10,7 @@ import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
@@ -20,6 +20,8 @@ import AdminMenu from "./pages/AdminMenu"
 import AddProductFormPage from "./pages/AddProductFormPage"
 import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
+import { useAppSelector } from "./components/hooks/store"
+import { useGlobalCart } from "./components/contexts/CartContext"
 
 
 const theme = createTheme({
@@ -141,6 +143,16 @@ const theme = createTheme({
 
 const App = () => {
   const dispatch = useDispatch();
+  const [isUserAdmin, setIsAdmin] = useState(true);
+  const { userLogged } = useGlobalCart();
+
+  useEffect(() => {
+    if (userLogged) {
+      setIsAdmin(userLogged.isAdmin);
+    } else{
+      setIsAdmin(false);
+    }
+  }, [userLogged])
 
   useEffect(() => {
     fetch(`${API_URL_LINK}/categories`)
@@ -171,10 +183,10 @@ const App = () => {
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
-          <Route path="/admin" Component={AdminMenu}/>
-          <Route path="/admin/add-product" Component={AddProductFormPage}/>
-          <Route path="/admin/edit-product/:productId" Component={EditProductFormPage}/>
-          <Route path="/admin/view-products" Component={AdminViewProducts}/>
+          <Route path="/admin" Component={ isUserAdmin ? AdminMenu : Page404}/>
+          <Route path="/admin/add-product" Component={isUserAdmin ? AddProductFormPage : Page404}/>
+          <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
+          <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
