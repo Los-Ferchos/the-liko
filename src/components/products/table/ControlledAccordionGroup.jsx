@@ -6,6 +6,9 @@ import { API_URL_LINK } from '../../../utils/constants';
 import { IconButton } from '@mui/material';
 import { FaChevronCircleDown, FaChevronCircleUp } from 'react-icons/fa';
 import '../../../assets/styles/orders.css'
+import PrevButton from '../../buttons/PrevButton';
+import NextButton from '../../buttons/NextButton';
+import Pagination from '../pagination/Pagination';
 
 const OrdersTable = ({ orders, handleChange, expanded }) => (
   <div style={{ width: '100%' }}>
@@ -21,9 +24,8 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
         </thead>
         <tbody>
           {orders.map((order, index) => (
-            <>
+            <React.Fragment key={order._id}>
               <tr 
-                key={order._id} 
                 className={expanded === index ? "active" : ""} 
                 onClick={() => handleChange(expanded === index ? -1 : index)}
               >
@@ -62,7 +64,7 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
                   </tr>
                 )
               }
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
@@ -77,15 +79,21 @@ export default function CustomizedAccordions() {
   const { userLogged } = useGlobalCart();
   const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState(null);
+  const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`${API_URL_LINK}/users/${userLogged.userId}/orders`);
+        const response = await fetch(`${API_URL_LINK}/users/${userLogged.userId}/orders?page=${currentPage}`);
         const data = await response.json();
         if (response.ok) {
-          setOrders(data);
+          setOrders(data.orders);
+          console.log(data.orders)
+          setPagination(data.pagination)
+          setTotalPages(data.pagination.totalPages)
         }
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -94,10 +102,22 @@ export default function CustomizedAccordions() {
     };
     
     fetchOrders();
-  }, [userLogged.userId]);
+  }, [userLogged.userId, currentPage]);
 
   const handleChange = (newExpanded) => {
     setExpanded(newExpanded);
+  };
+
+   /**
+   * Handles the change of the current page.
+   *
+   * @function
+   * @param {number} newPage - The new page number.
+   * @returns {void}
+   */
+   const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -105,7 +125,24 @@ export default function CustomizedAccordions() {
       {
         loading ? <div className="full-centered-container"><span className="fast-loader"></span></div>
         : (
-          <OrdersTable orders={orders} handleChange={handleChange} expanded={expanded} />
+          <>
+            <OrdersTable 
+              orders={orders} 
+              handleChange={handleChange} 
+              expanded={expanded} 
+              currentPage={currentPage} 
+              setCurrentPage={setCurrentPage} 
+            />
+            {
+              totalPages > 1 && (
+                <div style={{ display: "flex", justifyContent: "center", textAlign: 'center', marginTop: '20px' }}>
+                  {currentPage > 1 && <PrevButton onClick={() => handlePageChange(currentPage - 1)} />}
+                  <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
+                  {currentPage < totalPages && <NextButton onClick={() => handlePageChange(currentPage + 1)} />}
+                </div>
+              )
+            }
+          </>
         )
       }
     </>
