@@ -22,7 +22,11 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
         <tbody>
           {orders.map((order, index) => (
             <>
-              <tr key={order._id} >
+              <tr 
+                key={order._id} 
+                className={expanded === index ? "active" : ""} 
+                onClick={() => handleChange(expanded === index ? -1 : index)}
+              >
                 <td><Typography>{`Order #${order._id}`}</Typography></td>
                 <td><Typography>{`${new Date(order.date).toISOString().substring(0, 10)}`}</Typography></td>
                 <td><Typography>{`${order.currency} ${order.totalCost}`}</Typography></td>
@@ -42,9 +46,20 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
               </tr>
               {
                 expanded === index && (
-                  <div>
-                    <Typography>Here will be the product data</Typography>
-                  </div>
+                  <tr>
+                    <td colSpan="4">
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+                        <Typography variant='subtitle1' fontWeight={"bold"}>Shipping address:&nbsp;&nbsp;</Typography>
+                        <Typography variant='subtitle1'>{order.address}</Typography>
+                      </div>
+                      <ProductList
+                        cartItems={order.items}
+                        total={order.totalCost}
+                        currencyTotal={order.currency}
+                        productKey="productId"
+                      />
+                    </td>
+                  </tr>
                 )
               }
             </>
