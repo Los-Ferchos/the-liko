@@ -37,21 +37,21 @@ const ProfileSection = () => {
       <div className="user-field">
         <Typography variant="body1" >Name</Typography>
         <div className="user-value">
-          <Typography variant="user-value" style={{margin: '10px'}}>JuanExample</Typography>
+          <Typography variant="user-value" style={{margin: '10px'}}> </Typography>
         </div>
       </div>
 
       <div className="user-field">
         <Typography variant="body1">Email</Typography>
         <div className="user-value">
-          <Typography variant="user-value" style={{margin: '10px'}}>juan@example.com</Typography>
+          <Typography variant="user-value" style={{margin: '10px'}}> </Typography>
         </div>
       </div>
 
       <div className="user-field">
         <Typography variant="body1">Address</Typography>
         <div className="user-value" >
-          <Typography variant="user-value" style={{margin: '10px'}}>Address</Typography>
+          <Typography variant="user-value" style={{margin: '10px'}}> </Typography>
         </div>
       </div>
 
