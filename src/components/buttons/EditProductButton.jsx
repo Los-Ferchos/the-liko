@@ -1,11 +1,13 @@
 import React from 'react'
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { useGlobalCart } from '../contexts/CartContext';
-import { useState } from 'react';
-import { BsCart3, BsCartCheckFill } from 'react-icons/bs';
-import { MdShoppingCartCheckout } from 'react-icons/md';
+import { Button } from '@mui/material';
 import { FaRegEdit } from "react-icons/fa";
 
+/**
+ * EditProductButton component display the edit prodcut button, to edit the information of a product
+ * 
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} - Rendered EditProductButton component.
+ */
 function EditProductButton() {
     return (
         <Button

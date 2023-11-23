@@ -1,11 +1,13 @@
 import React from 'react'
-import { IconButton, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { useGlobalCart } from '../contexts/CartContext';
-import { useState } from 'react';
-import { BsCart3, BsCartCheckFill } from 'react-icons/bs';
-import { MdShoppingCartCheckout } from 'react-icons/md';
+import { IconButton } from '@mui/material';
 import { FaRegTrashAlt } from "react-icons/fa";
 
+/**
+ * DeleteProductButton component display the delet prodcut button, to delete a product
+ * 
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} - Rendered DeleteProductButton component.
+ */
 function DeleteProductButton() {
     return (
         <IconButton
