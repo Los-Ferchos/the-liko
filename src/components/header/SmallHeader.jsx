@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Typography, Toolbar, IconButton } from '@mui/material';
+import {useEffect, useState} from 'react';
+import {Typography, Toolbar, IconButton} from '@mui/material';
 import logo from '../../assets/images/icon.svg'
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RxCross2 } from 'react-icons/rx';
@@ -21,10 +21,19 @@ const SmallHeader = ({ isSearchVisible, setIsSearchVisible }) => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
     const { userLogged } = useGlobalCart();
+    const [isUserAdmin, setIsAdmin] = useState(true);
 
     const handleIconClick = () => {
         setIsSearchVisible(!isSearchVisible);
     };
+
+    useEffect(() => {
+        if (userLogged) {
+          setIsAdmin(userLogged.isAdmin);
+        } else{
+          setIsAdmin(false);
+        }
+      }, [userLogged]);
 
     return (
         <div>
@@ -92,6 +101,11 @@ const SmallHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                             />
                         </li>
                     ))}
+                        {
+                            isUserAdmin && (<li key={"adminKey"} onClick={() => setInferiorHeader('inferior-header-disabled')} >
+                            <CustomLink variant="body2" title='Admin' href='/admin' />
+                            </li> )
+                        }
                 </ul>
             </div>
         </div>

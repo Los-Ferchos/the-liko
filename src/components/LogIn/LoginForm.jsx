@@ -72,8 +72,9 @@ const LoginForm = ({ width }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           dispatch(userSlice.actions.loginUser(data));
+
+          console.log(data.isAdmin)
           
           setIsLoading(true);
 
