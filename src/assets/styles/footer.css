@@ -2,7 +2,7 @@
 .footer {
   background-color: #333; /* Color de fondo del footer, puedes ajustarlo según tus necesidades */
   color: white; /* Color del texto en el footer, puedes ajustarlo según tus necesidades */
-  padding: 20px; /* Ajusta el espacio interno del footer según tus necesidades */
+  padding: 50px 20px; /* Ajusta el espacio interno del footer según tus necesidades */
   margin-top: 20px; /* Agrega margen superior para separar el contenido del footer */
 }
 

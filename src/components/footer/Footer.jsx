@@ -70,7 +70,7 @@ const Footer = () => {
               </Link>
             </Typography>
             <Typography variant="subtitle1" style={{ textAlign: 'center' }}>
-              <Link href="https://www.instagram.com/the_liko_ferchos/" target="_blank" color="inherit">
+              <Link href="https://www.instagram.com/the_liko_ecommerce/" target="_blank" color="inherit">
                 <FaInstagram /> Instagram
               </Link>
             </Typography>

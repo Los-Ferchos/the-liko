@@ -22,8 +22,6 @@ const Profile = () => {
     switch (profileSection) {
       case 'My Profile':
         return <ProfileSection />;
-      case 'Address Book':
-        return <ConstructionSection />;
       case 'Order History':
         return <OrderHistorySection />;
       case 'My Favorite List':

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
@@ -8,8 +8,6 @@ import Typography from '@mui/material/Typography';
 import { useGlobalCart } from '../../contexts/CartContext';
 import ProductList from '../../checkout/ProductsList';
 import { API_URL_LINK } from '../../../utils/constants';
-import  { useState, useEffect } from 'react';
-
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -47,48 +45,52 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-
-const OrdersTable = ({ orders }) => (
+const OrdersTable = ({ orders, handleChange, expanded }) => (
   <div>
-    {orders.map((order, index) => (
-      <Accordion key={index} expanded={expanded === `panel${index + 1}`} onChange={handleChange(`panel${index + 1}`)}>
-        <AccordionSummary aria-controls={`panel${index + 1}d-content`} id={`panel${index + 1}d-header`}>
-          <Typography>{`Order #${index + 1}`}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            <ProductList cartItems={order.cartItems} total={order.total} />
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-    ))}
+    {orders ? (
+      orders.map((order, index) => (
+        <Accordion key={index} expanded={expanded === `panel${index + 1}`} onChange={handleChange(`panel${index + 1}`)}>
+          <AccordionSummary aria-controls={`panel${index + 1}d-content`} id={`panel${index + 1}d-header`}>
+            <Typography>{`Order #${index + 1}`}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              <ProductList cartItems={order.cartItems} total={order.total} />
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      ))
+    ) : (
+      <Typography>No orders available</Typography>
+    )}
   </div>
 );
 
-
 export default function CustomizedAccordions() {
-  const [expanded, setExpanded] = React.useState('panel1');
+  const [expanded, setExpanded] = useState(null);
   const { cartItems, userLogged } = useGlobalCart();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
+
 
   useEffect(() => {
-    // Lógica para obtener las órdenes del usuario usando tu endpoint
     const fetchOrders = async () => {
       try {
         const response = await fetch(`${API_URL_LINK}/users/${userLogged.userId}/orders`);
         const data = await response.json();
-        setOrders(data.orders); // Ajusta esto según la estructura de tu respuesta
+        if (data.orders) {
+          setOrders(data.orders);
+        }
       } catch (error) {
         console.error('Error fetching orders:', error);
       }
     };
+    
     fetchOrders();
   }, [userLogged.userId]);
-  
+
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  return <OrdersTable orders={orders} />;
-
+  return <OrdersTable orders={orders} handleChange={handleChange} expanded={expanded} />;
 }
