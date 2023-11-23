@@ -36,6 +36,7 @@ function SignUpForm() {
     const [modalOpen, setModalOpen] = useState(false);
     const [token, setToken] = useState(''); 
     const navigate = useNavigate();
+    const specialCharacters = "[+ , . - _ ' \" ! ¿ ?]";
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[+,\.\-_'"!¿?])[A-Za-z\d+,\.\-_'"!¿?]{6,80}$/;
     const validateEmail = () => {
         if (email.trim() === '') {
@@ -49,7 +50,7 @@ function SignUpForm() {
 
     const verifyPassword = () => {
         if (!passwordPattern.test(password)) {
-          setPasswordError('The password must have at least one lowercase, one uppercase, one number and one special character. Length: 6-80 characters.');
+          setPasswordError(`The password must have at least one lowercase, one uppercase, one number and one special character ${specialCharacters} . Length: 6-80 characters.`);
         } else if (password.trim() === ''){
             setPasswordError('Password is required');
         }else {
@@ -129,14 +130,14 @@ function SignUpForm() {
             Enter your details below
         </Typography>
         <TextField 
-            label='Username' variant='outlined' fullWidth onChange={(e) => setUsername(e.target.value)} required
+            label='Username' variant='outlined' fullWidth onChange={(e) =>{ setUsername(e.target.value); verifyUsername();}} required
             error={usernameError !== ''} onBlur={verifyUsername} helperText={usernameError}/>
         <TextField
-            label='Email' variant='outlined' fullWidth value={email} onChange={(e) => setEmail(e.target.value)}
+            label='Email' variant='outlined' fullWidth value={email} onChange={(e) => {setEmail(e.target.value); validateEmail();}}
             onBlur={validateEmail} error={emailError !== ''} helperText={emailError} required inputProps={{ maxLength: 256 }}
         />
         <TextField 
-            label='Password' variant='outlined' type={showPassword ? 'text' : 'password'} onBlur={(e) => {verifyPassword(e); confirmSimilarPassword(e);}} error={passwordError !== ''} helperText={passwordError} 
+            label='Password' variant='outlined' type={showPassword ? 'text' : 'password'} onBlur={(e) => {verifyPassword(); confirmSimilarPassword(); }} error={passwordError !== ''} helperText={passwordError} 
             fullWidth value={password} onChange={(e) => setPassword(e.target.value)} required  inputProps={{maxLength: 256, minLength: 8}}
             InputProps={{
                 endAdornment: (
@@ -148,7 +149,7 @@ function SignUpForm() {
                 ),}}
         />  
         <TextField 
-            label='Confirm Password'variant='outlined'  type={showPasswordVerified ? 'text' : 'password'} onChange={(e) => setConfirmPassword(e.target.value )} error={verifyPasswordError !==''} fullWidth
+            label='Confirm Password'variant='outlined'  type={showPasswordVerified ? 'text' : 'password'} onChange={(e) => {setConfirmPassword(e.target.value ); confirmSimilarPassword();}} error={verifyPasswordError !==''} fullWidth
             onBlur={confirmSimilarPassword} helperText={verifyPasswordError} required inputProps={{maxLength: 256, minLength: 8}}
             InputProps={{
                 endAdornment: (
