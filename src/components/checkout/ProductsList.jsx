@@ -41,8 +41,8 @@ const ProductList = (props) => {
             <td><Typography variant='h6' style={{ fontWeight: "bold"}}>Total Cost</Typography></td>
             <td id='text-right'><Typography variant='h6' style={{ fontWeight: "bold"}}>{totalToShow} USD</Typography></td>
           </tr>
-        </table>      
-      </>
+        </table>
+        </>
     );
     };
 

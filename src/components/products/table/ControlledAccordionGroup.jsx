@@ -43,7 +43,7 @@ const OrdersTable = ({ orders, handleChange, expanded }) => (
               {
                 expanded === index && (
                   <div>
-                    <Typography>CHAPOTTER</Typography>
+                    <Typography>Here will be the product data</Typography>
                   </div>
                 )
               }
@@ -88,7 +88,7 @@ export default function CustomizedAccordions() {
   return (
     <>
       {
-        !loading ? <div className="full-centered-container"><span className="fast-loader"></span></div>
+        loading ? <div className="full-centered-container"><span className="fast-loader"></span></div>
         : (
           <OrdersTable orders={orders} handleChange={handleChange} expanded={expanded} />
         )

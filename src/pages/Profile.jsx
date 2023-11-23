@@ -39,7 +39,7 @@ const Profile = () => {
       <div className="profile-container">
         <div className="order-table">
           <div className='titleSub'> 
-          <Typography variant={width < 768 ? "body2" : "body1"} style={{ fontWeight: 'bold' }} > Manage My Account
+          <Typography variant={width < 768 ? "body2" : "body1"} style={{ fontWeight: 'bold' }} > Manage Account
           </Typography>
           </div>
           <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>

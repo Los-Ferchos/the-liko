@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Typography, Toolbar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import CustomLink from '../links/CustomLink';
@@ -10,17 +10,21 @@ import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
 import { FaUser } from "react-icons/fa6";
+import { FaSistrix } from 'react-icons/fa';
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const MediumHeader = () => {
+const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
-    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
 
+    const handleIconClick = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
     return (
         <div>
             <Toolbar className='header'>
@@ -67,6 +71,9 @@ const MediumHeader = () => {
                     </ul>
                 </div>
                 <div className='right-header'>
+                    <IconButton onClick={handleIconClick} >
+                        <FaSistrix />
+                    </IconButton>
                     {
                         userLogged != null ? (
                             <ul className='profile-options'>

@@ -4,6 +4,7 @@ import categorySlice from './categorySlice';
 import subcategorySlice from "./subcategorySlice";
 import cartSlice from "./cartSlice";
 import sortSlice from "./sortSlice";
+import searchSlice from "./searchSlice";
 
 /**
  * @typedef {Object} RootState
@@ -18,5 +19,6 @@ export const store = configureStore({
     subcategories: subcategorySlice,
     cart: cartSlice,
     sort: sortSlice,
+    search: searchSlice
   },
 });

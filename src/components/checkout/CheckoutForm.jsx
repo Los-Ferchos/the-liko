@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
  * @return {React.Component} A React component representing the checkout form.
  */
 const CheckoutForm = ({totalCost}) => {
+  
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [telephone, setTelephone] = useState('');
@@ -50,6 +51,7 @@ const CheckoutForm = ({totalCost}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
       setInvalidData(true);
       return;
@@ -57,6 +59,11 @@ const CheckoutForm = ({totalCost}) => {
 
     if(!await validateUserInformation()) {
       setInvalidData(true);
+      return;
+    }
+
+    if(!await registerOrder()) {
+      setIsFailed(true);
       return;
     }
 
@@ -148,6 +155,10 @@ const CheckoutForm = ({totalCost}) => {
   
   }
 
+  /**
+   * Validates user information by making a POST request to the server.
+   * @returns {Promise<boolean>} A promise that resolves to true if the user information is valid, false otherwise.
+   */
   const validateUserInformation = async () => {
      try{
       const response = await fetch(`${API_URL_LINK}/validateUserInformation`, {
@@ -163,6 +174,8 @@ const CheckoutForm = ({totalCost}) => {
             nit,
          }),
       });
+      
+    
 
       if (response.ok) {
         return true;
@@ -172,6 +185,47 @@ const CheckoutForm = ({totalCost}) => {
      }catch(error){
         return false;
       }
+  }
+
+  
+  /**
+   * Registers an order by sending a POST request to the server.
+   * @returns {Promise<boolean>} A promise that resolves to true if the order is successfully registered, otherwise false.
+   */
+  const registerOrder = async () => {
+    let now = new Date();
+    let order = { 
+      userId: userLogged.userId,
+      date: new Date(),
+      time: `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`,
+      status: 'delivered',
+      address: deliveryAddress,
+      items: cartItems.map(item => ({
+        productId: item.productInfo._id,
+        quantity: item.quantity,
+      })),
+      taxPercentage: 0,
+      totalCost: totalCost,
+      currency: 'USD',
+    };
+  
+    console.log(order);
+  
+    try{
+      const response = await fetch(`${API_URL_LINK}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+      });
+      
+      if (response.ok) {
+        return true;
+      }
+    }catch(error){
+       setIsFailed(true);
+    }
   }
 
 
