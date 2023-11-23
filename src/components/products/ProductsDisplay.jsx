@@ -19,7 +19,7 @@ import { useAppSelector } from '../hooks/store';
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
+const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "client"}) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -49,6 +49,9 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     }
   }
 
+  const searchText = useAppSelector((state) => state.search.searchText);
+  const search = useAppSelector((state) => state.search.search);
+
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
    * Updates the products, total pages, and loading state.
@@ -58,7 +61,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}`;
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
@@ -68,8 +71,6 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
     } 
-
-    dispatch(clearAll());
 
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -91,7 +92,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading]);
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
 
   
   /**
@@ -110,7 +111,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading }) => {
     <div>
       {(isLoading || loading) ? 
         <ProductsListLoader /> : 
-        <ProductsList load={loading || isLoading} products={products} failed={failed} />
+        <ProductsList load={loading || isLoading} products={products} failed={failed} type={type}/>
       }
 
       {(totalPages > 1 && !failed) && (

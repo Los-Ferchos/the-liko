@@ -94,8 +94,8 @@ const FilterItem = ({
     const handleChange1 = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) return;
 
-        if (activeThumb === 0) setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
-        else setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+        if (activeThumb === 0) setValue1([Math.min(newValue[0], value1[1] - 0), value1[1]]);
+        else setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
         
         setValuesArray(newValue);
     };
@@ -176,7 +176,7 @@ const FilterItem = ({
                 {range ?
                     <Box sx={{
                         display: 'flex', justifyContent: 'center',
-                        flexDirection: 'column', alignItems: 'center', marginInline: 'auto', marginTop: '1rem', width: '80%'
+                        flexDirection: 'column', alignItems: 'center', marginInline: 'auto', marginTop: '1rem', width: '85%'
                     }}>
                         <Slider
                             disabled={filterCheck ? true : false}

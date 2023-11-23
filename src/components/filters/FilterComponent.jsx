@@ -5,7 +5,7 @@ import '../../assets/styles/filter.css';
 import FilterList from './FilterList';
 import FilterButton from '../buttons/FilterButton';
 import { useDispatch } from 'react-redux';
-import { setSelected } from '../../store/sortSlice';
+import { clearAll, setSelected } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -31,6 +31,8 @@ const FilterComponent = () => {
         setDrawerOpen(!isDrawerOpen);
         if (!isDrawerOpen) {
             dispatch(setSelected(false))
+        } else {
+            dispatch(clearAll());
         }
     };
 

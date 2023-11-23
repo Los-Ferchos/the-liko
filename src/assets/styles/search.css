@@ -1,0 +1,8 @@
+.search-bar.visible .right-header {
+    margin-right: 10px; /* Ajusta este valor según sea necesario */
+  }
+  
+  /* Opcional: Ajusta la posición del icono de búsqueda */
+  .search-bar.visible .right-header .profile-options {
+    margin-right: 10px; /* Ajusta este valor según sea necesario */
+  }

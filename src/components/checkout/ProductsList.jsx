@@ -42,11 +42,6 @@ const ProductList = (props) => {
             <td id='text-right'><Typography variant='h6' style={{ fontWeight: "bold"}}>{totalToShow} USD</Typography></td>
           </tr>
         </table>
-        
-        
-      
-          
-      
         </>
     );
     };
