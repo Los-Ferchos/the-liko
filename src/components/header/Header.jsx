@@ -5,6 +5,9 @@ import SmallHeader from './SmallHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchBar from '../header/SearchBar';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearch, setSearchText } from '../../store/searchSlice';
+import { useAppSelector } from '../hooks/store';
 
 /**
  * This is the header component to show the navigation options for all the app
@@ -13,27 +16,24 @@ import { useState, useEffect } from 'react';
 const Header = () => {
     const { width } = useWindowSize();
     const limit = 960;
-    const [searchText, setSearchText] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [isSearchVisible, setIsSearchVisible] = useState(false); // Agrega el estado para la visibilidad
+    const searchText = useAppSelector((state) => state.search.searchText);
 
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-          searchProducts();
+          navigate("/products");
+          dispatch(setSearch());
         }
       };
   
-      const searchProducts = () => {
-        console.log(searchText);
-        console.log('searching products');
-        navigate(`/products/${searchText}`);
-      };
-  
-      const handleIconClick = () => {
-        setIsSearchVisible(!isSearchVisible);
-      };
 
+
+    const handleChangeSearch = (e) => {
+        dispatch(setSearchText(e.target.value))
+    }
 
     return (
         <AppBar color=''>
@@ -45,9 +45,8 @@ const Header = () => {
                 }
                 {isSearchVisible && ( // Renderiza el SearchBar solo si isSearchVisible es true
                     <SearchBar
-                        handleIconClick={() => setIsSearchVisible(false)}
                         searchText={searchText}
-                        setSearchText={setSearchText}
+                        handleChangeSearch={handleChangeSearch}
                         onKeyPress={handleKeyPress}
                         className='search'
                     />

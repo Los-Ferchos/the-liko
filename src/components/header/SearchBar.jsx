@@ -4,9 +4,8 @@ import { FaSistrix } from 'react-icons/fa';
 import '../../assets/styles/search.css'
 
 const SearchBar = ({
-  handleIconClick,
   searchText,
-  setSearchText,
+  handleChangeSearch,
   onKeyPress,
 }) => {
   return (
@@ -15,8 +14,9 @@ const SearchBar = ({
           size='small'
           placeholder='Search'
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleChangeSearch}
           fullWidth
+          autoComplete='off'
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
