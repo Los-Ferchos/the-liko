@@ -9,6 +9,7 @@ import { API_URL_LINK, STRIPE_KEY } from '../utils/constants';
 import '../assets/styles/checkout.css'
 import '../assets/styles/index.css'
 import { useGlobalCart } from '../components/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 
 const stripePromise = loadStripe(STRIPE_KEY);
@@ -23,6 +24,7 @@ const Checkout = () => {
   const amount = 100;
   const currency = 'usd';
   const { cartItems, userLogged } = useGlobalCart();
+  const navigate = useNavigate();
   
   let total = 0;
   cartItems.map(cartItem => {
@@ -70,7 +72,7 @@ const Checkout = () => {
           {"Please log in to an existing account or register a new one before proceeding with payment"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={() => setIsFailed(false)}>Ok</Button>
+          <Button onClick={() => navigate(-1)}>Ok</Button>
         </DialogActions>
       </Dialog>
       {clientSecret && (

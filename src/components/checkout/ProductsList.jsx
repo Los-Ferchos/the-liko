@@ -23,8 +23,7 @@ const ProductList = (props) => {
             <td className='image-tr'><Typography variant='h1' ></Typography></td>
             <td><Typography variant='h6' style={{ fontWeight: "bold"}} >Title</Typography></td>
             <td><Typography variant='h6' style={{ fontWeight: "bold"}} >Quantity</Typography></td>
-            <td><Typography variant='h6'style={{ fontWeight: "bold"}} ><p>Unit Price <br />
-              BOB </p></Typography></td>
+            <td><Typography variant='h6'style={{ fontWeight: "bold"}} ><p>Unit Price </p></Typography></td>
           </tr>
           {
             cartItems.map((cartItems) => (
@@ -32,7 +31,7 @@ const ProductList = (props) => {
                 <td className='image-tr' ><img src={cartItems.productInfo.imgUrl} alt={cartItems.productInfo.name} width="50" height="50" /></td>
                 <td ><Typography variant='h6'>{cartItems.productInfo.name}</Typography></td>
                 <td id='number'><Typography variant='h6'>{cartItems.quantity}</Typography></td>
-                <td id='number'> <Typography variant='h6'>{`${cartItems.productInfo.price.value}`}</Typography></td>
+                <td id='number'> <Typography variant='h6'>{`${cartItems.productInfo.price.value} USD`}</Typography></td>
               </tr>
             ))
           }
@@ -40,7 +39,7 @@ const ProductList = (props) => {
         <table className="table">
           <tr>
             <td><Typography variant='h6' style={{ fontWeight: "bold"}}>Total Cost</Typography></td>
-            <td id='text-right'><Typography variant='h6' style={{ fontWeight: "bold"}}>{totalToShow} BOB</Typography></td>
+            <td id='text-right'><Typography variant='h6' style={{ fontWeight: "bold"}}>{totalToShow} USD</Typography></td>
           </tr>
         </table>
         
