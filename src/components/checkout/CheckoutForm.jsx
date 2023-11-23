@@ -9,9 +9,13 @@ import { useGlobalCart } from '../contexts/CartContext';
 import { sendInvoice } from '../../utils/methods';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
+/**
+ * A React component that displays a checkout form for a user to enter their payment information.
+ *
+ * @param {number} totalCost - The total cost of the items in the cart.
+ *
+ * @return {React.Component} A React component representing the checkout form.
+ */
 const CheckoutForm = ({totalCost}) => {
   
   const [FirstName, setFirstName] = useState('');

@@ -9,6 +9,7 @@ import { capitalizeString, filterDataArray, getInactivePaths } from '../utils/me
 import { API_URL_LINK } from '../utils/constants';
 import FilterComponent from '../components/filters/FilterComponent';
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 
 /**
  * Products component displays a list of products based on the specified category or subcategory.
@@ -71,6 +72,7 @@ const Products = ({ destination = "" }) => {
 
 
   return (
+    <>
     <Container component={"section"} className='vertical-container-padding'>
       <Header />
       {isLoading ? (
@@ -89,6 +91,8 @@ const Products = ({ destination = "" }) => {
         </>
       )}
     </Container>
+      <Footer />
+    </>
   );
 };
 

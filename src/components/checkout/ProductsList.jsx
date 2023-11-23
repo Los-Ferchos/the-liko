@@ -1,9 +1,15 @@
-import { Button, Typography, Grid, Divider } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react'
-import TextOrder from './TextOrder';
 import '../../assets/styles/checkout.css'
-import { blue } from '@mui/material/colors';
 
+/**
+ * A React component that displays a list of cart items and their corresponding totals.
+ *
+ * @param {object[]} cartItems - An array of cart items, each containing a productInfo object and a quantity property.
+ * @param {number} total - The total cost of all cart items.
+ *
+ * @return {React.Component} A React component representing the product list.
+ */
 const ProductList = (props) => {
     const cartItems = props.cartItems;
     const total = props.total;

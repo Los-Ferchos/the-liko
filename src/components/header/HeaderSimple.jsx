@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/images/icon.svg';
 import '../../assets/styles/header.css';
 
+/**
+ * A simple header component for a React application.
+ *
+ * @return {React.Component} A React component representing the simple header.
+ */
 const HeaderSimple = () => {
   return (
     <AppBar color=''>

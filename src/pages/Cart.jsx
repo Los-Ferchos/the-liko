@@ -6,6 +6,8 @@ import '../assets/styles/cart.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalCart } from '../components/contexts/CartContext'
+import Footer from '../components/footer/Footer';
+
 
 /**
  * This the cart page to render all the products and details in the shopping cart.
@@ -32,6 +34,7 @@ function Cart() {
     }
 
     return (
+        <>
         <Container component={"section"} style={{ position: "relative" }}>
             <Header />
             <NavigationText
@@ -117,6 +120,8 @@ function Cart() {
                     </div>
             }
         </Container>
+        <Footer />
+        </>
     )
 }
 

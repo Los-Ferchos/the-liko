@@ -8,8 +8,6 @@ import { useGlobalCart } from '../contexts/CartContext';
 import { userSlice } from '../../store/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
-
-
 /**
  * Represents a verification modal component.
  *
@@ -21,10 +19,9 @@ import { Link, useNavigate } from 'react-router-dom';
  * @returns {JSX.Element} The verification modal component.
  */
 const VerificacionModal = ({ open, onClose, token }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { setUserLogged, setCartItems, uploadCartToDatabase } = useGlobalCart();
-
   const [codigo, setCodigo] = useState(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

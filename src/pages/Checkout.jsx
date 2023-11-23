@@ -10,9 +10,15 @@ import '../assets/styles/checkout.css'
 import '../assets/styles/index.css'
 import { useGlobalCart } from '../components/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/footer/Footer';
 
 const stripePromise = loadStripe(STRIPE_KEY);
 
+/**
+ * A React component that displays a checkout page for a user to review their cart items and enter their payment information.
+ *
+ * @return {React.Component} A React component representing the checkout page.
+ */
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState('');
   const amount = 100;
@@ -54,6 +60,7 @@ const Checkout = () => {
   }, [amount, currency, setClientSecret]); 
 
   return (
+    <>
     <Container>
      <NewHeader />
      <Dialog
@@ -82,6 +89,8 @@ const Checkout = () => {
         </div>
       )}
     </Container>
+    <Footer />
+    </>
   );
 };
 

@@ -1,45 +1,60 @@
-import React from 'react';
-import { Container, Grid, Button } from '@mui/material';
-import { FaArrowRightFromBracket } from 'react-icons/fa6';
+import React, { useState } from 'react';
+import { Container, Typography } from '@mui/material';
 import Header from '../components/header/Header';
 import useWindowSize from '../components/hooks/useWindowSize';
-import { Avatar, Typography, Divider } from '@mui/material';
+import '../assets/styles/profile.css';
 import NavigationText from '../components/navText/NavigationText';
-import { useGlobalCart } from '../components/contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
+import CustomLink from '../components/links/CustomLink';
+import { ConstructionSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
+import ProfileSection from '../components/profile/ProfileSection';
+import Footer from '../components/footer/Footer';
 
+/**
+ * A React component that displays a profile page for a user to manage their account information.
+ *
+ * @return {React.Component} A React component representing the profile page.
+ */
 const Profile = () => {
   const { width } = useWindowSize();
-  const { setUserLogged } = useGlobalCart();
-  const navigate = useNavigate();
+  const [profileSection, setProfileSection] = useState('My Profile'); 
+
+  const renderProfileSection = () => {
+    switch (profileSection) {
+      case 'My Profile':
+        return <ProfileSection />;
+      case 'Order History':
+        return <OrderHistorySection />;
+      case 'My Favorite List':
+        return <ConstructionSection />;
+      default:
+        return <DefaultSection />;
+    }
+  };
 
   return (
+    <>
+    
     <Container>
       <Header />
-
       <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Profile' />
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
-        </Grid>
-        <Grid item xs={12} md={9}>
-          <div className='buttonLogOut'>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<FaArrowRightFromBracket />}
-              onClick={() => {
-                setUserLogged(null);
-                navigate(-1);
-
-              }}
-            >
-              Log Out
-            </Button>
+      <div className="profile-container">
+        <div className="order-table">
+          <div className='titleSub'> 
+          <Typography variant={width < 768 ? "body2" : "body1"} style={{ fontWeight: 'bold' }} > Manage Account
+          </Typography>
           </div>
-        </Grid>
-      </Grid>
+          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>
+          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')} /></div>
+          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')} /></div>
+        </div>
+        <div className="button-log-out" >
+          {renderProfileSection()}
+        </div>
+      </div>
     </Container>
+    <Footer/>
+
+    </>
   );
 };
 
