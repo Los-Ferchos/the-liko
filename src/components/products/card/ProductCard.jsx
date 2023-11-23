@@ -7,6 +7,7 @@ import bottleLoaderImg from '../../../assets/images/bottle-loader.png';
 import EditProductButton from '../../buttons/EditProductButton';
 import DeleteProductButton from '../../buttons/DeleteProductButton';
 import SetStockButton from '../../buttons/SetStockButton';
+import HideProductButton from '../../buttons/HideProductButton';
 
 /**
  * Displays a product card with details such as image, rating, title, price, and add to cart button.
@@ -53,8 +54,9 @@ const ProductCard = ({ product = {}, className = "", type = "client" }) => (
               </Typography>
             </div>
             <div>
-              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginBottom:5}}>
-                <EditProductButton />
+              <EditProductButton product={product} />
+              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginBottom:5, marginTop:5}}>
+                <HideProductButton product={product}/>
                 <DeleteProductButton />
               </div>
               <SetStockButton />

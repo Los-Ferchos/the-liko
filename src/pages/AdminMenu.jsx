@@ -4,6 +4,7 @@ import Header from '../components/header/Header'
 import NavigationText from '../components/navText/NavigationText'
 import useWindowSize from '../components/hooks/useWindowSize'
 import '../assets/styles/adminPanel.css'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * AdminMenu component representing the Admin Panel page.
@@ -17,6 +18,7 @@ const AdminMenu = () => {
      * @property {number} width - The width of the window.
      */
     const { width } = useWindowSize();
+    const navigate = useNavigate();
 
     return (
         <Container>
@@ -29,7 +31,7 @@ const AdminMenu = () => {
             <Grid marginTop={30} container spacing={width > 768 ? 36 : 24} justifyContent="center">
                 <Grid item xs={12} sm={width > 768 ? 6 : 12} justifyContent={width > 768 ? "flex-end" : "center"} display={"flex"}>
                     {/* Button for managing products */}
-                    <Button variant="outlined" color="primary" className='admin-panel-menu-button'>
+                    <Button variant="outlined" color="primary" className='admin-panel-menu-button' onClick={() => navigate("/admin/view-products")}>
                         Manage Products
                     </Button>
                 </Grid>
