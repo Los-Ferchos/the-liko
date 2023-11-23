@@ -16,20 +16,13 @@ import { useNavigate } from 'react-router-dom';
 /**
  * Component for rendering a form to add a new product.
  *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.productData - The product data to initialize the form.
+ * 
  * @component
  * @returns {JSX.Element} - The rendered ProductForm component.
  */
-const ProductForm = () => {
-  const navigate = useNavigate();
-
-  const [file, setFile] = useState("");
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const [nonRequiredFields, setNonRequiredFields] = useState(["subcategory"]);
-
-  const [formData, setFormData] = useState({
+const ProductForm = ({ productData = {
     name: '',
     description: '',
     stock: 1,
@@ -39,7 +32,17 @@ const ProductForm = () => {
     brand: '',
     abv: 0,
     type: '',
-  });
+  } }) => {
+  const navigate = useNavigate();
+
+  const [file, setFile] = useState("");
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [nonRequiredFields, setNonRequiredFields] = useState(["subcategory"]);
+
+  const [formData, setFormData] = useState(productData);
 
   const [formError, setFormError] = useState({
     name: '',
