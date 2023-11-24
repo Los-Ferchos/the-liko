@@ -20,6 +20,7 @@ import React from 'react'
  * @param {function} [props.handleErrorMsg=()=>{}] - The callback function to handle error messages.
  * @param {string} [props.typeNumber="int"] - The type of number input ('int' or 'price').
  * @param {string} [props.placeholder=""] - The placeholder text for the input field.
+ * @param {string} [props.maxLength=500] - The max length text for the input field.
  * @returns {JSX.Element} - The rendered FieldText component.
  */
 const FieldText = ({
@@ -37,7 +38,8 @@ const FieldText = ({
   errorMsg = "",
   handleErrorMsg = () => {},
   typeNumber = "int",
-  placeholder = ""
+  placeholder = "",
+  maxLength = 500
 }) => {
 
   /**
@@ -129,6 +131,7 @@ const FieldText = ({
             },
           },
         }}
+        inputProps={{ maxLength: maxLength }}
       >
         {children}
       </TextField>
