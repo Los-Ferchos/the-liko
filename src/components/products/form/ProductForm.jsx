@@ -151,6 +151,7 @@ const ProductForm = ({ edit = false, productData = {
                     onChange={handleChange}
                     errorMsg={formError.name}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={50}
                 />
 
                 <FieldText
@@ -163,6 +164,7 @@ const ProductForm = ({ edit = false, productData = {
                     rows={4}
                     errorMsg={formError.description}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={500}
                 />
 
                 <FieldText
@@ -218,6 +220,7 @@ const ProductForm = ({ edit = false, productData = {
                     onChange={handleChange}
                     errorMsg={formError.brand}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={50}
                 />
 
                 <AbvSlider value={formData.abv} handleChange={handleChange}/>
@@ -230,6 +233,7 @@ const ProductForm = ({ edit = false, productData = {
                     onChange={handleChange}
                     errorMsg={formError.type}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={50}
                 />
             </Grid>
 
