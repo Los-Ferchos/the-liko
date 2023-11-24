@@ -29,7 +29,6 @@
     margin: 30px 40px;
 }
 
-/* Media Query para pantallas más grandes que 600px */
 @media screen and (max-width: 767px) {
   .cardContentLog {
     padding: 10px;
@@ -40,6 +39,10 @@
 .buttonLog {
     background-color: #DB4444;
     color: white;
+}
+
+.titleSub{
+  margin-top: 10px;
 }
 
 .divContainer {

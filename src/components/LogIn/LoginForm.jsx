@@ -6,7 +6,7 @@ import validator from 'validator';
 import { API_URL_LINK } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PrevButton from '../buttons/PrevButton';
 import { useGlobalCart } from '../contexts/CartContext';
 
@@ -73,6 +73,8 @@ const LoginForm = ({ width }) => {
         if (response.ok) {
           const data = await response.json();
           dispatch(userSlice.actions.loginUser(data));
+
+          console.log(data.isAdmin)
           
           setIsLoading(true);
 
@@ -167,7 +169,7 @@ const LoginForm = ({ width }) => {
       </Card>
       <Grid item sx={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
         <Typography variant={width < 768 ? 'h6' : 'h5'} className='createAccountLink'>
-          Don't have an account yet? <a href='#' className='createText'> Sign Up </a>
+          Don't have an account yet? <Link to="/sign_up" className='createText'> Sign Up </Link>
         </Typography>
       </Grid>
     </Grid>

@@ -6,13 +6,23 @@ import LogIn from "./pages/LogIn"
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
+import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
 import {setCategories} from "./store/categorySlice"
 import {setSubcategories} from "./store/subcategorySlice"
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
 import { API_URL_LINK } from "./utils/constants";
+import SignUp from "./pages/SignUp"
+import Cart from "./pages/Cart"
+import AdminMenu from "./pages/AdminMenu"
+import AddProductFormPage from "./pages/AddProductFormPage"
+import AdminViewProducts from "./pages/AdminViewProducts"
+import EditProductFormPage from "./pages/EditProductFormPage"
+import { useAppSelector } from "./components/hooks/store"
+import { useGlobalCart } from "./components/contexts/CartContext"
+
 
 const theme = createTheme({
   spacing: 2,
@@ -28,6 +38,10 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#FF0000',
+      hover: '#DB4444'
+    },
+    red: {
+      main: '#EEBB58',
       hover: '#DB4444'
     },
     gray: {
@@ -86,7 +100,41 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           padding: '20px',
-          paddingTop: '100px'
+          paddingTop: '100px',
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          flexDirection: 'column'
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          width: '100%',
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center"
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: '13.5px',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: '16px',
         },
       },
     },
@@ -95,6 +143,16 @@ const theme = createTheme({
 
 const App = () => {
   const dispatch = useDispatch();
+  const [isUserAdmin, setIsAdmin] = useState(true);
+  const { userLogged } = useGlobalCart();
+
+  useEffect(() => {
+    if (userLogged) {
+      setIsAdmin(userLogged.isAdmin);
+    } else{
+      setIsAdmin(false);
+    }
+  }, [userLogged])
 
   useEffect(() => {
     fetch(`${API_URL_LINK}/categories`)
@@ -116,6 +174,8 @@ const App = () => {
         <Routes>
           <Route path='/' Component={Home} />
           <Route path='/about_us' Component={AboutUs} />
+          <Route path='/checkout' Component={Checkout} />
+          <Route path='/sign_up' Component={SignUp} />
           <Route path='/logIn' Component={LogIn} />
           <Route path='/profile' Component={Profile}></Route>
           <Route path='/:name' Component={() => <Products destination="/category" />} />
@@ -123,6 +183,11 @@ const App = () => {
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
           <Route path='/products' Component={Products} />
           <Route path='/404' Component={Page404} />
+          <Route path="/admin" Component={ isUserAdmin ? AdminMenu : Page404}/>
+          <Route path="/admin/add-product" Component={isUserAdmin ? AddProductFormPage : Page404}/>
+          <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
+          <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
+          <Route path="/cart" Component={Cart} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>

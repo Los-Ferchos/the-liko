@@ -1,29 +1,57 @@
 .loader {
-    width: 40px;
-    height: 98px;
-    display: inline-block;
-    position: relative;
-    border: 2px solid #FFF;
-    box-sizing: border-box;
-    color: rgba(255, 61, 0, 0.9);
-    border-radius: 20px 20px 4px 4px;
-    background: #fff;
-    animation: fill 2s linear infinite alternate;
-  }
-  .loader::after {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    left: 50%;
-    top: 0%;
-    transform: translate(-50% , -95%);
-    border: 2px solid #FFF;
-    border-bottom: none;
-    background: #fff;
-    width: 15px;
-    height: 35px;
-    animation: fillNeck 2s linear infinite alternate;
-  }
+  width: 40px;
+  height: 98px;
+  display: inline-block;
+  position: relative;
+  border: 2px solid #FFF;
+  box-sizing: border-box;
+  color: rgba(255, 61, 0, 0.9);
+  border-radius: 20px 20px 4px 4px;
+  background: #fff;
+  animation: fill 2s linear infinite alternate;
+}
+
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50% , -95%);
+  border: 2px solid #FFF;
+  border-bottom: none;
+  background: #fff;
+  width: 15px;
+  height: 35px;
+  animation: fillNeck 2s linear infinite alternate;
+}
+
+.fast-loader {
+  width: 40px;
+  height: 98px;
+  display: inline-block;
+  position: relative;
+  border: 2px solid #FFF;
+  box-sizing: border-box;
+  color: rgba(255, 61, 0, 0.9);
+  border-radius: 20px 20px 4px 4px;
+  background: #fff;
+  animation: fill .3s linear infinite alternate;
+}
+.fast-loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50% , -95%);
+  border: 2px solid #FFF;
+  border-bottom: none;
+  background: #fff;
+  width: 15px;
+  height: 35px;
+  animation: fillNeck .3s linear infinite alternate;
+}
 
   @keyframes fill {
     0% { box-shadow: 0 0  inset }
@@ -34,4 +62,32 @@
   @keyframes fillNeck {
     0% , 50%{ box-shadow: 0 0  inset }
     100% { box-shadow: 0 -20px inset }
+  }
+
+
+.small-loader {
+    width: 20px;
+    height: 49px;
+    display: inline-block;
+    position: relative;
+    border: 2px solid #FFF;
+    box-sizing: border-box;
+    color: rgba(255, 61, 0, 0.9);
+    border-radius: 20px 20px 4px 4px;
+    background: #fff;
+    animation: fill 1.4s linear infinite alternate;
+  }
+
+.small-loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translate(-50% , -80%);
+    border-bottom: none;
+    background: #fff;
+    width: 7.5px;
+    height: 17.5px;
+    animation: fillNeck 1.4s linear infinite alternate;
   }

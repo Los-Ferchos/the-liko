@@ -1,25 +1,40 @@
-import { useState } from 'react';
-import { Typography, Toolbar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
-import { BiUserCircle } from 'react-icons/bi';
 import CustomLink from '../links/CustomLink';
 import '../../assets/styles/header.css'
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useAppSelector } from "../hooks/store";
 import { getHyphenedString } from "../../utils/methods";
 import CartIconButton from '../buttons/CartIconButton';
 import { useGlobalCart } from '../contexts/CartContext';
+import { FaUser } from "react-icons/fa6";
+import { FaSistrix } from 'react-icons/fa';
 
 /**
  * This is the header component to show the navigation options for all the app
  * @returns {JSX.Element} Rendered Header component.
  */
-const MediumHeader = () => {
+const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
     const categories = useAppSelector((state) => state.categories.categories);
     const [currentCategory, setCurrentCategory] = useState();
     const { userLogged } = useGlobalCart();
-    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled')
+    const [isUserAdmin, setIsAdmin] = useState(true);
+    const [inferiorHeader, setInferiorHeader] = useState('inferior-header-disabled');
+
+    const handleIconClick = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
+
+    useEffect(() => {
+      if (userLogged) {
+        setIsAdmin(userLogged.isAdmin);
+      } else{
+        setIsAdmin(false);
+      }
+    }, [userLogged]);
+
 
     return (
         <div>
@@ -64,14 +79,24 @@ const MediumHeader = () => {
                                 />
                             </li>
                         ))}
+                            {
+                                isUserAdmin && (<li key={"adminKey"}>
+                                <CustomLink variant="body2" title='Admin' href='/admin' />
+                                </li> )
+                            }
                     </ul>
                 </div>
                 <div className='right-header'>
+                    <IconButton onClick={handleIconClick} >
+                        <FaSistrix />
+                    </IconButton>
                     {
                         userLogged != null ? (
                             <ul className='profile-options'>
-                                <li style={{ display: 'flex' }}>
-                                    <BiUserCircle/>
+                                <li style={{ display: 'flex', gap: '5px' }}>
+                                    <NavLink to='/profile'>
+                                        <FaUser />
+                                    </NavLink>
                                     <CustomLink variant="body2" title='Profile' href='/profile' />
                                 </li>
                             </ul>
@@ -84,7 +109,7 @@ const MediumHeader = () => {
                                     <Typography variant="body2" color="black">|</Typography>
                                 </li>
                                 <li>
-                                    <CustomLink variant="body2" title='Create Account' />
+                                    <CustomLink variant="body2" title='Create Account' href='/sign_up' />
                                 </li>
                             </ul>
                         )
