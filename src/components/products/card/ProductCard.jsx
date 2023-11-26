@@ -57,7 +57,7 @@ const ProductCard = ({ product = {}, className = "", type = "client" }) => (
               <EditProductButton product={product} />
               <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginBottom:5, marginTop:5}}>
                 <HideProductButton product={product}/>
-                <DeleteProductButton />
+                <DeleteProductButton product={product}/>
               </div>
               <SetStockButton />
             </div>

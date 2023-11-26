@@ -1,5 +1,11 @@
 .table-orders tbody tr{
     border: 1px solid #c0c0c0;
+    vertical-align: middle;
+}
+
+.table-orders tbody tr td{
+    vertical-align: middle;
+    text-align: center;
 }
 
 .table-orders tbody tr.active{
