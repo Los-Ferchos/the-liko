@@ -100,7 +100,7 @@ const FieldText = ({
    * @param {Object} e - The change event.
    */
   const handleChange = (e) => {
-    onChange(e);
+    onChange(e, maxLength);
   }
 
   return (
@@ -131,7 +131,7 @@ const FieldText = ({
             },
           },
         }}
-        inputProps={{ maxLength: maxLength }}
+        inputProps={{ maxLength }}
       >
         {children}
       </TextField>
