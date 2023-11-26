@@ -1,7 +1,8 @@
 import React from 'react'
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { API_URL_LINK } from '../../utils/constants';
 
 /**
  * DeleteProductButton component display the delete product button, to delete a product
@@ -9,22 +10,28 @@ import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogC
  * @param {Object} props - The properties of the component.
  * @returns {JSX.Element} - Rendered DeleteProductButton component.
  */
-function DeleteProductButton() {
+function DeleteProductButton({product}) {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
+    const [dialog, setDialog] = useState(false);
     const [msg, setMsg] = useState("The action delete the product of the database permanently. This action is irreversible. ");
 
+
     const deleteProduct = async () => {
-        setLoading(true)
-        setError(true)
-        setLoading(true)
+        setLoading(true);
+        setDialog(false);
+        const options = {
+            method: 'DELETE',
+        };
+        await fetch(`${API_URL_LINK}/products/${product._id}`, options);
+        setLoading(false);
+        window.location.reload();
     }
 
     return (
         <>
         <Dialog
-            open={error}
-            onClose={() => setError(false)}
+            open={dialog}
+            onClose={() => setDialog(false)}
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
         >
@@ -37,8 +44,8 @@ function DeleteProductButton() {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setError(false)}>Cancel</Button>
-                <Button onClick={() => { setError(false), deleteProduct }}>Continue</Button>
+                <Button onClick={() => setDialog(false)}>Cancel</Button>
+                <Button onClick={() => deleteProduct()}>Continue</Button>
             </DialogActions>
         </Dialog>
         {
@@ -47,7 +54,7 @@ function DeleteProductButton() {
                 color="primary"
                 startIcon={<FaRegTrashAlt />}
                 style={{width:"48%"}}
-                onClick={() => setError(true)}
+                onClick={() => setDialog(true)}
             >
                 Delete
             </Button>)
