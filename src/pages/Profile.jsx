@@ -20,7 +20,7 @@ const Profile = () => {
   const { width } = useWindowSize();
   const [profileSection, setProfileSection] = useState('My Profile'); 
   const { userLogged } = useGlobalCart();
-  const navigate = useNavigate();  // Hook de React Router para la navegación
+  const navigate = useNavigate();  
 
   useEffect(() => {
     if (!userLogged) {
