@@ -186,7 +186,6 @@ const CheckoutForm = ({totalCost}) => {
         return false;
       }
   }
-
   
   /**
    * Registers an order by sending a POST request to the server.
