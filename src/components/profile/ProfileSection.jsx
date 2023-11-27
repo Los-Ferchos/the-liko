@@ -61,7 +61,7 @@ const ProfileSection = () => {
         startIcon={<FaArrowRightFromBracket style={{ color: 'white' }} />}
         onClick={() => {
             setUserLogged(null);
-            navigate(-1);
+            navigate('/');
 
           }}
       >
