@@ -1,48 +1,47 @@
-// SearchBar.jsx
 import React from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { FaSistrix } from 'react-icons/fa';
 import '../../assets/styles/search.css';
 
-/**
- * @typedef {Object} SearchBarProps
- * @property {string} searchText - El texto actual del campo de búsqueda.
- * @property {function} handleChangeSearch - Función para manejar cambios en el texto de búsqueda.
- * @property {function} onKeyPress - Función para manejar eventos de pulsación de tecla.
- * @property {function} onButtonClick - Función para manejar eventos de clic en el botón de búsqueda.
- */
-
-/**
- * Componente de barra de búsqueda.
- * @param {SearchBarProps} props - Propiedades del componente.
- * @returns {JSX.Element} Elemento JSX renderizado del componente.
- */
 const SearchBar = ({
   searchText,
   handleChangeSearch,
   onKeyPress,
   onButtonClick,
 }) => {
+  // Expresión regular para permitir solo caracteres alfanuméricos
+  const alphanumericRegex = /^[a-zA-Z0-9 ]*$/;
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+
+    // Verificar la longitud y caracteres especiales antes de actualizar el estado
+    if (inputValue.length <= 256 && alphanumericRegex.test(inputValue)) {
+      handleChangeSearch(event);
+    }
+  };
+
   return (
-    <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }} >
+    <div style={{ justifyContent: 'center', display: 'flex', alignItems: 'center' }}>
       <TextField
         size='small'
         placeholder='Search'
         value={searchText}
-        onChange={handleChangeSearch}
+        onChange={handleInputChange}  
         fullWidth
         autoComplete='off'
-        sx={{ width: '850px', paddingRight: '5px' }} 
+        sx={{ width: '850px', paddingRight: '5px' }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton edge="end" onClick={onButtonClick} >
+              <IconButton edge="end" onClick={onButtonClick}>
                 <FaSistrix />
               </IconButton>
             </InputAdornment>
           ),
         }}
         onKeyDown={onKeyPress}
+        inputProps={{ maxLength: 256 }} 
       />
     </div>
   );

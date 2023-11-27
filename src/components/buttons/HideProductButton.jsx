@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { API_URL_LINK } from '../../utils/constants';
 
 /**
  * HideProductButton component display the hide product button, to hide a product
@@ -13,20 +14,27 @@ function HideProductButton({ product }) {
     const [loading, setLoading] = useState(false);
     const [dialog, setDialog] = useState(false);
     const [dialogActive, setDialogActive] = useState(false);
-    const [msg, setMsg] = useState("The action hide the product selected from the users, it means that the product will not be available. ");
-    const [msgActive, setMsgActive] = useState("The action show the product selected from the users, it means that the product will be available. ");
-    const [ isAvailable, setAvailable ] = useState(true);
+    const [msg, setMsg] = useState("The action hide the product selected from the users, it means that the product will not be available for the users. ");
+    const [msgActive, setMsgActive] = useState("The action show the product selected from the users, it means that the product will be available for the users. ");
+    const [isAvailable, setAvailable] = useState(true);
 
     useEffect(() => {
-        if(!product) return;
-        const availability = product.availability;
-        setAvailable(availability)
+        if (!product) return;
+        setAvailable(product.availability)
     }, [product])
 
     const hideProduct = async () => {
         setLoading(true);
         setDialog(false);
-        setAvailable(false);
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ availability: false }),
+        };
+        await fetch(`${API_URL_LINK}/products/${product._id}`, options);
+        setAvailable(false)
         setLoading(false);
     }
 
@@ -38,44 +46,44 @@ function HideProductButton({ product }) {
     return (
         <>
             <>
-            <Dialog
-                open={dialog}
-                onClose={() => setDialog(false)}
-                aria-labelledby="dialog-title"
-                aria-describedby="dialog-description"
-            >
-                <DialogTitle id="dialog-title">
-                    {"Are you sure to continue?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="dialog-description">
-                        {msg}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialog(false)}>Cancel</Button>
-                    <Button onClick={() => { setDialog(false), hideProduct() }}>Continue</Button>
-                </DialogActions>
-            </Dialog>
-            <Dialog
-                open={dialogActive}
-                onClose={() => setDialogActive(false)}
-                aria-labelledby="dialog-title"
-                aria-describedby="dialog-description"
-            >
-                <DialogTitle id="dialog-title">
-                    {"Are you sure to continue?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="dialog-description">
-                        {msgActive}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setDialogActive(false)}>Cancel</Button>
-                    <Button onClick={() => showProduct() }>Continue</Button>
-                </DialogActions>
-            </Dialog>
+                <Dialog
+                    open={dialog}
+                    onClose={() => setDialog(false)}
+                    aria-labelledby="dialog-title"
+                    aria-describedby="dialog-description"
+                >
+                    <DialogTitle id="dialog-title">
+                        {"Are you sure to continue?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="dialog-description">
+                            {msg}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setDialog(false)}>Cancel</Button>
+                        <Button onClick={() => { setDialog(false), hideProduct() }}>Continue</Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={dialogActive}
+                    onClose={() => setDialogActive(false)}
+                    aria-labelledby="dialog-title"
+                    aria-describedby="dialog-description"
+                >
+                    <DialogTitle id="dialog-title">
+                        {"Are you sure to continue?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="dialog-description">
+                            {msgActive}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setDialogActive(false)}>Cancel</Button>
+                        <Button onClick={() => showProduct()}>Continue</Button>
+                    </DialogActions>
+                </Dialog>
             </>
             {
                 loading ? (
@@ -84,7 +92,6 @@ function HideProductButton({ product }) {
                         color="primary"
                         disabled
                         style={{ borderColor: '#F00', color: "#F00", width: "48%" }}
-                        startIcon={<MdShoppingCartCheckout />}
                     >
                         Hiding &nbsp;&nbsp;<CircularProgress size={16} />
                     </Button>

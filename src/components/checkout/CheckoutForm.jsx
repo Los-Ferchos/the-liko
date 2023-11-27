@@ -186,7 +186,6 @@ const CheckoutForm = ({totalCost}) => {
         return false;
       }
   }
-
   
   /**
    * Registers an order by sending a POST request to the server.
@@ -252,7 +251,7 @@ const CheckoutForm = ({totalCost}) => {
         </DialogActions>
       </Dialog>
 
-      <Typography variant='h6' >1. Delivery ADDRESS</Typography>
+      <Typography variant='h6' >1. USER INFORMATION</Typography>
 
       <TextField 
       required label="First Name" size='normal' variant="outlined" helperText={firstNameError} error={firstNameError !== '' }
