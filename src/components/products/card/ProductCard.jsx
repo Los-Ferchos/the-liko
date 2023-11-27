@@ -8,6 +8,8 @@ import EditProductButton from '../../buttons/EditProductButton';
 import DeleteProductButton from '../../buttons/DeleteProductButton';
 import SetStockButton from '../../buttons/SetStockButton';
 import HideProductButton from '../../buttons/HideProductButton';
+import { Link } from 'react-router-dom';
+import { getHyphenedString } from '../../../utils/methods';
 
 /**
  * Displays a product card with details such as image, rating, title, price, and add to cart button.
@@ -20,50 +22,54 @@ import HideProductButton from '../../buttons/HideProductButton';
  */
 const ProductCard = ({ product = {}, className = "", type = "client" }) => (
   <Grid item xs={12} sm={6} md={3} className={className}>
-    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <LazyImage
-        src={product.imgUrl}
-        placeholderSrc={bottleLoaderImg}
-        className={"product-image-container"}
-      />
-      {
-        type === "client" ?
-          (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
-            <RatingWishProduct
-              rating={product.rating}
-              reviews={product.totalReviews}
-              productId={product._id}
-            />
-            <div className="product-title">
-              <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
-                {product.name}
-              </Typography>
-            </div>
-            <div className="product-price">
-              <Typography variant="subtitle1">
-                {product.price.currency} {product.price.value}
-              </Typography>
-            </div>
-            <AddToCartButton product={product} />
-          </CardContent>)
-          :
-          (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
-            <div className="product-title">
-              <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
-                {product.name}
-              </Typography>
-            </div>
-            <div>
-              <EditProductButton product={product} />
-              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", marginBottom:5, marginTop:5}}>
-                <HideProductButton product={product}/>
-                <DeleteProductButton />
+    <Link state={{product}} to={`/product/${getHyphenedString(product.name)}`}>
+      <Card
+        style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+      >
+        <LazyImage
+          src={product.imgUrl}
+          placeholderSrc={bottleLoaderImg}
+          className={"product-image-container"}
+        />
+        {
+          type === "client" ?
+            (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
+              <RatingWishProduct
+                rating={product.rating}
+                reviews={product.totalReviews}
+                productId={product._id}
+              />
+              <div className="product-title">
+                <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
+                  {product.name}
+                </Typography>
               </div>
-              <SetStockButton />
-            </div>
-          </CardContent>)
-      }
-    </Card>
+              <div className="product-price">
+                <Typography variant="subtitle1">
+                  {product.price.currency} {product.price.value}
+                </Typography>
+              </div>
+              <AddToCartButton product={product} />
+            </CardContent>)
+            :
+            (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
+              <div className="product-title">
+                <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
+                  {product.name}
+                </Typography>
+              </div>
+              <div>
+                <EditProductButton product={product} />
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }}>
+                  <HideProductButton product={product} />
+                  <DeleteProductButton />
+                </div>
+                <SetStockButton />
+              </div>
+            </CardContent>)
+        }
+      </Card>
+    </Link>
   </Grid>
 );
 

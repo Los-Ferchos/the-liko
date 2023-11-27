@@ -22,6 +22,7 @@ import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
 import { useAppSelector } from "./components/hooks/store"
 import { useGlobalCart } from "./components/contexts/CartContext"
+import ProductDetails from "./pages/ProductDetails"
 
 
 const theme = createTheme({
@@ -177,7 +178,7 @@ const App = () => {
           <Route path='/checkout' Component={Checkout} />
           <Route path='/sign_up' Component={SignUp} />
           <Route path='/logIn' Component={LogIn} />
-          <Route path='/profile' Component={Profile}></Route>
+          <Route path='/profile' Component={Profile} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
@@ -188,6 +189,7 @@ const App = () => {
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
+          <Route path="/product/:name" Component={() => <ProductDetails/>}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
