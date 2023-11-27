@@ -1,0 +1,47 @@
+.detail{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.information{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.product-info{
+    margin-right: 50px;
+}
+
+.detail-list{
+    padding: 50px;
+}
+
+.image{
+    margin-right: 40px;
+}
+
+@media (max-width: 720px) {
+    .information{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .product-info{
+        padding: 50px;
+        margin-right: 0;
+    }
+    .image{
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .product-info{
+        padding: 10px;
+    }
+    .detail-list{
+        padding: 10px;
+    }
+}
