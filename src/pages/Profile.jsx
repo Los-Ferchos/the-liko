@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import React, { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
 import Header from '../components/header/Header';
 import useWindowSize from '../components/hooks/useWindowSize';
