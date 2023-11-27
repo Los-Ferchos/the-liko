@@ -27,6 +27,7 @@ const FilterItem = ({
     subtext1 = '',
     subtext2 = '',
     max = 100,
+    sliderStep = 0.11,
     sortWay = 0
 }) => {
     // Redux selectors
@@ -187,7 +188,7 @@ const FilterItem = ({
                             valueLabelDisplay={filterCheck ? "on" : "auto"}
                             disableSwap
                             size='small'
-                            step={0.11}
+                            step={sliderStep}
                             max={max}
                         />
                         {getFiltersCheckbox}
