@@ -9,13 +9,11 @@ const SearchBar = ({
   onKeyPress,
   onButtonClick,
 }) => {
-  // Expresión regular para permitir solo caracteres alfanuméricos
   const alphanumericRegex = /^[a-zA-Z0-9 ]*$/;
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
 
-    // Verificar la longitud y caracteres especiales antes de actualizar el estado
     if (inputValue.length <= 256 && alphanumericRegex.test(inputValue)) {
       handleChangeSearch(event);
     }

@@ -62,10 +62,11 @@ const ProductForm = ({ edit = false, productData = {
    *
    * @param {Object} e - The event object.
    */
-  const handleChange = (e) => {
+  const handleChange = (e, maxLength) => {
+    const inputValue = e.target.value.toString().slice(0, maxLength)
     setError(false);
     setSuccess(false);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: inputValue });
     handleErrorMsg(e.target.name, '')
   };
 
@@ -170,12 +171,13 @@ const ProductForm = ({ edit = false, productData = {
                 <FieldText
                     label="Stock"
                     name="stock"
-                    type="number"
+                    type="text"
                     placeholder='Eg: 50'
                     value={formData.stock}
                     onChange={handleChange}
                     errorMsg={formError.stock}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={10}
                 />
 
                 <ImageUploader 
@@ -210,6 +212,7 @@ const ProductForm = ({ edit = false, productData = {
                     errorMsg={formError.price}
                     handleErrorMsg={handleErrorMsg}
                     typeNumber='price'
+                    maxLength={10}
                 />
 
                 <FieldText
