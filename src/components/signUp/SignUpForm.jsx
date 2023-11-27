@@ -36,7 +36,7 @@ function SignUpForm() {
     const [modalOpen, setModalOpen] = useState(false);
     const [token, setToken] = useState(''); 
     const navigate = useNavigate();
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[+,\.\-_'"!¿?])[A-Za-z\d+,\.\-_'"!¿?]{6,80}$/;
+    const passwordPattern =  /^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)(?=.*[+,\.\-_'"!¿?])[A-Za-zñÑ\d+,\.\-_'"!¿?]{6,80}$/;
     const validateEmail = () => {
         if (email.trim() === '') {
           setEmailError('Please enter an email');
