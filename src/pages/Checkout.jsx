@@ -25,11 +25,34 @@ const Checkout = () => {
   const currency = 'usd';
   const { cartItems, userLogged } = useGlobalCart();
   const navigate = useNavigate();
+  const [messageInButton, setMessageInButton] = useState('');
+  const [messageInDialog, setMessageInDialog] = useState('');
   
   let total = 0;
   cartItems.map(cartItem => {
     total += (cartItem.quantity * cartItem.productInfo.price.value)
   })
+
+  const generateRedirecction = () => {
+    if(userLogged === null) {
+      navigate('/login');
+    }
+    else if (cartItems.length === 0) {
+      navigate('/products');
+    } 
+  }
+
+  useEffect(() => {
+    if(userLogged === null) {
+      setMessageInDialog("Please log in to an existing account or register a new one before proceeding with payment");
+      setMessageInButton('Login');
+    }
+    else if (cartItems.length === 0) {
+      setMessageInDialog("Please add items to your cart before proceeding with payment");
+      setMessageInButton('Shop');
+    }
+  }, [userLogged, cartItems])
+
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -42,13 +65,13 @@ const Checkout = () => {
           body: JSON.stringify({ amount, currency }),
         });
         if (!response.ok) {
-          throw new Error('Error al obtener el clientSecret');
+          throw new Error('Error with secret client');
         }
 
         const data = await response.json();
         setClientSecret(data.clientSecret);
       } catch (error) {
-        console.log('Error al obtener el clientSecret:', error);
+          throw new Error('Error with secret client');
       }
     };
 
@@ -59,20 +82,22 @@ const Checkout = () => {
     fetchData();
   }, [amount, currency, setClientSecret]); 
 
+
   return (
     <>
     <Container>
      <NewHeader />
      <Dialog
-        open={userLogged === null}
+        open={ userLogged === null || cartItems.length === 0 }
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        onClose={() => generateRedirecction()}
       >
         <DialogTitle id="alert-dialog-title">
-          {"Please log in to an existing account or register a new one before proceeding with payment"}
+          {messageInDialog}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={() => navigate(-1)}>Ok</Button>
+          <Button onClick={() => generateRedirecction()}>{messageInButton}</Button>
         </DialogActions>
       </Dialog>
       {clientSecret && (

@@ -100,7 +100,7 @@ const CheckoutForm = ({totalCost}) => {
         setSuccess(true)
         sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
         setTimeout(() => {
-          navigate("/products")
+          navigate("/profile?section=Order History")
         }, 3000);
       } else {
         setIsFailed(true)

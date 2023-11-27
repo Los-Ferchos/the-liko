@@ -26,9 +26,9 @@ const OrdersTable = ({ orders, handleChange, expanded }) => {
             width > 600 && (
               <thead>
                 <tr>
-                  <th>Order #</th>
-                  <th>Date</th>
-                  <th>Total Cost</th>
+                  <th><Typography variant='h7' >Order #</Typography></th>
+                  <th><Typography variant='h7' >Date</Typography></th>
+                  <th><Typography variant='h7' >Total cost</Typography></th>
                   <th></th>
                 </tr>
               </thead>
