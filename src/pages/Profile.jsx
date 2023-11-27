@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
 import Header from '../components/header/Header';
 import useWindowSize from '../components/hooks/useWindowSize';
@@ -8,6 +9,8 @@ import CustomLink from '../components/links/CustomLink';
 import { ConstructionSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
 import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
+import { useGlobalCart } from '../components/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router';
 
 /**
@@ -18,6 +21,15 @@ import { useLocation } from 'react-router';
 const Profile = ({initialSection}) => {
   const { width } = useWindowSize();
   const [profileSection, setProfileSection] = useState('My Profile'); 
+  const { userLogged } = useGlobalCart();
+  const navigate = useNavigate();  
+
+  useEffect(() => {
+    if (!userLogged) {
+      navigate('/login');
+    }
+  }, [userLogged, navigate]);
+
   const location = useLocation();
 
   useEffect(() => {
