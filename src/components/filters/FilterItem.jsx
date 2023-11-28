@@ -27,7 +27,7 @@ const FilterItem = ({
     subtext1 = '',
     subtext2 = '',
     max = 100,
-    sliderStep = 0.11,
+    sliderStep = 1,
     sortWay = 0
 }) => {
     // Redux selectors
