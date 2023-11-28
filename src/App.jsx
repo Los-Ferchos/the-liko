@@ -22,6 +22,7 @@ import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
 import { useAppSelector } from "./components/hooks/store"
 import { useGlobalCart } from "./components/contexts/CartContext"
+import Wishlist from "./pages/Wishlist"
 
 
 const theme = createTheme({
@@ -188,6 +189,7 @@ const App = () => {
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
+          <Route path="/wishlist" Component={Wishlist}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
