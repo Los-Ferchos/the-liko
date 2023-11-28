@@ -202,6 +202,8 @@ export const uploadProduct = async (
     }
 };
 
+
+
 /**
  * Gets the local currency code based on the user's geolocation.
  *
@@ -211,22 +213,55 @@ export const uploadProduct = async (
  * @throws {Error} If an error occurs during the geolocation fetch.
  *
  * @example
- * const currencyCode = await getLocalCurrencyCode();
- * console.log(currencyCode); // 'USD'
  */
 export const getLocalCurrencyCode = async () => {
   try {
-    const response = await fetch('http://www.geoplugin.net/json.gp');
-    
-    if (!response.ok) {
-      throw new Error(`Error fetching geolocation: ${response.statusText}`);
-    }
+    const position = await getCurrentPosition();
 
-    const data = await response.json();
-    const currencyCode = data.geoplugin_currencyCode;
+    const countryInfo = await getCountryInfo(position.coords.latitude, position.coords.longitude);
+    const currencyCode = countryInfo.locale;
 
     return currencyCode;
   } catch (error) {
-    return 'USD';
+    return "USD";
   }
-};
+}
+
+/**
+ * Promisified version of navigator.geolocation.getCurrentPosition.
+ * @returns {Promise<GeolocationPosition>} A promise that resolves with the geolocation position.
+ * @throws {PositionError} If there is an error getting the geolocation position.
+ */
+const getCurrentPosition = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
+
+/**
+ * Get country information based on latitude and longitude using the OpenCage Geocoding API.
+ * @param {number} latitude - The latitude coordinate.
+ * @param {number} longitude - The longitude coordinate.
+ * @returns {Promise<{ country: string, formatted: string, locale: string } | string>} 
+ * A promise that resolves with country information or "USD" as a default if not available.
+ * @throws {Error} If there is an issue fetching country information.
+ */
+const getCountryInfo = async (latitude, longitude) => {
+  const apiKey = 'b1b9ecef56ae49d4a44a9bb11fa5024a';
+  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
+
+  const response = await fetch(apiUrl);
+  const data = await response.json();
+
+  if (data.results && data.results.length > 0) {
+    const result = data.results[0];
+    const countryInfo = {
+      country: result.components.country,
+      formatted: result.formatted,
+      locale: result.annotations?.currency?.iso_code || 'USD'
+    };
+    return countryInfo;
+  } else {
+    return "USD";
+  }
+}
