@@ -16,9 +16,6 @@ export const ConstructionSection = () => {
 };
 
 export const OrderHistorySection = () => {
-  const { setUserLogged } = useGlobalCart();
-  const navigate = useNavigate();
-
   return (
     <Box
       className="user-info"
@@ -28,7 +25,6 @@ export const OrderHistorySection = () => {
       }}
     >
       <OrderTable />
-      
     </Box>
   );
 };
