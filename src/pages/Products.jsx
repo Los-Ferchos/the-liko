@@ -70,7 +70,6 @@ const Products = ({ destination = "" }) => {
 
   const actualUrl = `${API_URL_LINK}/products${destination}/${idParam}`;
 
-
   return (
     <>
     <Container component={"section"} className='vertical-container-padding'>

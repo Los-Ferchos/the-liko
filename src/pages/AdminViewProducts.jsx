@@ -18,7 +18,7 @@ import useWindowSize from '../components/hooks/useWindowSize';
 const AdminViewProducts = ({ }) => {
   const { name = "Products", nameCat = "" } = useParams();
   const [isLoading, setIsLoading] = useState(true);
-  const actualUrl = `${API_URL_LINK}/products`;
+  const actualUrl = `${API_URL_LINK}/all-products`;
   const { width } = useWindowSize();
   const navigate = useNavigate();
 
