@@ -20,13 +20,17 @@ const stripePromise = loadStripe(STRIPE_KEY);
  * @return {React.Component} A React component representing the checkout page.
  */
 const Checkout = () => {
+
+ 
+
   const [clientSecret, setClientSecret] = useState('');
-  const amount = 100;
+  const amount = 100 ;
   const currency = 'usd';
   const { cartItems, userLogged } = useGlobalCart();
   const navigate = useNavigate();
   const [messageInButton, setMessageInButton] = useState('');
   const [messageInDialog, setMessageInDialog] = useState('');
+  const [success, setSuccess] = useState(false);
   
   let total = 0;
   cartItems.map(cartItem => {
@@ -88,7 +92,7 @@ const Checkout = () => {
     <Container>
      <NewHeader />
      <Dialog
-        open={ userLogged === null || cartItems.length === 0 }
+        open={ userLogged === null || (cartItems.length === 0 && success === false ) }
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         onClose={() => generateRedirecction()}
@@ -105,7 +109,7 @@ const Checkout = () => {
           <div className='form'>
             <Typography variant='h4'style={{ fontWeight: "bold"}} >Billing  Details</Typography>
             <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <CheckoutForm totalCost={total}/>
+              <CheckoutForm totalCost={total} success={success} setSuccess={setSuccess}/>
              </Elements>
           </div>
           <div className='card-items'>

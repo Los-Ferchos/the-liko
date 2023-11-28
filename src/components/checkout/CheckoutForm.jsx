@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
  *
  * @return {React.Component} A React component representing the checkout form.
  */
-const CheckoutForm = ({totalCost}) => {
+const CheckoutForm = ({totalCost, success, setSuccess}) => {
   
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -28,7 +28,6 @@ const CheckoutForm = ({totalCost}) => {
   const [invalidData, setInvalidData] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [direcctionMessage, setDirecctionMessage] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
@@ -111,6 +110,7 @@ const CheckoutForm = ({totalCost}) => {
         await clearShoppingCart();
         setSuccess(true)
         sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
+        console.log(isFailed, invalidData, success)
         setTimeout(() => {
           navigate("/profile?section=Order History")
         }, 3000);
@@ -188,8 +188,6 @@ const CheckoutForm = ({totalCost}) => {
          }),
       });
       
-    
-
       if (response.ok) {
         return true;
       } else {
