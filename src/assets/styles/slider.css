@@ -1,0 +1,96 @@
+/* slider.css */
+
+/* Styles for the container of the entire carousel */
+.images_container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px; /* Adjust the maximum width as needed */
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Styles for the title and description */
+  .title_software {
+    font-size: 2em;
+    color: #333;
+  }
+  
+  .primary-purple {
+    color: #800080; /* Adjust the color as needed */
+  }
+  
+  .descripton_software {
+    color: #555;
+    font-size: 1.2em;
+  }
+  
+  /* Styles for the button container */
+  .buttons_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .selection_button {
+    background-color: #007bff; /* Adjust the background color as needed */
+    color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .selection_button:hover {
+    background-color: #0056b3; /* Adjust the hover background color as needed */
+  }
+  
+  .active {
+    background-color: #0056b3; /* Adjust the active background color as needed */
+  }
+  
+  /* Styles for the carousel */
+  .carouselContainer {
+    margin-top: 20px;
+  }
+  
+  /* Styles for the desktop and mobile images */
+  .image_desktop,
+  .image_mobile {
+    width: 100%;
+    height: auto;
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+  }
+  
+  /* Optional: Animation styles for fadeInDown and fadeInUp */
+  .fadeInDown {
+    animation: fadeInDown 1s ease;
+  }
+  
+  .fadeInUp {
+    animation: fadeInUp 1s ease;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
