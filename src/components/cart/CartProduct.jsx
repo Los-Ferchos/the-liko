@@ -76,7 +76,7 @@ function CartProduct({ cart, product }) {
                                 {product.quantity}
                             </Typography>
                             <IconButton onClick={() => {
-                                if (quantity < product.quantity) {
+                                if (quantity < product.productInfo.quantity) {
                                     updateQuantity(quantity + 1);
                                     setQuantity(quantity + 1);
                                 } else{
