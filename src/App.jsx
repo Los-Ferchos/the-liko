@@ -22,6 +22,8 @@ import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
 import { useAppSelector } from "./components/hooks/store"
 import { useGlobalCart } from "./components/contexts/CartContext"
+import { getLocalCurrencyCode } from "./utils/methods"
+import { changeCurrency } from "./store/locationSlice"
 
 
 const theme = createTheme({
@@ -157,16 +159,30 @@ const App = () => {
   useEffect(() => {
     fetch(`${API_URL_LINK}/categories`)
       .then((response) => response.json())
-      .then((data) => {var res = data; dispatch(setCategories(res));})
+      .then((data) => {const res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
     fetch(`${API_URL_LINK}/subcategories`)
       .then((response) => response.json())
-      .then((data) => {var res = data; dispatch(setSubcategories(res))})
+      .then((data) => {const res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
   }, []);
+
+  const currency = useAppSelector((state) => state.location.currency);
+
+  useEffect(() => {
+    const fetchLocationInfo = async () => {
+      const curr = await getLocalCurrencyCode();
+      console.log(curr)
+      dispatch(changeCurrency(curr))
+    };
+
+    fetchLocationInfo();
+  }, []);
+
+  console.log(currency)
 
   return (
     <ThemeProvider theme={theme}>
