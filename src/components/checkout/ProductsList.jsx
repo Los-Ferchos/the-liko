@@ -16,7 +16,7 @@ const ProductList = ({ cartItems, total, currencyTotal = "USD", productKey = "pr
     return (
         <table className="table">
         <tr>
-          <td className='image-tr'><Typography variant='h1' ></Typography></td>
+          <td><Typography variant='h1' ></Typography></td>
           <td><Typography variant='h6' style={{ fontWeight: "bold"}} >Title</Typography></td>
           <td><Typography variant='h6' style={{ fontWeight: "bold"}} >Quantity</Typography></td>
           <td><Typography variant='h6'style={{ fontWeight: "bold"}} ><p>Unit Price </p></Typography></td>
@@ -24,7 +24,7 @@ const ProductList = ({ cartItems, total, currencyTotal = "USD", productKey = "pr
         {
           cartItems.map((cartItems) => (
             <tr>
-              <td className='image-tr' ><img src={cartItems[productKey].imgUrl} alt={cartItems[productKey].name} width="50" height="50" /></td>
+              <td ><img src={cartItems[productKey].imgUrl} alt={cartItems[productKey].name} width="50" height="50" /></td>
               <td ><Typography variant='h6'>{cartItems[productKey].name}</Typography></td>
               <td id='number'><Typography variant='h6'>{cartItems.quantity}</Typography></td>
               <td id='number'> <Typography variant='h6'>{`${cartItems[productKey].price.currency} ${cartItems[productKey].price.value}`}</Typography></td>

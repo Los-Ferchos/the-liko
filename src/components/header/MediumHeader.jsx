@@ -109,7 +109,7 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                                     <Typography variant="body2" color="black">|</Typography>
                                 </li>
                                 <li>
-                                    <CustomLink variant="body2" title='Create Account' href='sign_up' />
+                                    <CustomLink variant="body2" title='Create Account' href='/sign_up' />
                                 </li>
                             </ul>
                         )

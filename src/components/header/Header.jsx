@@ -2,9 +2,9 @@ import {AppBar, Container} from '@mui/material';
 import useWindowSize from '../hooks/useWindowSize';
 import NormalHeader from './MediumHeader'
 import SmallHeader from './SmallHeader';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from '../header/SearchBar';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearch, setSearchText } from '../../store/searchSlice';
 import { useAppSelector } from '../hooks/store';
