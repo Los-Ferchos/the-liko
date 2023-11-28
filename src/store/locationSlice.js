@@ -24,7 +24,8 @@ export const locationSlice = createSlice({
    * @type {string}
    */
   initialState: {
-    currency: "USD"
+    currency: "USD",
+    loading: false
   },
 
   /**
@@ -40,11 +41,21 @@ export const locationSlice = createSlice({
      * @param {Object} action - The Redux action containing the new currency payload.
      */
     changeCurrency(state, action) {
-        console.log(state, action)
       state.currency = action.payload;
+    },
+
+    /**
+     * Reducer function for changing the loading state.
+     * @function
+     * @name changeLoading
+     * @param {string} state - The current state (current loading).
+     * @param {Object} action - The Redux action containing the new loading payload.
+     */
+    changeLoading(state, action) {
+      state.loading = action.payload;
     },
   },
 });
 
-export const { changeCurrency } = locationSlice.actions;
+export const { changeCurrency, changeLoading } = locationSlice.actions;
 export default locationSlice.reducer;

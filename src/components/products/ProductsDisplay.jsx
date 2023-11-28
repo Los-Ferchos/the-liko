@@ -4,8 +4,6 @@ import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
-import { useDispatch } from 'react-redux';
-import { clearAll } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
 
 /**
@@ -29,8 +27,8 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
-  const dispatch = useDispatch();
-
+  const currencyCode = useAppSelector((state) => state.location.currency);
+  const loadingCurrency = useAppSelector((state) => state.location.loading);
 
   function setUrlSort(link) {
     return link+sortQuery[0];
@@ -61,7 +59,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}`;
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
@@ -92,9 +90,8 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search, currencyCode]);
 
-  
   /**
    * Handles the change of the current page.
    *

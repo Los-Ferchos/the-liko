@@ -201,30 +201,31 @@ export const uploadProduct = async (
     }
 };
 
-
+/**
+ * Gets the local currency code based on the user's geolocation.
+ *
+ * @async
+ * @function
+ * @returns {Promise<string>} - A promise that resolves to the local currency code.
+ * @throws {Error} If an error occurs during the geolocation fetch.
+ *
+ * @example
+ * const currencyCode = await getLocalCurrencyCode();
+ * console.log(currencyCode); // 'USD'
+ */
 export const getLocalCurrencyCode = async () => {
   try {
-    // Make a request to the Geoplugin API to get geolocation information using fetch
     const response = await fetch('http://www.geoplugin.net/json.gp');
     
     if (!response.ok) {
       throw new Error(`Error fetching geolocation: ${response.statusText}`);
     }
 
-    // Parse the response JSON
     const data = await response.json();
-
-    console.log(data)
-
-    // Extract the currency code from the response data
     const currencyCode = data.geoplugin_currencyCode;
-
-    console.log(currencyCode)
 
     return currencyCode;
   } catch (error) {
-    console.error('Error fetching geolocation:', error);
-    // Handle errors or return a default currency code if needed
     return 'USD';
   }
 };

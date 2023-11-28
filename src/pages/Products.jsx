@@ -26,6 +26,7 @@ const Products = ({ destination = "" }) => {
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
+  const loadingCurrency = useAppSelector((state) => state.location.loading);
 
   /**
    * Object containing category or subcategory data based on the specified destination.
@@ -70,12 +71,11 @@ const Products = ({ destination = "" }) => {
 
   const actualUrl = `${API_URL_LINK}/products${destination}/${idParam}`;
 
-
   return (
     <>
     <Container component={"section"} className='vertical-container-padding'>
       <Header />
-      {isLoading ? (
+      {isLoading || loadingCurrency ? (
         <div className='full-centered-container'>
           <CircularProgress />
         </div>
@@ -87,7 +87,7 @@ const Products = ({ destination = "" }) => {
             {capitalizeString(name)}
           </Typography>
           <SubcategoriesList categoryName={name} />
-          <ProductsDisplay apiUrl={actualUrl} loading={isLoading} />
+          <ProductsDisplay apiUrl={actualUrl} loading={isLoading || loadingCurrency} />
         </>
       )}
     </Container>
