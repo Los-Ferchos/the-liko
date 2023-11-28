@@ -8,8 +8,8 @@ import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
 import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
-import {setCategories} from "./store/categorySlice"
-import {setSubcategories} from "./store/subcategorySlice"
+import {changeLoadingCategories, setCategories} from "./store/categorySlice"
+import {changeLoadingSubcategories, setSubcategories} from "./store/subcategorySlice"
 import {useEffect, useState} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
@@ -169,20 +169,24 @@ const App = () => {
    * Effect hook to fetch and set categories from the API.
    */
   useEffect(() => {
+    dispatch(changeLoadingCategories(true));
     fetch(`${API_URL_LINK}/categories`)
       .then((response) => response.json())
       .then((data) => {const res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
+    dispatch(changeLoadingCategories(false));
   }, []);
 
   /**
    * Effect hook to fetch and set subcategories from the API.
    */
   useEffect(() => {
+    dispatch(changeLoadingSubcategories(true));
     fetch(`${API_URL_LINK}/subcategories`)
       .then((response) => response.json())
       .then((data) => {const res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
+    dispatch(changeLoadingSubcategories(false));
   }, []);
 
   /**

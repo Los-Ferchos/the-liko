@@ -28,7 +28,6 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
   const currencyCode = useAppSelector((state) => state.location.currency);
-  const loadingCurrency = useAppSelector((state) => state.location.loading);
 
   function setUrlSort(link) {
     return link+sortQuery[0];

@@ -25,7 +25,9 @@ const Products = ({ destination = "" }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const categories = useAppSelector((state) => state.categories.categories);
+  const loadingCategories = useAppSelector((state) => state.categories.loading);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
+  const loadingSubcategories = useAppSelector((state) => state.subcategories.loading);
   const loadingCurrency = useAppSelector((state) => state.location.loading);
 
   /**
@@ -71,11 +73,13 @@ const Products = ({ destination = "" }) => {
 
   const actualUrl = `${API_URL_LINK}/products${destination}/${idParam}`;
 
+  console.log(loadingCategories, loadingSubcategories)
+
   return (
     <>
     <Container component={"section"} className='vertical-container-padding'>
       <Header />
-      {isLoading || loadingCurrency ? (
+      {isLoading || loadingCurrency || loadingCategories || loadingSubcategories ? (
         <div className='full-centered-container'>
           <CircularProgress />
         </div>

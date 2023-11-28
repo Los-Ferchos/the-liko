@@ -24,7 +24,7 @@ export const locationSlice = createSlice({
    * @type {string}
    */
   initialState: {
-    currency: "USD",
+    currency: "",
     loading: false
   },
 
