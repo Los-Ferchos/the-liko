@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    padding: 20px 50px;
 }
 .products {
     width: 70%;
@@ -64,6 +65,9 @@
     }
     .no-items{
         padding: 20px;
+    }
+    .container{
+        padding: 0;
     }
 }
 

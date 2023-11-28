@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, Grid, IconButton } from '@mui/material';
+import { Typography, Grid, IconButton, Dialog, DialogActions, DialogTitle, Button } from '@mui/material';
 import LazyImage from '../images/LazyImage';
 import bottleLoaderImg from '../../assets/images/bottle-loader.png';
 import { FaPlus, FaMinus, FaRegTrashAlt } from "react-icons/fa";
@@ -13,17 +13,31 @@ import CartActionsManager from './CartActionsManager';
  * @param {Object} product - The specific item in the shopping cart.
  * @returns {JSX.Element} Rendered CartProduct component.
  */
-function CartProduct({cart, product}) {
+function CartProduct({ cart, product }) {
     const [quantity, setQuantity] = useState(product.quantity)
     const cartActions = CartActionsManager();
+    const [dialog, setDialog] = useState(false);
 
     const updateQuantity = (newQuantity) => {
-        if(cart.userLogged)
+        if (cart.userLogged)
             cartActions.updateQuantity(cart.userLogged.userId, product.productInfo._id, newQuantity)
         cart.updateQuantity(product.productInfo._id, newQuantity)
     }
 
     return (
+        <>
+        <Dialog
+            open={dialog}
+            onClose={() => setDialog(false)}
+            aria-labelledby="dialog-title"
+        >
+            <DialogTitle id="dialog-title">
+                {"No more products in stock"}
+            </DialogTitle>
+            <DialogActions>
+                <Button onClick={() => setDialog(false)}>Ok</Button>
+            </DialogActions>
+        </Dialog>
         <div style={{ padding: 15 }}>
             <Grid container style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                 <Grid item width={"30%"} alignContent={"center"}>
@@ -35,7 +49,7 @@ function CartProduct({cart, product}) {
                         />
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                        <Typography variant="h6" component="div">
+                        <Typography variant="h6" component="div" textAlign={'center'}>
                             {product.productInfo.name}
                         </Typography>
                     </div>
@@ -51,9 +65,9 @@ function CartProduct({cart, product}) {
                     <div >
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <IconButton onClick={() => {
-                                if(quantity > 1) {
-                                    updateQuantity(quantity-1);
-                                    setQuantity(quantity-1);
+                                if (quantity > 1) {
+                                    updateQuantity(quantity - 1);
+                                    setQuantity(quantity - 1);
                                 }
                             }}>
                                 <FaMinus size={20} />
@@ -62,8 +76,12 @@ function CartProduct({cart, product}) {
                                 {product.quantity}
                             </Typography>
                             <IconButton onClick={() => {
-                                updateQuantity(quantity+1);
-                                setQuantity(quantity+1);
+                                if (quantity < product.quantity) {
+                                    updateQuantity(quantity + 1);
+                                    setQuantity(quantity + 1);
+                                } else{
+                                    setDialog(true);
+                                }
                             }}>
                                 <FaPlus size={20} />
                             </IconButton>
@@ -71,13 +89,13 @@ function CartProduct({cart, product}) {
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <Typography variant="subtitle1">
-                        {product.productInfo.price.currency} {(product.productInfo.price.value * product.quantity).toFixed(2)}
+                            {product.productInfo.price.currency} {(product.productInfo.price.value * product.quantity).toFixed(2)}
                         </Typography>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <IconButton color='primary' onClick={() => {
                             cart.removeProductFromCart(product.productInfo._id)
-                            if(cart.userLogged)
+                            if (cart.userLogged)
                                 cartActions.removeItem(cart.userLogged.userId, product.productInfo._id)
                         }}>
                             <FaRegTrashAlt />
@@ -87,6 +105,7 @@ function CartProduct({cart, product}) {
 
             </Grid>
         </div>
+        </>
     )
 }
 
