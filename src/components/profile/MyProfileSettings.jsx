@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import CustomizedAccordions from '../products/accordion/OrdersAccordion';
 import useWindowSize from '../hooks/useWindowSize';
 

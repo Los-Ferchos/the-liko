@@ -41,7 +41,12 @@ const ProductCard = ({ product = {}, className = "", type = "client" }) => (
             </div>
             <div className="product-price">
               <Typography variant="subtitle1">
-                {product.price.currency} {product.price.value}
+                {product.price.currency}&nbsp; 
+                {
+                  Number.isInteger(product.price.value) ? 
+                  product.price.value : 
+                  parseFloat(product.price.value).toFixed(2)
+                }
               </Typography>
             </div>
             <AddToCartButton product={product} />
