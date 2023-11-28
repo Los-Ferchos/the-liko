@@ -44,8 +44,8 @@ const FilterList = () => {
                 </ListSubheader>
             <Divider sx={{ marginBottom: '.5rem' }} />
 
-            <FilterItem children='Price Range ' sortWay={1} range={true} icon={PaidOutlinedIcon} subtext1='Most Popular' subtext2='Less Popular' />
-            <FilterItem children='Rating ' sortWay={2} range={true} icon={StarsIcon} subtext1='A-Z' subtext2='Z-A' max={5} />
+            <FilterItem children='Price Range ' sortWay={1} range={true} icon={PaidOutlinedIcon} subtext1='Most Popular' sliderStep={0.11} subtext2='Less Popular' />
+            <FilterItem children='Rating ' sortWay={2} range={true} icon={StarsIcon} subtext1='A-Z' sliderStep={0.1} subtext2='Z-A' max={5} />
             <FilterItem children='ABV ' sortWay={3} range={true} icon={LocalBarIcon} subtext1='High - Low' subtext2='Low - High' />
         </>
     );

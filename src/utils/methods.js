@@ -61,10 +61,11 @@ export const sendInvoice = async (userId, nit, cartItems, name, totalCost) => {
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({
             userId,
-            nit: nit.trim() === '' ? "SIN NIT" : nit, 
-            name: name.trim() === '' ? "SIN NOMBRE" : name,
+            nit: nit.trim() === '' ? "NO NIT" : nit, 
+            name: name.trim() === '' ? "NO NAME" : name,
             cartItems,
-            totalCost: totalCost.toFixed(2)
+            totalCostCurrency: cartItems.length > 0 ? cartItems[0].productInfo.price.currency : 'USD',
+            totalCost: totalCost.toFixed(2),
         }),
     };
 

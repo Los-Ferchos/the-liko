@@ -73,8 +73,6 @@ const Products = ({ destination = "" }) => {
 
   const actualUrl = `${API_URL_LINK}/products${destination}/${idParam}`;
 
-  console.log(loadingCategories, loadingSubcategories)
-
   return (
     <>
     <Container component={"section"} className='vertical-container-padding'>
