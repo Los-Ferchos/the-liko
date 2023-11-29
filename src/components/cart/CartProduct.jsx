@@ -57,9 +57,14 @@ function CartProduct({ cart, product }) {
                 <Grid item width={"70%"} className="details">
                     <div >
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <Typography variant="subtitle1">
-                                {product.productInfo.price.currency} {product.productInfo.price.value}
-                            </Typography>
+                        <Typography variant="subtitle1"  display={"flex"} alignItems={"flex-end"}>
+                            {product.productInfo.price.currency}&nbsp;
+                            {
+                                Number.isInteger(product.productInfo.price.value) ? 
+                                product.productInfo.price.value : 
+                                parseFloat(product.productInfo.price.value).toFixed(2)
+                            }
+                        </Typography>
                         </div>
                     </div>
                     <div >
@@ -88,8 +93,13 @@ function CartProduct({ cart, product }) {
                         </div>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Typography variant="subtitle1">
-                            {product.productInfo.price.currency} {(product.productInfo.price.value * product.quantity).toFixed(2)}
+                        <Typography variant="subtitle1"  display={"flex"} alignItems={"flex-end"}>
+                            {product.productInfo.price.currency}&nbsp;
+                            {
+                                Number.isInteger(product.productInfo.price.value * product.quantity) ? 
+                                product.productInfo.price.value * product.quantity : 
+                                parseFloat(product.productInfo.price.value * product.quantity).toFixed(2)
+                            }
                         </Typography>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>

@@ -9,7 +9,7 @@
 }
 
 .order-summary {
-    width: 30%;
+    min-width: 30%;
     position: sticky;
     z-index: 100;
     margin-top: 20px;
@@ -43,7 +43,7 @@
         width: 100%;
     }
     .order-summary {
-        width: 50%;
+        min-width: 50%;
     }
     .container{
         display: block;
