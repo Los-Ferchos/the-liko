@@ -225,7 +225,7 @@ const App = () => {
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
-          <Route path="/product/:name" Component={() => <ProductDetails/>}/>
+          <Route path="/product/:id" Component={() => <ProductDetails/>}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
