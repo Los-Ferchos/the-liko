@@ -16,11 +16,21 @@ function DeleteProductButton({product}) {
     const [msg, setMsg] = useState("The action delete the product of the database permanently. This action is irreversible. ");
 
 
+    /**
+     * Method to delete the porduct.
+     * 
+     * This method change the attribute "deleted" to true, hiding the product from the user
+     * and the administrator.
+     */
     const deleteProduct = async () => {
         setLoading(true);
         setDialog(false);
         const options = {
-            method: 'DELETE',
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ deleted: true }),
         };
         await fetch(`${API_URL_LINK}/products/${product._id}`, options);
         setLoading(false);
