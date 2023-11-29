@@ -30,7 +30,6 @@ const ProductCard = ({ product = {}, className = "", type = "client" }) => (
           className={"product-image-container"}
         />
       </Link>
-
       {
         type === "client" ?
           (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>

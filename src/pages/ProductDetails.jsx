@@ -4,13 +4,14 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import { useLocation, useParams } from 'react-router-dom'
 import NavigationText from '../components/navText/NavigationText'
-import { capitalizeString } from '../utils/methods'
+import { capitalizeString, getHyphenedString } from '../utils/methods'
 import LazyImage from '../components/images/LazyImage'
 import bottleLoaderImg from '../assets/images/bottle-loader.png'
 import { Typography } from '@mui/material'
 import RatingProduct from '../components/products/rating/RatingProduct'
 import '../assets/styles/productDetails.css'
 import { useAppSelector } from '../components/hooks/store'
+import CustomLink from '../components/links/CustomLink'
 
 function ProductDetails() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function ProductDetails() {
   };
 
 
+  console.log(product.items)
   return (
     <>
       <Container component={"section"} style={{ position: "relative" }}>
@@ -53,52 +55,62 @@ function ProductDetails() {
                 rating={product.rating}
                 reviews={product.totalReviews}
               />
-              <Typography variant='h6'>{`${product.price.value} ${product.price.currency}`}</Typography>
+              <Typography variant='h6'>{`${parseFloat(product.price.value).toFixed(2)} ${product.price.currency}`}</Typography>
               <hr />
               <Typography variant='h6' fontWeight="bold">Product Descirption</Typography>
               <Typography textAlign={'left'}>{product.description}</Typography>
             </div>
           </div>
-          <div className='detail-list' >
-            <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
-            <hr />
-            <div style={{ display: 'flex', width: '100%' }}>
-              <div className='detail'>
-                <Typography fontWeight="bold">Category</Typography>
-              </div>
-              <div className='detail'>
-                <Typography >{getCategory()}</Typography>
-              </div>
-            </div>
-            <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
-            <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
-              <div className='detail'>
-                <Typography fontWeight="bold">Subcategory</Typography>
-              </div>
-              <div className='detail'>
-                <Typography >{getSubcategory()}</Typography>
-              </div>
-            </div>
-            <hr />
-            <div style={{ display: 'flex', width: '100%' }}>
-              <div className='detail'>
-                <Typography fontWeight="bold">Brand</Typography>
-              </div>
-              <div className='detail'>
-                <Typography >{product.details.brand}</Typography>
-              </div>
-            </div>
-            <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
-            <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
-              <div className='detail'>
-                <Typography fontWeight="bold">ABV</Typography>
-              </div>
-              <div className='detail'>
-                <Typography >{product.details.abv}</Typography>
-              </div>
-            </div>
-            <hr />
-          </div>
+          {
+            product.type === 'combo' ?
+              (<div className='detail-list'>
+                <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                <hr />
+                <Typography >{product.items}</Typography>
+              </div>)
+              :
+              (<div className='detail-list' >
+                <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
+                <hr />
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <div className='detail'>
+                    <Typography fontWeight="bold">Category</Typography>
+                  </div>
+                  <div className='detail'>
+                    <CustomLink href={`/${getHyphenedString(getCategory())}`} title={getCategory()} />
+                  </div>
+                </div>
+                <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
+                <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
+                  <div className='detail'>
+                    <Typography fontWeight="bold">Subcategory</Typography>
+                  </div>
+                  <div className='detail'>
+                    <CustomLink href={`/${getHyphenedString(getCategory())}/${getHyphenedString(getSubcategory())}`} title={getSubcategory()} />
+                  </div>
+                </div>
+                <hr />
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <div className='detail'>
+                    <Typography fontWeight="bold">Brand</Typography>
+                  </div>
+                  <div className='detail'>
+                    <Typography >{product.details.brand}</Typography>
+                  </div>
+                </div>
+                <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
+                <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
+                  <div className='detail'>
+                    <Typography fontWeight="bold">ABV</Typography>
+                  </div>
+                  <div className='detail'>
+                    <Typography >{product.details.abv}</Typography>
+                  </div>
+                </div>
+                <hr />
+              </div>)
+          }
+
         </div>
 
 
