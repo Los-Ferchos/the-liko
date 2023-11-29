@@ -14,7 +14,7 @@ function HideProductButton({ product }) {
     const [loading, setLoading] = useState(false);
     const [dialog, setDialog] = useState(false);
     const [msg, setMsg] = useState("The action hides the selected product, which means that the product will not be available to users. ");
-    const [isAvailable, setAvailable] = useState(true);
+    const [isAvailable, setAvailable] = useState(product.availability);
 
     /**
      * Method to hide product from users.
