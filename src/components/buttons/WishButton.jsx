@@ -17,7 +17,7 @@ const WishButton = ({ productId }) => {
    * Method to be called to manage a product addition to wish list
    */
   const addProductToWishList = () => {
-    // setAlreadyWished(true);
+    setAlreadyWished(true);
     console.log(productId + " clicked to add to wish list")
   }
 
@@ -25,7 +25,7 @@ const WishButton = ({ productId }) => {
    * Method to be called to manage a product deletion from wish list
    */
    const deleteProductToWishList = () => {
-    // setAlreadyWished(false);
+    setAlreadyWished(false);
     console.log(productId + " clicked to delete from wish list")
   }
 
