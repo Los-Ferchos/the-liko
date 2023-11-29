@@ -8,8 +8,8 @@ import { createTheme } from '@mui/material';
 import Products from "./pages/Products";
 import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux"
-import {setCategories} from "./store/categorySlice"
-import {setSubcategories} from "./store/subcategorySlice"
+import {changeLoadingCategories, setCategories} from "./store/categorySlice"
+import {changeLoadingSubcategories, setSubcategories} from "./store/subcategorySlice"
 import {useEffect, useState} from 'react';
 import ProductsBySubcategories from "./pages/ProductsBySubcategories";
 import Profile from "./pages/Profile";
@@ -20,11 +20,14 @@ import AdminMenu from "./pages/AdminMenu"
 import AddProductFormPage from "./pages/AddProductFormPage"
 import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
-import { useAppSelector } from "./components/hooks/store"
 import { useGlobalCart } from "./components/contexts/CartContext"
 import ProductDetails from "./pages/ProductDetails"
+import { getLocalCurrencyCode } from "./utils/methods"
+import { changeCurrency, changeLoading } from "./store/locationSlice"
 
-
+/**
+ * Theme configuration for the MUI components.
+ */
 const theme = createTheme({
   spacing: 2,
   breakpoints: {
@@ -142,11 +145,19 @@ const theme = createTheme({
   },
 });
 
+/**
+ * Main application component.
+ * @component
+ * @returns {JSX.Element} - The rendered App component.
+ */
 const App = () => {
   const dispatch = useDispatch();
   const [isUserAdmin, setIsAdmin] = useState(true);
   const { userLogged } = useGlobalCart();
 
+  /**
+   * Effect hook to check and set user admin status.
+   */
   useEffect(() => {
     if (userLogged) {
       setIsAdmin(userLogged.isAdmin);
@@ -155,18 +166,43 @@ const App = () => {
     }
   }, [userLogged])
 
+  /**
+   * Effect hook to fetch and set categories from the API.
+   */
   useEffect(() => {
+    dispatch(changeLoadingCategories(true));
     fetch(`${API_URL_LINK}/categories`)
       .then((response) => response.json())
-      .then((data) => {var res = data; dispatch(setCategories(res));})
+      .then((data) => {const res = data; dispatch(setCategories(res));})
       .catch((error) => console.error(error));
+    dispatch(changeLoadingCategories(false));
   }, []);
 
+  /**
+   * Effect hook to fetch and set subcategories from the API.
+   */
   useEffect(() => {
+    dispatch(changeLoadingSubcategories(true));
     fetch(`${API_URL_LINK}/subcategories`)
       .then((response) => response.json())
-      .then((data) => {var res = data; dispatch(setSubcategories(res))})
+      .then((data) => {const res = data; dispatch(setSubcategories(res))})
       .catch((error) => console.error(error));
+    dispatch(changeLoadingSubcategories(false));
+  }, []);
+
+  /**
+   * Effect hook to fetch and set the local currency code.
+   */
+  useEffect(() => {
+    dispatch(changeLoading(true));
+
+    const fetchLocationInfo = async () => {
+      const curr = await getLocalCurrencyCode();
+      dispatch(changeCurrency(curr))
+      dispatch(changeLoading(false));
+    };
+
+    fetchLocationInfo();
   }, []);
 
   return (

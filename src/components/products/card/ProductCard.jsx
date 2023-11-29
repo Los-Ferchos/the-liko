@@ -22,54 +22,58 @@ import { getHyphenedString } from '../../../utils/methods';
  */
 const ProductCard = ({ product = {}, className = "", type = "client" }) => (
   <Grid item xs={12} sm={6} md={3} className={className}>
-    <Link state={{product}} to={`/product/${getHyphenedString(product.name)}`}>
-      <Card
-        style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-      >
+    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <Link state={{ product }} to={`/product/${getHyphenedString(product.name)}`}>
         <LazyImage
           src={product.imgUrl}
           placeholderSrc={bottleLoaderImg}
           className={"product-image-container"}
         />
-        {
-          type === "client" ?
-            (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
-              <RatingWishProduct
-                rating={product.rating}
-                reviews={product.totalReviews}
-                productId={product._id}
-              />
-              <div className="product-title">
-                <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
-                  {product.name}
-                </Typography>
+      </Link>
+
+      {
+        type === "client" ?
+          (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
+            <RatingWishProduct
+              rating={product.rating}
+              reviews={product.totalReviews}
+              productId={product._id}
+            />
+            <div className="product-title">
+              <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
+                {product.name}
+              </Typography>
+            </div>
+            <div className="product-price">
+              <Typography variant="subtitle1">
+                {product.price.currency}&nbsp;
+                {
+                  Number.isInteger(product.price.value) ?
+                    product.price.value :
+                    parseFloat(product.price.value).toFixed(2)
+                }
+              </Typography>
+            </div>
+            <AddToCartButton product={product} />
+          </CardContent>)
+          :
+          (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
+            <div className="product-title">
+              <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
+                {product.name}
+              </Typography>
+            </div>
+            <div>
+              <EditProductButton product={product} />
+              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }}>
+                <HideProductButton product={product} />
+                <DeleteProductButton product={product} />
               </div>
-              <div className="product-price">
-                <Typography variant="subtitle1">
-                  {product.price.currency} {product.price.value}
-                </Typography>
-              </div>
-              <AddToCartButton product={product} />
-            </CardContent>)
-            :
-            (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
-              <div className="product-title">
-                <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>
-                  {product.name}
-                </Typography>
-              </div>
-              <div>
-                <EditProductButton product={product} />
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }}>
-                  <HideProductButton product={product} />
-                  <DeleteProductButton />
-                </div>
-                <SetStockButton />
-              </div>
-            </CardContent>)
-        }
-      </Card>
-    </Link>
+              <SetStockButton />
+            </div>
+          </CardContent>)
+      }
+    </Card>
   </Grid>
 );
 

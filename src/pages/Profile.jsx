@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
 import Header from '../components/header/Header';
 import useWindowSize from '../components/hooks/useWindowSize';
@@ -8,6 +8,8 @@ import CustomLink from '../components/links/CustomLink';
 import { ConstructionSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
 import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
+import { useGlobalCart } from '../components/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * A React component that displays a profile page for a user to manage their account information.
@@ -17,6 +19,15 @@ import Footer from '../components/footer/Footer';
 const Profile = () => {
   const { width } = useWindowSize();
   const [profileSection, setProfileSection] = useState('My Profile'); 
+  const { userLogged } = useGlobalCart();
+  const navigate = useNavigate();  
+
+  useEffect(() => {
+    if (!userLogged) {
+      navigate('/login');
+    }
+  }, [userLogged, navigate]);
+
 
   const renderProfileSection = () => {
     switch (profileSection) {

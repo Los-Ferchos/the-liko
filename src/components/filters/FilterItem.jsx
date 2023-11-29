@@ -27,6 +27,7 @@ const FilterItem = ({
     subtext1 = '',
     subtext2 = '',
     max = 100,
+    sliderStep = 1,
     sortWay = 0
 }) => {
     // Redux selectors
@@ -81,8 +82,14 @@ const FilterItem = ({
      */
     const handleCheckboxFilter = (event) => {
         setFilterCheck(event.target.checked);
-            if (event.target.checked) dispatch(addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`));
-            else dispatch(removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`));
+            if (event.target.checked) dispatch(
+                addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
+                );
+            else {
+                dispatch(
+                    removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
+                    );
+            }
     };
 
     /**
@@ -95,7 +102,9 @@ const FilterItem = ({
         if (!Array.isArray(newValue)) return;
 
         if (activeThumb === 0) setValue1([Math.min(newValue[0], value1[1] - 0), value1[1]]);
-        else setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
+        else {
+         setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
+        }   
         
         setValuesArray(newValue);
     };
@@ -108,12 +117,15 @@ const FilterItem = ({
             <FormGroup row={false}>
                 <FormControlLabel
                     name='sortBox'
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { 
+                        fontSize: '.9rem' } }}
                     control={
                         <Checkbox
                             sx={{
                                 padding: 1.5,
-                                '& .MuiSvgIcon-root': { width: 20, height: 20 }
+                                '& .MuiSvgIcon-root': { 
+                                    width: 20,
+                                     height: 20 }
                             }}
                             checked={first}
                             onChange={handleCheckboxFirst}
@@ -122,12 +134,15 @@ const FilterItem = ({
                 />
                 <FormControlLabel
                     name='sortBox'
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { 
+                        fontSize: '.9rem' } }}
                     control={
                         <Checkbox
                             sx={{
                                 padding: 1.5,
-                                '& .MuiSvgIcon-root': { width: 20, height: 20 }
+                                '& .MuiSvgIcon-root': {
+                                     width: 20,
+                                     height: 20 }
                             }}
                             checked={second}
                             onChange={handleCheckboxSecond}
@@ -169,14 +184,24 @@ const FilterItem = ({
                 <ListItemIcon>
                     <Icon />
                 </ListItemIcon>
-                <ListItemText sx={{ '& .MuiListItemText-primary': { fontWeight: '501', color: 'rgb(90, 90, 89)', fontSize: '.95rem' } }} primary={children} />
+                <ListItemText sx={{ '& .MuiListItemText-primary': { 
+                    fontWeight: '501',
+                     color: 'rgb(90, 90, 89)', 
+                     fontSize: '.95rem' } }} 
+                     primary={children} />
+
                 {isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                 {range ?
                     <Box sx={{
-                        display: 'flex', justifyContent: 'center',
-                        flexDirection: 'column', alignItems: 'center', marginInline: 'auto', marginTop: '1rem', width: '85%'
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column', 
+                        alignItems: 'center', 
+                        marginInline: 'auto', 
+                        marginTop: '1rem', 
+                        width: '85%'
                     }}>
                         <Slider
                             disabled={filterCheck ? true : false}
@@ -187,7 +212,7 @@ const FilterItem = ({
                             valueLabelDisplay={filterCheck ? "on" : "auto"}
                             disableSwap
                             size='small'
-                            step={0.11}
+                            step={sliderStep}
                             max={max}
                         />
                         {getFiltersCheckbox}

@@ -4,9 +4,10 @@ import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
-import { useDispatch } from 'react-redux';
-import { clearAll } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
+import { clearAllList } from '../../store/whishListSlice';
+import { useGlobalCart } from '../contexts/CartContext';
+import { useDispatch } from 'react-redux';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -29,28 +30,99 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+  const wishListStorage = useAppSelector((state) => state.wish.wishList);
+
   const dispatch = useDispatch();
+  const { userLogged } = useGlobalCart();
 
+/**
+ * useEffect to handle the synchronization of the user's wishlist with the server
+ * when the user logs in. It sends a POST request to update the server-side wishlist.
+ *
+ * @param {Object} userLogged - The user object containing user information.
+ */
+useEffect(() => {
+  if (userLogged) {
+    if (wishListStorage.length > 0) {
+      try {
+        /**
+         * Function to upload the user's wishlist to the server.
+         * Sends a POST request with the user's ID and wishlist items.
+         */
+        const uploadWishListUser = async () => {
+          const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: userLogged.userId,
+              wishlistItems: wishListStorage.map((item) => ({
+                productId: item,
+              })),
+            }),
+          };
 
-  function setUrlSort(link) {
-    return link+sortQuery[0];
-  }
+          await fetch(
+            'https://apitheliko.azurewebsites.net/multiplewishlist',
+            requestOptions
+          );
+        };
 
-  function setUrlFilter(link) {
-    switch (filterQueryArray.length) {
-      case 1:
-        return link+`&ft1=`+filterQueryArray[0];
-      case 2:
-          return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1];
-          case 3:
-            return link+`&ft1=`+filterQueryArray[0]+`&ft2=`+filterQueryArray[1]+`&ft3=`+filterQueryArray[2];
-      default:
-        return link;
+        // Call the function to upload the wishlist
+        uploadWishListUser();
+      } catch (error) {
+        console.log(error);
+      }
     }
+  } else {
+    // dispatch(clearAllList());
   }
+}, [userLogged]);
 
-  const searchText = useAppSelector((state) => state.search.searchText);
-  const search = useAppSelector((state) => state.search.search);
+const currencyCode = useAppSelector((state) => state.location.currency);
+
+/**
+ * Function to set sorting parameters in a URL.
+ *
+ * @param {string} link - The base URL.
+ * @returns {string} - The URL with the sorting parameter.
+ */
+function setUrlSort(link) {
+  return link + sortQuery[0];
+}
+
+/**
+ * Function to set filtering parameters in a URL.
+ *
+ * @param {string} link - The base URL.
+ * @returns {string} - The URL with the filtering parameters.
+ */
+function setUrlFilter(link) {
+  switch (filterQueryArray.length) {
+    case 1:
+      return link + `&ft1=` + filterQueryArray[0];
+    case 2:
+      return link + `&ft1=` + filterQueryArray[0] + `&ft2=` + filterQueryArray[1];
+    case 3:
+      return (
+        link +
+        `&ft1=` +
+        filterQueryArray[0] +
+        `&ft2=` +
+        filterQueryArray[1] +
+        `&ft3=` +
+        filterQueryArray[2]
+      );
+    default:
+      return link;
+  }
+}
+
+// Retrieve search-related data from the Redux store
+const searchText = useAppSelector((state) => state.search.searchText);
+const search = useAppSelector((state) => state.search.search);
+
 
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.
@@ -61,7 +133,7 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}`;
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
@@ -92,9 +164,8 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search, currencyCode]);
 
-  
   /**
    * Handles the change of the current page.
    *

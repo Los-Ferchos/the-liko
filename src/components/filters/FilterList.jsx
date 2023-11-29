@@ -21,15 +21,47 @@ const FilterList = () => {
     // JSX representation of the FilterList
     return (
         <>
-            <Typography sx={{ fontWeight: '800', fontSize: '1.4rem', display: 'flex', justifyContent: 'center', color: 'var(--main-color)' }} component="div" id="nested-list-subheader">
+            <Typography sx={{ 
+                fontWeight: '800', 
+                fontSize: '1.4rem', 
+                display: 'flex', 
+                justifyContent: 'center', 
+                color: 'var(--main-color)' }} 
+                component="div" 
+                id="nested-list-subheader">
                 Sort By
             </Typography>
             <Divider sx={{ marginBottom: '.5rem' }} />
-            <FilterItem children='Popularity ' sortWay={5} icon={SellIcon} subtext1='Most Popular' subtext2='Less Popular' />
-            <FilterItem children='Name ' sortWay={1} icon={SortByAlphaIcon} subtext1='Z-A' subtext2='A-Z' />
-            <FilterItem children='Price ' sortWay={2} icon={AttachMoneyIcon} subtext1='High - Low' subtext2='Low - High' />
-            <FilterItem children='Rating ' sortWay={3} icon={StarIcon} subtext1='High Rating' subtext2='Less Rating' />
-            <FilterItem children='Reviews ' sortWay={4} icon={ReviewsIcon} subtext1='High - Low' subtext2='Low - High' />
+            <FilterItem 
+                children='Popularity '
+                sortWay={5} 
+                icon={SellIcon} 
+                subtext1='Most Popular' 
+                subtext2='Less Popular' />
+            <FilterItem 
+                children='Name '
+                sortWay={1} 
+                icon={SortByAlphaIcon} 
+                subtext1='Z-A' 
+                subtext2='A-Z' />
+            <FilterItem 
+                children='Price '
+                sortWay={2} 
+                icon={AttachMoneyIcon} 
+                subtext1='High - Low'
+                subtext2='Low - High' />
+            <FilterItem 
+                children='Rating '
+                sortWay={3} 
+                icon={StarIcon} 
+                subtext1='High Rating' 
+                subtext2='Less Rating' />
+            <FilterItem 
+                children='Reviews '
+                sortWay={4} 
+                icon={ReviewsIcon} 
+                subtext1='High - Low'
+                 subtext2='Low - High' />
 
                 <ListSubheader sx={{ 
                     fontWeight: '800', 
@@ -44,9 +76,31 @@ const FilterList = () => {
                 </ListSubheader>
             <Divider sx={{ marginBottom: '.5rem' }} />
 
-            <FilterItem children='Price Range ' sortWay={1} range={true} icon={PaidOutlinedIcon} subtext1='Most Popular' subtext2='Less Popular' />
-            <FilterItem children='Rating ' sortWay={2} range={true} icon={StarsIcon} subtext1='A-Z' subtext2='Z-A' max={5} />
-            <FilterItem children='ABV ' sortWay={3} range={true} icon={LocalBarIcon} subtext1='High - Low' subtext2='Low - High' />
+            <FilterItem 
+                children='Price Range ' 
+                sortWay={1} 
+                range={true} 
+                icon={PaidOutlinedIcon} 
+                subtext1='Most Popular' 
+                subtext2='Less Popular' />
+
+            <FilterItem 
+                children='Rating ' 
+                sortWay={2} 
+                range={true} 
+                icon={StarsIcon} 
+                subtext1='A-Z' 
+                sliderStep={0.1} 
+                subtext2='Z-A' 
+                max={5} />
+
+            <FilterItem 
+                children='ABV ' 
+                sortWay={3} 
+                range={true} 
+                icon={LocalBarIcon} 
+                subtext1='High - Low' 
+                subtext2='Low - High' />
         </>
     );
 };
