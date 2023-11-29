@@ -49,7 +49,7 @@ const FilterList = () => {
                 sortWay={2} 
                 icon={AttachMoneyIcon} 
                 subtext1='High - Low'
-            s   ubtext2='Low - High' />
+                subtext2='Low - High' />
             <FilterItem 
                 children='Rating '
                 sortWay={3} 
