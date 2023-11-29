@@ -7,6 +7,8 @@ import ProductsList from './list/ProductsList';
 import { useDispatch } from 'react-redux';
 import { clearAll } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
+import { clearAllList } from '../../store/whishListSlice';
+import { useGlobalCart } from '../contexts/CartContext';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -29,7 +31,45 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+  const wishListStorage = useAppSelector((state) => state.wish.wishList);
+
   const dispatch = useDispatch();
+  const { userLogged } = useGlobalCart();
+
+  useEffect(() => {
+    if (userLogged) {
+      if (wishListStorage.length > 0) {
+        try {
+          const uploadWishListUser = async () => {
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+              'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  userId: userLogged.userId,
+                  wishlistItems: [ wishListStorage.map((item) => ({
+                    productId: item
+                })) ]
+              }),
+          };
+      
+          console.log(wishListStorage)
+          await fetch(`https://apitheliko.azurewebsites.net/multiplewishlist`, requestOptions);
+          }
+
+          uploadWishListUser();
+
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    } else{
+      dispatch(clearAllList())
+    }
+  }, [userLogged])
+  
 
 
   function setUrlSort(link) {
@@ -95,6 +135,12 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
 
   
+
+  useEffect(() => {
+
+  }, [])
+
+
   /**
    * Handles the change of the current page.
    *

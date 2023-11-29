@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/**
- * Redux slice for managing sorting and filtering state.
- */
+
 export const wishListSlice = createSlice({
-    name: "wishStorage",
+    name: "wish",
     initialState: {
         wishList: [],
     },
@@ -27,14 +25,16 @@ export const wishListSlice = createSlice({
             state.wishList = auxWishList;
         },
 
-        clearAll(state) {
-            state.whishList = [];
+        clearAllList(state) {
+            state.wishList = [];
         },
     },
 });
 
 export const {
-    sendOrders,
-    clearAll
+    setWishList,
+    addLikedProduct,
+    removeLikedProduct,
+    clearAllList
 } = wishListSlice.actions;
 export default wishListSlice.reducer;
