@@ -23,6 +23,7 @@ import EditProductFormPage from "./pages/EditProductFormPage"
 import { useGlobalCart } from "./components/contexts/CartContext"
 import { getLocalCurrencyCode } from "./utils/methods"
 import { changeCurrency, changeLoading } from "./store/locationSlice"
+import AddCombo from "./pages/AddCombo"
 
 /**
  * Theme configuration for the MUI components.
@@ -221,6 +222,7 @@ const App = () => {
           <Route path='/404' Component={Page404} />
           <Route path="/admin" Component={ isUserAdmin ? AdminMenu : Page404}/>
           <Route path="/admin/add-product" Component={isUserAdmin ? AddProductFormPage : Page404}/>
+          <Route path="/admin/add-combo" Component={isUserAdmin ? AddCombo : Page404}/>
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
