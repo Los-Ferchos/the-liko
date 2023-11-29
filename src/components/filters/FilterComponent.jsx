@@ -64,8 +64,22 @@ const FilterComponent = () => {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                    <ListSubheader sx={{ zIndex: '2', display: 'flex', paddingBlock: '.5rem' }}>
-                        <ClearIcon sx={{ marginLeft: '.2rem', marginTop: '.2rem', cursor: 'pointer', zIndex: '2' }} onClick={closeFilterBar} />
+                    <ListSubheader sx={
+                        { 
+                            zIndex: '2',
+                            display: 'flex', 
+                            paddingBlock: '.5rem' 
+                        }
+                        }>
+                        <ClearIcon sx={
+                            { 
+                                marginLeft: '.2rem', 
+                                marginTop: '.2rem', 
+                                cursor: 'pointer', 
+                                zIndex: '2' 
+                                }
+                            } 
+                                onClick={closeFilterBar} />
                     </ListSubheader>
                 }
             />
@@ -80,7 +94,10 @@ const FilterComponent = () => {
                 <p>
                     Sort/Filter
                 </p>
-                <span></span><span></span><span></span><span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
                 <FaFilter />
             </div>
 
