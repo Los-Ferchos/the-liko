@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalCart } from '../components/contexts/CartContext'
 import Footer from '../components/footer/Footer';
-
+import { useAppSelector } from '../components/hooks/store'
 
 /**
  * This the cart page to render all the products and details in the shopping cart.
@@ -32,6 +32,8 @@ function Cart() {
         }
         return total
     }
+
+    const currencyCode = useAppSelector((state) => state.location.currency);
 
     return (
         <>
@@ -87,19 +89,24 @@ function Cart() {
                             <div className='order-summary'>
                                 <Card style={{ padding: 20, alignContent: "center", alignItems: "center" }}>
                                     <div>
-                                        <Typography variant='h5' color='black' component='h1' style={{ fontWeight: "bold" }} marginBottom={6}>Order Summary</Typography>
+                                        <Typography variant='h5' color='black' component='h5' style={{ fontWeight: "bold" }} marginBottom={6}>Order Summary</Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <Typography variant='h6' color='black' component='h1'>Subtotal</Typography>
-                                        <Typography variant='h6' color='black' component='h1'>{getTotal().toFixed(2)}</Typography>
+                                        <Typography variant='h6' color='black' component='h6'>Subtotal</Typography>
+                                        <Typography variant='h6' color='black' component='h6' display={"flex"} alignItems={"flex-end"}>
+                                            <Typography marginLeft={4}>&nbsp;{currencyCode}</Typography>&nbsp;{getTotal().toFixed(2)}
+                                        </Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <Typography variant='h6' color='black' component='h1'>Tax</Typography>
-                                        <Typography variant='h6' color='black' component='h1'>{tax}%</Typography>
+                                        <Typography variant='h6' color='black' component='h6'>Tax</Typography>
+                                        <Typography variant='h6' color='black' component='h6'>{tax}%</Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <Typography variant='h6' color='black' component='h1'>Total</Typography>
-                                        <Typography variant='h6' color='black' component='h1'>{((getTotal()) + (getTotal() * tax / 100)).toFixed(2)}</Typography>
+                                        <Typography variant='h6' color='black' component='h6'>Total</Typography>
+                                        <Typography variant='h6' color='black' component='h6' display={"flex"} alignItems={"flex-end"}>
+                                            <Typography marginLeft={4} marginBottom={1}>&nbsp;{currencyCode}</Typography>
+                                            &nbsp;{getTotal().toFixed(2)}
+                                        </Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "center" }}>
                                         <Button variant='contained' style={{ marginTop: 10, alignContent: "center" }}

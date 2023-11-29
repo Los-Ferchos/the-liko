@@ -7,6 +7,7 @@ import sortSlice from "./sortSlice";
 import searchSlice from "./searchSlice";
 import userSlice from "./userSlice";
 import wishListSlice from "./whishListSlice";
+import currencySlice from "./locationSlice";
 
 /**
  * @typedef {Object} RootState
@@ -19,6 +20,7 @@ export const store = configureStore({
   reducer: {
     categories: categorySlice,
     subcategories: subcategorySlice,
+    location: currencySlice,
     cart: cartSlice,
     sort: sortSlice,
     search: searchSlice,

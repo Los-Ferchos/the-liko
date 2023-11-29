@@ -4,11 +4,10 @@ import Pagination from './pagination/Pagination';
 import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
-import { useDispatch } from 'react-redux';
-import { clearAll } from '../../store/sortSlice';
 import { useAppSelector } from '../hooks/store';
 import { clearAllList } from '../../store/whishListSlice';
 import { useGlobalCart } from '../contexts/CartContext';
+import { useDispatch } from 'react-redux';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -64,7 +63,6 @@ useEffect(() => {
             }),
           };
 
-          console.log(wishListStorage);
           await fetch(
             'https://apitheliko.azurewebsites.net/multiplewishlist',
             requestOptions
@@ -78,10 +76,11 @@ useEffect(() => {
       }
     }
   } else {
-    // If user is not logged in, clear all wishlist items
-    dispatch(clearAllList());
+    // dispatch(clearAllList());
   }
 }, [userLogged]);
+
+const currencyCode = useAppSelector((state) => state.location.currency);
 
 /**
  * Function to set sorting parameters in a URL.
@@ -134,7 +133,7 @@ const search = useAppSelector((state) => state.search.search);
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}`;
+    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}`;
     setIsLoading(true);
 
     if (sortQuery.length) {
@@ -165,14 +164,7 @@ const search = useAppSelector((state) => state.search.search);
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search]);
-
-  
-
-  useEffect(() => {
-
-  }, [])
-
+  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search, currencyCode]);
 
   /**
    * Handles the change of the current page.

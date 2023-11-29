@@ -171,7 +171,8 @@ const ProductForm = ({ edit = false, productData = {
                 <FieldText
                     label="Stock"
                     name="stock"
-                    type="text"
+                    type="number"
+                    typeNumber='int'
                     placeholder='Eg: 50'
                     value={formData.stock}
                     onChange={handleChange}
