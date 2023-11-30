@@ -1,45 +1,48 @@
 import { Container, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/header/Header'
-import ProductForm from '../components/products/form/ProductForm'
 import NavigationText from '../components/navText/NavigationText'
 import { useParams } from 'react-router-dom'
 import { API_URL_LINK } from '../utils/constants'
 import { FaExclamationTriangle } from 'react-icons/fa'
+import ComboForm from '../components/combos/ComboForm'
 
 /**
- * Page component for editing an existing product form.
+ * Page component for adding or editing a combo form.
  *
  * @component
- * @returns {JSX.Element} - The rendered EditProductFormPage component.
+ * @returns {JSX.Element} - The rendered ComboFormPage component.
  */
-const EditProductFormPage = () => {
+const ComboFormPage = ({ isEditing = false }) => {
 
-    const { productId } = useParams();
+    const { comboId = "" } = useParams();
 
-    const [product, setProduct] = useState({});
+    const [combo, setCombo] = useState({
+        name: '',
+        description: '',
+        price: 1,
+        items: []
+      });
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(isEditing);
 
     useEffect(() => {
-        const fetchProduct = async () => {
+        const fetchCombo = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL_LINK}/products/${productId}?admin=true`);
+                const response = await fetch(`${API_URL_LINK}/products/${comboId}`);
 
                 if (!response.ok) {
                     setError(true);
                 }
 
-                const productData = await response.json();
-                setProduct(
+                const comboData = await response.json();
+                setCombo(
                     { 
-                        ...productData, 
-                        price: productData.price.value, 
-                        stock: productData.quantity,
-                        brand: productData.details.brand != null ? productData.details.brand : "",
-                        abv: productData.details.abv != null ? productData.details.abv : 0,
-                        type: productData.details.type != null ? productData.details.type : ""
+                        ...comboData, 
+                        price: comboData.price.value, 
+                        stock: comboData.quantity,
+                        items: comboData.items.map(item => item._id)
                     }
                 );
             } catch (error) {
@@ -48,18 +51,18 @@ const EditProductFormPage = () => {
             setLoading(false);
         };
 
-        fetchProduct();
-    }, [productId]);
+        if(isEditing) fetchCombo();
+    }, []);
 
     return (
         <Container>
             <Header/>
             <NavigationText
             inactivePath={[{ title: "Home", href: "/" }, { title: "Admin", href: "/admin" }]} 
-            activePath={"Edit Product"} 
+            activePath={`${isEditing ? "Edit" : "Add"} Combo`} 
             />
             <Typography variant='h4' color='primary' component='h1' marginTop={6}>
-                Edit Product
+                {`${isEditing ? "Edit" : "Add"} Combo`} 
             </Typography>
             {
                 loading ? (
@@ -72,11 +75,11 @@ const EditProductFormPage = () => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <ProductForm productData={product} edit={true} />
+                    <ComboForm comboData={combo} edit={isEditing} />
                 )
             }
         </Container>
     )
 }
 
-export default EditProductFormPage
+export default ComboFormPage
