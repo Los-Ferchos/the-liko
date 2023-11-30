@@ -21,8 +21,10 @@ import AddProductFormPage from "./pages/AddProductFormPage"
 import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
 import { useGlobalCart } from "./components/contexts/CartContext"
+import ProductDetails from "./pages/ProductDetails"
 import { getLocalCurrencyCode } from "./utils/methods"
 import { changeCurrency, changeLoading } from "./store/locationSlice"
+import ComboFormPage from "./pages/ComboFormPage"
 
 /**
  * Theme configuration for the MUI components.
@@ -213,7 +215,7 @@ const App = () => {
           <Route path='/checkout' Component={Checkout} />
           <Route path='/sign_up' Component={SignUp} />
           <Route path='/logIn' Component={LogIn} />
-          <Route path='/profile' Component={Profile}></Route>
+          <Route path='/profile' Component={Profile} />
           <Route path='/:name' Component={() => <Products destination="/category" />} />
           <Route path='/:categoryName/all' Component={() => <ProductsBySubcategories/>} />
           <Route path='/:nameCat/:name' Component={() => <Products destination="/subcategory" />} />
@@ -222,8 +224,11 @@ const App = () => {
           <Route path="/admin" Component={ isUserAdmin ? AdminMenu : Page404}/>
           <Route path="/admin/add-product" Component={isUserAdmin ? AddProductFormPage : Page404}/>
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
+          <Route path="/admin/add-combo" Component={isUserAdmin ? ComboFormPage : Page404}/>
+          <Route path="/admin/edit-combo/:comboId" Component={isUserAdmin ? () => <ComboFormPage isEditing/> : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
+          <Route path="/product/:id" Component={() => <ProductDetails/>}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
