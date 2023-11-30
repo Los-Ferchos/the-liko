@@ -22,7 +22,7 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
         } else if (width < 900) {
             return 2;
         } else {
-            return Math.min(products.length, 4); // Muestra 4 si hay más de 4 productos, de lo contrario, muestra todos.
+            return Math.min(products.length, 4); 
         }
     };
 
@@ -60,6 +60,16 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
             <CustomLink href={`/${categoryName}/${getHyphenedString(subcat.name)}`} title="View All" />
         </div>
         <div style={{ display: "flex", flexDirection: "column", overflowX: "auto", padding: 15 }}>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "50px" }}>
+                <div>
+                    {currentPage !== 1 && <IconButton onClick={handlePrevClick}><FaChevronLeft /></IconButton>}
+
+                </div>
+                <div>
+                {currentPage < pagination?.totalPages && <IconButton onClick={handleNextClick}><FaChevronRight /></IconButton>}
+
+                </div>
+            </div>
             <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <div ref={carouselContainer} style={{ display: "flex", flexDirection: "row", flex: 1000, justifyContent: "space-between", alignItems: "center" }}>
                     {isLoading ? (
@@ -78,16 +88,7 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
                 </div>
                 
             </div>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "50px" }}>
-                <div>
-                    {currentPage !== 1 && <IconButton onClick={handlePrevClick}><FaChevronLeft /></IconButton>}
-
-                </div>
-                <div>
-                {currentPage < pagination?.totalPages && <IconButton onClick={handleNextClick}><FaChevronRight /></IconButton>}
-
-                </div>
-            </div>
+            
         </div>
     </div>
 );
