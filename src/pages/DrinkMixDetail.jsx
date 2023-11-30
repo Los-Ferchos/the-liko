@@ -48,7 +48,7 @@ const DrinkMixDetail = () => {
                     loading ? <div className="full-centered-container"><span className="loader"></span></div> : (
                         <div>
                             <NavigationText
-                                inactivePath={[{ title: "Home", href: "/" }, { title: "Drink Mixes", href: `/drink-mixes` }]}
+                                inactivePath={[{ title: "Home", href: "/" }]}
                                 activePath={product.name}
                             />
                             <div className={'information'} >
