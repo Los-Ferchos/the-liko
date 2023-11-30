@@ -8,7 +8,7 @@ import '../../assets/styles/loaderBottle.css'
 import { useNavigate } from 'react-router-dom';
 import useWindowSize from '../hooks/useWindowSize';
 import FieldText from '../fields/FieldText';
-import { handleUploadImage, uploadProduct } from '../../utils/methods';
+import { handleUploadImage, uploadCombo, uploadProduct } from '../../utils/methods';
 import ImageUploader from '../products/form/ImgUploader';
 import ProductsChecklist from '../products/selection/ProductsChecklist';
 
@@ -21,11 +21,11 @@ import ProductsChecklist from '../products/selection/ProductsChecklist';
  * @component
  * @returns {JSX.Element} - The rendered ComboForm component.
  */
-const ComboForm = ({ edit = false, productData: comboData = {
+const ComboForm = ({ edit = false, comboData = {
     name: '',
     description: '',
-    stock: 1,
     price: 1,
+    items: []
   } }) => {
   const navigate = useNavigate();
 
@@ -34,16 +34,15 @@ const ComboForm = ({ edit = false, productData: comboData = {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [nonRequiredFields, setNonRequiredFields] = useState([]);
-
   const [formData, setFormData] = useState(comboData);
+  console.log(comboData)
 
   const [formError, setFormError] = useState({
     name: '',
     description: '',
-    stock: '',
     image: '', 
     price: '',
+    items: ''
   })
 
   /**
@@ -57,6 +56,13 @@ const ComboForm = ({ edit = false, productData: comboData = {
     setSuccess(false);
     setFormData({ ...formData, [e.target.name]: inputValue });
     handleErrorMsg(e.target.name, '')
+  };
+
+  const handleChangeByKeyAndValue = (key, value) => {
+    setError(false);
+    setSuccess(false);
+    setFormData({ ...formData, [key]: value });
+    handleErrorMsg(key, '')
   };
 
   /**
@@ -77,19 +83,22 @@ const ComboForm = ({ edit = false, productData: comboData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === '' && !nonRequiredFields.includes(key))
+        if(value === '' && key !== "items")
             formErrorCopy[key] = "This field is required, please fill it";
     });
 
     if(file === '' && (!comboData.imgUrl || Object.keys(formError).includes("imgUrl")))
         formErrorCopy.image = "This field is required, please upload an image of your product."
-    
+    if(formData.items.length === 0)
+      formErrorCopy.items = "Please, select at least one product."
+
     setFormError(formErrorCopy)
 
     let isThereError = false;
     Object.entries(formErrorCopy).forEach(([key, value]) => {
         if(value !== '') isThereError = true;
     });
+    console.log(formErrorCopy)
     return !isThereError;
   }
 
@@ -115,7 +124,7 @@ const ComboForm = ({ edit = false, productData: comboData = {
 
     const productDataUp = { ...formData, image: (file === '' && comboData.imgUrl) ? comboData.imgUrl : imageStatus.url };
     setFormData(productDataUp);
-    const success = await uploadProduct(productDataUp, edit, comboData._id ? comboData._id : "");
+    const success = await uploadCombo(productDataUp, edit, comboData._id ? comboData._id : "");
     setLoading(false);
     setError(!success);
 
@@ -185,6 +194,10 @@ const ComboForm = ({ edit = false, productData: comboData = {
             <Grid item xs={12} md={6}>
                 <ProductsChecklist
                   label='Products included in the combo:'
+                  errorMessage={formError.items}
+                  clearError={() => handleErrorMsg("items", "")}
+                  items={formData.items}
+                  setItems={(items) => handleChangeByKeyAndValue("items", items)}
                 />
             </Grid>
 
@@ -212,7 +225,7 @@ const ComboForm = ({ edit = false, productData: comboData = {
                 { error && <Typography color={"error"} textAlign={"center"}>There was an error, please try again.</Typography>}
                 { success && 
                   <Typography color={"green"} textAlign={"center"}>
-                    {`Product ${edit ? "edited" : "added"} succesfully`}
+                    {`Combo ${edit ? "edited" : "added"} succesfully`}
                   </Typography>
                 }
             </Grid>

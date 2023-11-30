@@ -7,7 +7,9 @@ import Pagination from '../pagination/Pagination';
 import useWindowSize from '../../hooks/useWindowSize';
 
 
-const ProductsChecklist = ({ label = "" }) => {
+const ProductsChecklist = (
+    { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {} }
+) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -38,8 +40,9 @@ const ProductsChecklist = ({ label = "" }) => {
   }, [currentPage, searchText]);
 
   const handleToggle = (productId) => {
-    // Handle the toggle logic here
-    console.log(`Product with ID ${productId} toggled`);
+    clearError();
+    if(!items.includes(productId)) setItems([...items, productId])
+    else setItems(items.filter(id => id !== productId));
   };
 
   /**
@@ -98,7 +101,7 @@ const ProductsChecklist = ({ label = "" }) => {
                     <TableCell>
                         <Checkbox
                         edge="end"
-                        checked={false}
+                        checked={items.includes(product._id)}
                         onChange={() => handleToggle(product._id)}
                         />
                     </TableCell>
@@ -114,6 +117,7 @@ const ProductsChecklist = ({ label = "" }) => {
                 {currentPage < totalPages && <NextButton onClick={() => handlePageChange(currentPage + 1)} />}
             </div>
         )}
+        <Typography marginLeft={6} color={"error"} variant="body2" textAlign={"left"}>{errorMessage}</Typography>
     </div>
   );
 };

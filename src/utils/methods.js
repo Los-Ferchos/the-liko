@@ -195,14 +195,54 @@ export const uploadProduct = async (
         return false;
       }
   
-      const result = await response.json();
       return true;
     } catch (error) {
       return false;
     }
 };
 
+export const uploadCombo = async (
+  productData = {
+    name: '',
+    description: '',
+    price: 1,
+    image: '',
+    items: []
+  }, edit = false, comboId = ''
+) => {
+  const productJSON = {
+      name: productData.name,
+      description: productData.description,
+      rating: productData.rating ? productData.rating : 0,
+      totalReviews: productData.totalReviews ? productData.totalReviews : 0,
+      sells: productData.sells ? productData.sells : 0,
+      quantity: 1,
+      imgUrl: productData.image,
+      price: {
+          value: productData.price,
+          currency: "USD"
+      },
+      items: productData.items
+  }
 
+  try {
+    const response = await fetch(`${API_URL_LINK}/combos/${comboId}`, {
+      method: edit ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productJSON),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
 /**
  * Gets the local currency code based on the user's geolocation.

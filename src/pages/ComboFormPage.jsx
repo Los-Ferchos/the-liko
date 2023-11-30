@@ -20,28 +20,29 @@ const ComboFormPage = ({ isEditing = false }) => {
     const [combo, setCombo] = useState({
         name: '',
         description: '',
-        stock: 1,
         price: 1,
+        items: []
       });
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(isEditing);
 
     useEffect(() => {
-        const fetchProduct = async () => {
+        const fetchCombo = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL_LINK}/products/${productId}`);
+                const response = await fetch(`${API_URL_LINK}/products/${comboId}`);
 
                 if (!response.ok) {
                     setError(true);
                 }
 
-                const productData = await response.json();
+                const comboData = await response.json();
                 setCombo(
                     { 
-                        ...productData, 
-                        price: productData.price.value, 
-                        stock: productData.quantity,
+                        ...comboData, 
+                        price: comboData.price.value, 
+                        stock: comboData.quantity,
+                        items: comboData.items.map(item => item._id)
                     }
                 );
             } catch (error) {
@@ -50,8 +51,8 @@ const ComboFormPage = ({ isEditing = false }) => {
             setLoading(false);
         };
 
-        if(isEditing) fetchProduct();
-    }, [comboId, isEditing]);
+        if(isEditing) fetchCombo();
+    }, []);
 
     return (
         <Container>
@@ -74,7 +75,7 @@ const ComboFormPage = ({ isEditing = false }) => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <ComboForm productData={combo} edit={isEditing} />
+                    <ComboForm comboData={combo} edit={isEditing} />
                 )
             }
         </Container>
