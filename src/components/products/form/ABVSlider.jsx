@@ -1,6 +1,16 @@
 import React from 'react';
 import { Slider, Typography, Box } from '@mui/material';
 
+const getInteger = (val) => {
+  if (val === "0" || val === 0) {
+    return 0;
+  }
+  if (val == null) {
+    return 0;
+  }
+  return parseInt(val);
+}
+
 /**
  * ABVSlider component for selecting Alcohol By Volume.
  * @component
@@ -13,12 +23,12 @@ const AbvSlider = ({ value, handleChange }) => (
   <Box marginTop={12} paddingRight={3} paddingLeft={3}>
     <Typography gutterBottom textAlign={"left"} variant='subtitle1' color={"#555"}>ABV (Alcohol By Volume) *</Typography>
     <Slider
-      value={value}
+      value={getInteger(value)}
       name='abv'
       onChange={handleChange}
       valueLabelDisplay="auto"
       valueLabelFormat={(val) => `${val}%`}
-      step={0.1}
+      step={1}
       min={0}
       max={100}
     />
