@@ -45,10 +45,10 @@ const DrinkMixDetail = () => {
             <Container component={"section"} style={{ position: "relative" }}>
                 <Header />
                 {
-                    loading ? <div className="full-centered-content"><span className="loader"></span></div> : (
+                    loading ? <div className="full-centered-container"><span className="loader"></span></div> : (
                         <div>
                             <NavigationText
-                                inactivePath={[{ title: "Home", href: "/" }, { title: "Products", href: `/products` }]}
+                                inactivePath={[{ title: "Home", href: "/" }, { title: "Drink Mixes", href: `/drink-mixes` }]}
                                 activePath={product.name}
                             />
                             <div className={'information'} >
@@ -61,14 +61,14 @@ const DrinkMixDetail = () => {
                                     />
                                 </div>
                                 <div className='product-info'>
-                                    <Typography variant='h4' fontWeight="bold">{product.name}</Typography>
+                                    <Typography variant='h4' fontWeight="bold" style={{marginTop:"15px"}}>{product.name}</Typography>
                                     <RatingProduct
                                         rating={product.rating}
                                         reviews={product.totalReviews}
                                     />
-                                    <Typography variant='h6'>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
+                                    <Typography variant='h6' style={{marginTop:"15px"}}>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
                                     <hr />
-                                    <Typography variant='h6' fontWeight="bold">Product Descirption</Typography>
+                                    <Typography variant='h6' fontWeight="bold" style={{marginTop:"15px"}}>Product Description</Typography>
                                     <Typography textAlign={'left'}>{product.description}</Typography>
                                 </div>
                             </div>

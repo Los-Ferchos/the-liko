@@ -13,6 +13,8 @@ import '../assets/styles/productDetails.css'
 import { useAppSelector } from '../components/hooks/store'
 import CustomLink from '../components/links/CustomLink'
 import { API_URL_LINK } from '../utils/constants'
+import AddToCartButton from '../components/buttons/AddToCartButton'
+import WishButton from '../components/buttons/WishButton'
 
 /**
  * This is the page of the Product details.
@@ -22,7 +24,7 @@ import { API_URL_LINK } from '../utils/constants'
  */
 const ProductDetails = () => {
   const { id } = useParams();
-  const [ product, setProduct ] = useState({})
+  const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true)
 
   const categories = useAppSelector((state) => state.categories.categories);
@@ -54,11 +56,11 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true)
-      try{
+      try {
         const response = await fetch(`${API_URL_LINK}/products/${id}`);
         const data = await response.json()
         setProduct(data)
-      } catch(e){
+      } catch (e) {
         console.error('Error:', error);
       }
       setLoading(false)
@@ -72,85 +74,89 @@ const ProductDetails = () => {
         <Header />
 
         {
-          loading ? <div className="full-centered-content"><span className="loader"></span></div> : (
+          loading ? <div className='full-centered-container'><span className="loader"></span></div> : (
             <div>
-                      <NavigationText
-          inactivePath={[{ title: "Home", href: "/" }, { title: "Products", href: `/products` }]}
-          activePath={product.name}
-        />
-          <div className={'information'} >
-            <div className='image'>
-              <LazyImage
-                src={product.imgUrl}
-                placeholderSrc={bottleLoaderImg}
-                className={"product-image-container"}
-                style={{ width: 350, height: 350 }}
+              <NavigationText
+                inactivePath={[{ title: "Home", href: "/" }, { title: "Products", href: `/products` }]}
+                activePath={product.name}
               />
-            </div>
-            <div className='product-info'>
-              <Typography variant='h4' fontWeight="bold">{product.name}</Typography>
-              <RatingProduct
-                rating={product.rating}
-                reviews={product.totalReviews}
-              />
-              <Typography variant='h6'>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
-              <hr />
-              <Typography variant='h6' fontWeight="bold">Product Descirption</Typography>
-              <Typography textAlign={'left'}>{product.description}</Typography>
-            </div>
-          </div>
-          {
-            product.type === 'combo' ?
-              (<div className='detail-list'>
-                <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
-                <hr />
-                <Typography> Product List ...</Typography>
-                <hr />
-              </div>)
-              :
-              (<div className='detail-list' >
-                <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
-                <hr />
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <div className='detail'>
-                    <Typography fontWeight="bold">Category</Typography>
-                  </div>
-                  <div className='detail'>
-                    <CustomLink href={`/${getHyphenedString(getCategory())}`} title={getCategory()} />
+              <div className={'information'} >
+                <div className='image'>
+                  <LazyImage
+                    src={product.imgUrl}
+                    placeholderSrc={bottleLoaderImg}
+                    className={"product-image-container"}
+                    style={{ width: 350, height: 350 }}
+                  />
+                </div>
+                <div className='product-info'>
+                  <Typography variant='h4' fontWeight="bold" marginTop={10} marginBottom={5}>{product.name}</Typography>
+                  <RatingProduct
+                    rating={product.rating}
+                    reviews={product.totalReviews}
+                  />
+                  <Typography variant='h6' marginTop={5}>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
+                  <hr />
+                  <Typography variant='h6' fontWeight="bold">Product Description</Typography>
+                  <Typography textAlign={'left'}>{product.description}</Typography>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop:20}}>
+                    <AddToCartButton product={product}></AddToCartButton>
+                    <WishButton productId={id}></WishButton>
                   </div>
                 </div>
-                <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
-                <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
-                  <div className='detail'>
-                    <Typography fontWeight="bold">Subcategory</Typography>
-                  </div>
-                  <div className='detail'>
-                    <CustomLink href={`/${getHyphenedString(getCategory())}/${getHyphenedString(getSubcategory())}`} title={getSubcategory()} />
-                  </div>
-                </div>
-                <hr />
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <div className='detail'>
-                    <Typography fontWeight="bold">Brand</Typography>
-                  </div>
-                  <div className='detail'>
-                    <Typography >{product.details.brand}</Typography>
-                  </div>
-                </div>
-                <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
-                <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
-                  <div className='detail'>
-                    <Typography fontWeight="bold">ABV</Typography>
-                  </div>
-                  <div className='detail'>
-                    <Typography >{product.details.abv}</Typography>
-                  </div>
-                </div>
-                <hr />
-              </div>)
-          }
+              </div>
+              {
+                product.type === 'combo' ?
+                  (<div className='detail-list'>
+                    <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                    <hr />
+                    <Typography> Product List ...</Typography>
+                    <hr />
+                  </div>)
+                  :
+                  (<div className='detail-list' >
+                    <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
+                    <hr />
+                    <div style={{ display: 'flex', width: '100%' }}>
+                      <div className='detail'>
+                        <Typography fontWeight="bold">Category</Typography>
+                      </div>
+                      <div className='detail'>
+                        <CustomLink href={`/${getHyphenedString(getCategory())}`} title={getCategory()} />
+                      </div>
+                    </div>
+                    <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
+                    <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
+                      <div className='detail'>
+                        <Typography fontWeight="bold">Subcategory</Typography>
+                      </div>
+                      <div className='detail'>
+                        <CustomLink href={`/${getHyphenedString(getCategory())}/${getHyphenedString(getSubcategory())}`} title={getSubcategory()} />
+                      </div>
+                    </div>
+                    <hr />
+                    <div style={{ display: 'flex', width: '100%' }}>
+                      <div className='detail'>
+                        <Typography fontWeight="bold">Brand</Typography>
+                      </div>
+                      <div className='detail'>
+                        <Typography >{product.details.brand}</Typography>
+                      </div>
+                    </div>
+                    <hr style={{ display: product.details.abv ? 'flex' : 'none' }} />
+                    <div style={{ display: product.details.abv ? 'flex' : 'none', width: '100%' }}>
+                      <div className='detail'>
+                        <Typography fontWeight="bold">ABV</Typography>
+                      </div>
+                      <div className='detail'>
+                        <Typography >{product.details.abv}</Typography>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>)
+              }
 
-        </div>
+            </div>
           )
         }
       </Container>
