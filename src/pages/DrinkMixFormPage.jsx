@@ -1,65 +1,62 @@
 import { Container, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/header/Header'
-import ProductForm from '../components/products/form/ProductForm'
 import NavigationText from '../components/navText/NavigationText'
 import { useParams } from 'react-router-dom'
 import { API_URL_LINK } from '../utils/constants'
 import { FaExclamationTriangle } from 'react-icons/fa'
+import DrinkMixForm from '../components/drinkMixes/DrinkMixForm'
 
 /**
- * Page component for editing an existing product form.
+ * Page component for adding or editing a drink mix form.
  *
  * @component
- * @returns {JSX.Element} - The rendered EditProductFormPage component.
+ * @returns {JSX.Element} - The rendered DrinkMixFormPage component.
  */
-const EditProductFormPage = () => {
+const DrinkMixFormPage = ({ isEditing = false }) => {
 
-    const { productId } = useParams();
+    const { drinkMixId = "" } = useParams();
 
-    const [product, setProduct] = useState({});
+    const [drinkMix, setDrinkMix] = useState({
+        name: '',
+        description: '',
+        ingredients: [''],
+        relatedProducts: [],
+        preparationSteps: ['']
+      });
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(isEditing);
 
     useEffect(() => {
-        const fetchProduct = async () => {
+        const fetchDrinkMix = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL_LINK}/products/${productId}?admin=true`);
+                const response = await fetch(`${API_URL_LINK}/drink-mixes/${drinkMixId}`);
 
                 if (!response.ok) {
                     setError(true);
                 }
 
-                const productData = await response.json();
-                setProduct(
-                    { 
-                        ...productData, 
-                        price: productData.price.value, 
-                        stock: productData.quantity,
-                        brand: productData.details.brand != null ? productData.details.brand : "",
-                        abv: productData.details.abv != null ? productData.details.abv : 0,
-                        type: productData.details.type != null ? productData.details.type : ""
-                    }
-                );
+                const drinkMixData = await response.json();
+                setDrinkMix({ ...drinkMixData });
             } catch (error) {
                 setError(true);
             }
             setLoading(false);
         };
 
-        fetchProduct();
-    }, [productId]);
+        if(isEditing) fetchDrinkMix();
+    }, []);
 
     return (
         <Container>
             <Header/>
             <NavigationText
             inactivePath={[{ title: "Home", href: "/" }, { title: "Admin", href: "/admin" }]} 
-            activePath={"Edit Product"} 
+            activePath={`${isEditing ? "Edit" : "Add"} Drink Mix`} 
             />
             <Typography variant='h4' color='primary' component='h1' marginTop={6}>
-                Edit Product
+                {`${isEditing ? "Edit" : "Add"} Drink Mix`} 
             </Typography>
             {
                 loading ? (
@@ -72,11 +69,11 @@ const EditProductFormPage = () => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <ProductForm productData={product} edit={true} />
+                    <DrinkMixForm drinkMixData={drinkMix} edit={isEditing} />
                 )
             }
         </Container>
     )
 }
 
-export default EditProductFormPage
+export default DrinkMixFormPage
