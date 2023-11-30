@@ -24,7 +24,7 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
   return (
     <Grid item xs={12} sm={6} md={3} className={className}>
       <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Link state={{ product }} to={`/product/${getHyphenedString(product._id)}`}>
+        <Link state={{ product }} to={`/${collection}/${getHyphenedString(product._id)}`}>
           <LazyImage
             src={product.imgUrl}
             placeholderSrc={bottleLoaderImg}

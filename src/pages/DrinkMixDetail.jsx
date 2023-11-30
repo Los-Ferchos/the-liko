@@ -66,17 +66,38 @@ const DrinkMixDetail = () => {
                                         rating={product.rating}
                                         reviews={product.totalReviews}
                                     />
-                                    <Typography variant='h6' style={{marginTop:"15px"}}>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
                                     <hr />
                                     <Typography variant='h6' fontWeight="bold" style={{marginTop:"15px"}}>Product Description</Typography>
                                     <Typography textAlign={'left'}>{product.description}</Typography>
                                 </div>
                             </div>
                             <div className='detail-list' >
-                                <Typography variant='h6' color={'primary'} fontWeight="bold">Details</Typography>
+                                <Typography variant='h6' color={'primary'} fontWeight="bold">Ingredients</Typography>
                                 <hr />
+                                <ol style={{ listStyleType: "disc", paddingLeft: 24 }}>
+                                    {
+                                        product.ingredients.map((ingredient, index) => (
+                                            <li key={ingredient + index}>
+                                                <Typography textAlign={"left"}>{ingredient}</Typography>
+                                            </li>
+                                        ))
+                                    }
+                                </ol>
                             </div>
-                            <hr />
+
+                            <div className='detail-list' >
+                                <Typography variant='h6' color={'primary'} fontWeight="bold">Preparation Steps</Typography>
+                                <hr />
+                                <ol style={{ listStyleType: "decimal", paddingLeft: 24 }}>
+                                    {
+                                        product.preparationSteps.map((steps, index) => (
+                                            <li key={steps + index}>
+                                                <Typography textAlign={"left"}>{steps}</Typography>
+                                            </li>
+                                        ))
+                                    }
+                                </ol>
+                            </div>
                         </div>
                     )
                 }
