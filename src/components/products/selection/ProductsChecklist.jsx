@@ -6,7 +6,18 @@ import NextButton from '../../buttons/NextButton';
 import Pagination from '../pagination/Pagination';
 import useWindowSize from '../../hooks/useWindowSize';
 
-
+/**
+ * Represents a checklist component for selecting products.
+ *
+ * @component
+ * @param {Object} props - The component properties.
+ * @param {string} props.label - The label for the checklist.
+ * @param {string} props.errorMessage - The error message to display.
+ * @param {string[]} props.items - The selected items.
+ * @param {function} props.setItems - Function to set selected items.
+ * @param {function} props.clearError - Function to clear the error.
+ * @returns {JSX.Element} - The rendered checklist component.
+ */
 const ProductsChecklist = (
     { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {} }
 ) => {
@@ -39,6 +50,13 @@ const ProductsChecklist = (
     fetchData();
   }, [currentPage, searchText]);
 
+  /**
+   * Handles the toggle of a product in the checklist.
+   *
+   * @function
+   * @param {string} productId - The ID of the product.
+   * @returns {void}
+   */
   const handleToggle = (productId) => {
     clearError();
     if(!items.includes(productId)) setItems([...items, productId])

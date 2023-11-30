@@ -58,6 +58,12 @@ const ComboForm = ({ edit = false, comboData = {
     handleErrorMsg(e.target.name, '')
   };
 
+  /**
+   * Handles changes in form fields by searching by key and value.
+   *
+   * @param {Object} key - The key to edit the form data.
+   * @param {Object} value - The value to edit the form data.
+   */
   const handleChangeByKeyAndValue = (key, value) => {
     setError(false);
     setSuccess(false);
