@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@mui/material';
 import { MdOutlineSaveAlt } from "react-icons/md";
 
-function SetStockButton() {
+const SetStockButton = ({ onClick }) => {
+    
     return (
         <Button
-            variant="outlined"
-            color="warning"
-            startIcon={<MdOutlineSaveAlt />}
-            style={{width:"100%"}}
-        >
-            Set Stock
-        </Button>
-    )
-}
+        variant="outlined"
+        color="warning"
+        startIcon={<MdOutlineSaveAlt />}
+        style={{width:"100%"}}
+        onClick={onClick}
+    >   
+        Set Stock
+         </Button>
+    );
+};
 
-export default SetStockButton
+export default SetStockButton;
