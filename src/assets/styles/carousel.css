@@ -1,5 +1,5 @@
 .carousel-card {
-    width: 230px;
+    width: 100%;
     height: 440px;
 }
 ::-webkit-scrollbar {
@@ -19,3 +19,15 @@
     cursor: pointer;
     color: red;
 }
+
+@media screen and (max-width: 900px) {
+    .carousel-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+    }
+  
+    .carousel-buttons > div {
+      margin: 0 10px; /* Ajusta el margen según tu preferencia */
+    }
+  }
