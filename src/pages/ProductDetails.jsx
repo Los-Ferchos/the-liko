@@ -95,11 +95,18 @@ const ProductDetails = () => {
                     rating={product.rating}
                     reviews={product.totalReviews}
                   />
-                  <Typography variant='h6' marginTop={5}>{`${product.price.currency} ${parseFloat(product.price.value).toFixed(2)}`}</Typography>
+                  <Typography variant='h6' marginTop={5}>
+                    {product.price.currency}&nbsp;
+                    {
+                      Number.isInteger(product.price.value) ?
+                        product.price.value :
+                        parseFloat(product.price.value).toFixed(2)
+                    }
+                  </Typography>
                   <hr />
                   <Typography variant='h6' fontWeight="bold">Product Description</Typography>
                   <Typography textAlign={'left'}>{product.description}</Typography>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop:20}}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
                     <AddToCartButton product={product}></AddToCartButton>
                     <WishButton productId={id}></WishButton>
                   </div>
