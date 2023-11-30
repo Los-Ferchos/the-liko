@@ -10,7 +10,7 @@ import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
 import { useGlobalCart } from '../components/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
-import FavoritesSection from '../components/profile/FavoritesSection';
+import WishlistSection from '../components/profile/WishlistSection'
 
 /**
  * A React component that displays a profile page for a user to manage their account information.
@@ -37,7 +37,7 @@ const Profile = () => {
       case 'Order History':
         return <OrderHistorySection />;
       case 'My Favorite List':
-        return <FavoritesSection />;
+        return <WishlistSection />;
       default:
         return <DefaultSection />;
     }

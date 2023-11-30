@@ -21,7 +21,6 @@ import AddProductFormPage from "./pages/AddProductFormPage"
 import AdminViewProducts from "./pages/AdminViewProducts"
 import EditProductFormPage from "./pages/EditProductFormPage"
 import { useGlobalCart } from "./components/contexts/CartContext"
-import Wishlist from "./pages/Wishlist"
 import { getLocalCurrencyCode } from "./utils/methods"
 import { changeCurrency, changeLoading } from "./store/locationSlice"
 
@@ -225,7 +224,6 @@ const App = () => {
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
-          <Route path="/wishlist" Component={Wishlist}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
