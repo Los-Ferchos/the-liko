@@ -26,6 +26,7 @@ import { getLocalCurrencyCode } from "./utils/methods"
 import { changeCurrency, changeLoading } from "./store/locationSlice"
 import ComboFormPage from "./pages/ComboFormPage"
 import DrinkMixFormPage from "./pages/DrinkMixFormPage"
+import DrinkMixDetail from "./pages/DrinkMixDetail"
 
 /**
  * Theme configuration for the MUI components.
@@ -258,7 +259,8 @@ const App = () => {
                   collection="drink-mixes"
                 /> : Page404}/>
           <Route path="/cart" Component={Cart} />
-          <Route path="/product/:id" Component={() => <ProductDetails/>}/>
+          <Route path="/products/:id" Component={() => <ProductDetails/>}/>
+          <Route path="/drink-mixes/:id" Component={() => <DrinkMixDetail/>}/>
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
