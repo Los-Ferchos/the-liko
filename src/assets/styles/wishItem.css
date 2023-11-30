@@ -1,0 +1,10 @@
+.item-container{
+    display: flex;
+    align-items: center;
+    padding: 10;
+}
+.item-detail{
+    width: 25%;
+    display: flex;
+    justify-content: space-around;
+}

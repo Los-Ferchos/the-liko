@@ -17,8 +17,10 @@ function DeleteProductButton({product}) {
 
 
     /**
-     * Method to change the attribute deleted to true. This action hides the product for
-     * the user and admin.
+     * Method to delete the porduct.
+     * 
+     * This method change the attribute "deleted" to true, hiding the product from the user
+     * and the administrator.
      */
     const deleteProduct = async () => {
         setLoading(true);
