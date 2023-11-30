@@ -17,7 +17,9 @@ const maxSize = 5 * 1024 * 1024;
  * @param {function} props.handleErrorMsg - The callback function to handle error messages.
  * @returns {JSX.Element} - The rendered ImageUploader component.
  */
-const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData, edit }) => {
+const ImageUploader = (
+  { file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData, edit, label = "Product image *"  }
+) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
@@ -100,7 +102,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
 
   return (
     <>
-      <Typography marginLeft={3} variant="subtitle1" color={"#555"} marginTop={12}>Product image *</Typography>
+      <Typography marginLeft={3} variant="subtitle1" color={"#555"} marginTop={12}>{label}</Typography>
       <Box
         onDrop={handleDrop}
         onDragOver={handleOnDragOver}

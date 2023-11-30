@@ -1,4 +1,4 @@
-import { API_URL_LINK } from "./constants";
+import { API_URL_LINK, IMGBB_KEY, OPEN_CAGE_KEY } from "./constants";
 
 /**
  * Filters an array of objects based on a specific property and value, while ignoring case and replacing spaces with hyphens.
@@ -110,11 +110,10 @@ export const truncateString = (inputString) => {
  */
 export const handleUploadImage = async(file) => {
     try {
-      const imgbbApiKey = "a35353a7fbe2c639caeed1d21af3820b";
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch("https://api.imgbb.com/1/upload?key=" + imgbbApiKey, {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
         method: "POST",
         body: formData,
       });
@@ -287,8 +286,7 @@ const getCurrentPosition = () => {
  * @throws {Error} If there is an issue fetching country information.
  */
 const getCountryInfo = async (latitude, longitude) => {
-  const apiKey = 'b1b9ecef56ae49d4a44a9bb11fa5024a';
-  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
+  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${OPEN_CAGE_KEY}`;
 
   const response = await fetch(apiUrl);
   const data = await response.json();
