@@ -25,6 +25,7 @@ import ProductDetails from "./pages/ProductDetails"
 import { getLocalCurrencyCode } from "./utils/methods"
 import { changeCurrency, changeLoading } from "./store/locationSlice"
 import ComboFormPage from "./pages/ComboFormPage"
+import DrinkMixFormPage from "./pages/DrinkMixFormPage"
 
 /**
  * Theme configuration for the MUI components.
@@ -226,6 +227,11 @@ const App = () => {
           <Route path="/admin/edit-product/:productId" Component={isUserAdmin ? EditProductFormPage : Page404}/>
           <Route path="/admin/add-combo" Component={isUserAdmin ? ComboFormPage : Page404}/>
           <Route path="/admin/edit-combo/:comboId" Component={isUserAdmin ? () => <ComboFormPage isEditing/> : Page404}/>
+          <Route path="/admin/add-drink-mix" Component={isUserAdmin ? DrinkMixFormPage : Page404}/>
+          <Route 
+            path="/admin/edit-drink-mix/:drinkMixId" 
+            Component={isUserAdmin ? () => <DrinkMixFormPage isEditing/> : Page404}
+          />
           <Route path="/admin/view-products" Component={isUserAdmin ? AdminViewProducts : Page404}/>
           <Route path="/cart" Component={Cart} />
           <Route path="/product/:id" Component={() => <ProductDetails/>}/>

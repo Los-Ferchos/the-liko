@@ -8,24 +8,26 @@ import '../../assets/styles/loaderBottle.css'
 import { useNavigate } from 'react-router-dom';
 import useWindowSize from '../hooks/useWindowSize';
 import FieldText from '../fields/FieldText';
-import { handleUploadImage, uploadCombo } from '../../utils/methods';
+import { handleUploadImage, uploadCombo, uploadDrinkMix } from '../../utils/methods';
 import ImageUploader from '../products/form/ImgUploader';
 import ProductsChecklist from '../products/selection/ProductsChecklist';
+import ItemsFields from './ItemsFields';
 
 /**
- * Component for rendering a form to add a new combo.
+ * Component for rendering a form to add a new drink mix.
  *
  * @param {Object} props - The properties passed to the component.
- * @param {Object} props.comboData - The combo data to initialize the form.
+ * @param {Object} props.drinkMixData - The drink mix data to initialize the form.
  * 
  * @component
- * @returns {JSX.Element} - The rendered ComboForm component.
+ * @returns {JSX.Element} - The rendered DrinkMixForm component.
  */
-const ComboForm = ({ edit = false, comboData = {
+const DrinkMixForm = ({ edit = false, drinkMixData = {
     name: '',
     description: '',
-    price: 1,
-    items: []
+    ingredients: [''],
+    relatedProducts: [],
+    preparationSteps: ['']
   } }) => {
   const navigate = useNavigate();
 
@@ -34,14 +36,15 @@ const ComboForm = ({ edit = false, comboData = {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState(comboData);
+  const [formData, setFormData] = useState(drinkMixData);
 
   const [formError, setFormError] = useState({
     name: '',
     description: '',
     image: '', 
-    price: '',
-    items: ''
+    ingredients: '',
+    preparationSteps: '',
+    relatedProducts: ''
   })
 
   /**
@@ -80,6 +83,8 @@ const ComboForm = ({ edit = false, comboData = {
     setFormError({ ...formError, [name]: val });
   };
 
+  const arrayKeyFields = ["ingredients", "relatedProducts", "preparationSteps"]
+
   /**
    * Validates form fields and file upload before submission.
    *
@@ -88,22 +93,23 @@ const ComboForm = ({ edit = false, comboData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === '' && key !== "items")
+        if(!arrayKeyFields.includes(key) && value === '')
             formErrorCopy[key] = "This field is required, please fill it";
+        else if (arrayKeyFields.includes(key) && value[0] === "" && value.length === 1)
+            formErrorCopy[key] = "Please, fill at least one item value";
     });
 
-    if(file === '' && (!comboData.imgUrl || Object.keys(formError).includes("imgUrl")))
+    if(file === '' && (!drinkMixData.imgUrl || Object.keys(formError).includes("imgUrl")))
         formErrorCopy.image = "This field is required, please upload an image of your product."
-    if(formData.items.length === 0)
-      formErrorCopy.items = "Please, select at least one product."
+    if(formData.relatedProducts.length === 0)
+      formErrorCopy.relatedProducts = "Please, select at least one product."
 
-    setFormError(formErrorCopy)
+    setFormError(formErrorCopy);
 
     let isThereError = false;
     Object.entries(formErrorCopy).forEach(([key, value]) => {
         if(value !== '') isThereError = true;
     });
-    console.log(formErrorCopy)
     return !isThereError;
   }
 
@@ -127,16 +133,17 @@ const ComboForm = ({ edit = false, comboData = {
       }
     }
 
-    const comboDataUp = { ...formData, image: (file === '' && comboData.imgUrl) ? comboData.imgUrl : imageStatus.url };
-    setFormData(comboDataUp);
-    const success = await uploadCombo(comboDataUp, edit, comboData._id ? comboData._id : "");
+    const drinkMixDataUp = 
+    { ...formData, image: (file === '' && drinkMixData.imgUrl) ? drinkMixData.imgUrl : imageStatus.url };
+    setFormData(drinkMixDataUp);
+    const success = await uploadDrinkMix(drinkMixDataUp, edit, drinkMixData._id ? drinkMixData._id : "");
     setLoading(false);
     setError(!success);
 
     if(success){
       setSuccess(true);
       setTimeout(() => {
-        navigate("/admin/view-combos")
+        navigate("/admin/view-drink-mixes")
       }, 1500);
     }
   };
@@ -150,7 +157,7 @@ const ComboForm = ({ edit = false, comboData = {
                 <FieldText
                   label="Name"
                   name="name"
-                  placeholder='Eg: Fernet + Coke + Ice'
+                  placeholder='Eg: Chufflay'
                   value={formData.name}
                   onChange={handleChange}
                   errorMsg={formError.name}
@@ -161,7 +168,7 @@ const ComboForm = ({ edit = false, comboData = {
                 <FieldText
                   label="Description"
                   name="description"
-                  placeholder='Eg: A special combo of Fenet 1L, Coke 3L and Ice 3Kg to enjoy with your friends.'
+                  placeholder='Eg: Drink composed of one part liquor and another part soda, to which slices of lemon are added'
                   value={formData.description}
                   onChange={handleChange}
                   multiline
@@ -171,39 +178,46 @@ const ComboForm = ({ edit = false, comboData = {
                   maxLength={500}
                 />
 
-
-                <FieldText
-                  label="Price in USD"
-                  name="price"
-                  type="number"
-                  placeholder='Eg: 15.99'
-                  value={formData.price}
-                  onChange={handleChange}
-                  errorMsg={formError.price}
-                  handleErrorMsg={handleErrorMsg}
-                  typeNumber='price'
-                  maxLength={10}
+                <ItemsFields 
+                  items={formData.ingredients}
+                  setItems={(ingredients) => handleChangeByKeyAndValue("ingredients", ingredients)}
+                  titleLabel='Ingredients (Max 10): '
+                  itemLabel='Ingredient'
+                  errorMessage={formError.ingredients}
+                  placeholder='Eg: Singani'
                 />
 
+                <ItemsFields 
+                  items={formData.preparationSteps}
+                  setItems={(preparationSteps) => handleChangeByKeyAndValue("preparationSteps", preparationSteps)}
+                  titleLabel='Steps (Max 15): '
+                  itemLabel='Step'
+                  errorMessage={formError.preparationSteps}
+                  placeholder='Eg: Add the singani'
+                  maxLength={100}
+                />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
                 <ImageUploader
                   setFile={setFile} 
                   file={file} 
                   errorMsg={formError.image}
                   handleErrorMsg={handleErrorMsg} 
                   handleChange={handleChange} 
-                  productData={comboData}
+                  productData={drinkMixData}
                   edit={edit}
-                  label="Combo image *"
+                  label="Drink Mix image *"
+                  initMarginTop={8}
                 />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
+                
                 <ProductsChecklist
-                  label='Products included in the combo:'
-                  errorMessage={formError.items}
-                  clearError={() => handleErrorMsg("items", "")}
-                  items={formData.items}
-                  setItems={(items) => handleChangeByKeyAndValue("items", items)}
+                  initMarginTop={12}
+                  label='Products related to the drink mix:'
+                  errorMessage={formError.relatedProducts}
+                  clearError={() => handleErrorMsg("relatedProducts", "")}
+                  items={formData.relatedProducts}
+                  setItems={(items) => handleChangeByKeyAndValue("relatedProducts", items)}
                 />
             </Grid>
 
@@ -231,7 +245,7 @@ const ComboForm = ({ edit = false, comboData = {
                 { error && <Typography color={"error"} textAlign={"center"}>There was an error, please try again.</Typography>}
                 { success && 
                   <Typography color={"green"} textAlign={"center"}>
-                    {`Combo ${edit ? "edited" : "added"} succesfully`}
+                    {`Drink Mix ${edit ? "edited" : "added"} succesfully`}
                   </Typography>
                 }
             </Grid>
@@ -240,4 +254,4 @@ const ComboForm = ({ edit = false, comboData = {
   );
 };
 
-export default ComboForm;
+export default DrinkMixForm;
