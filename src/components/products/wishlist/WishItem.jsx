@@ -28,9 +28,6 @@ const WishItem = ({ productId = "" }) => {
         fetchProduct();
     }, []);
 
-
-    console.log(product)
-
     return (
         <div>
             {
@@ -44,7 +41,7 @@ const WishItem = ({ productId = "" }) => {
                             />
                         </div>
                         <div className='item-detail'>
-                            <Typography variant='h6'>{product.name}</Typography>
+                            <Typography variant='h6' textAlign={'center'}>{product.name}</Typography>
                         </div>
                         <div className='item-detail'>
                             <Typography variant="subtitle1">
