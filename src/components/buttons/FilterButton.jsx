@@ -1,13 +1,14 @@
 import React from 'react';
 import '../../assets/styles/filter.css'
 import { useDispatch } from 'react-redux';
-import { sendOrders } from '../../store/sortSlice';
+import { clearAll, sendOrders } from '../../store/sortSlice';
 
 const FilterButton = () => {
 
     const dispatch = useDispatch();
-    const sendOrdersRedux = async () => {
+    const clearFilters = async () => {
         try {
+            dispatch(clearAll());
             dispatch(sendOrders());
         } catch (error) {
             console.log(error)
@@ -15,7 +16,7 @@ const FilterButton = () => {
     }
 
     return (
-                <div className='filter-final-button' onClick={sendOrdersRedux}>send</div>
+                <div className='filter-final-button' onClick={clearFilters}>Reset</div>
     );
 };
 

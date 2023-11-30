@@ -136,14 +136,17 @@ const search = useAppSelector((state) => state.search.search);
     let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}`;
     setIsLoading(true);
 
+    
     if (sortQuery.length) {
       apiActualLink = setUrlSort(apiActualLink);
     }
-
+    
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
     } 
-
+    
+    console.log(apiActualLink);
+    
     const fetchProducts = async () => {
       setIsLoading(true);
       if(loading) return;
@@ -164,7 +167,7 @@ const search = useAppSelector((state) => state.search.search);
     };
   
     fetchProducts();
-  }, [isFilterRequest, currentPage, apiUrl, limit, page, loading, search, currencyCode]);
+  }, [isFilterRequest, sortQuery, filterQueryArray, currentPage, apiUrl, limit, page, loading, search, currencyCode]);
 
   /**
    * Handles the change of the current page.
