@@ -1,6 +1,6 @@
 
 import {TextField, Typography, Tab,Tabs, Button, DialogTitle, DialogActions, Dialog, CircularProgress} from '@mui/material';
-import { useState , useRef} from 'react';
+import { useState , useRef, useEffect} from 'react';
 import '../../assets/styles/checkout.css'
 import { API_URL_LINK } from '../../utils/constants';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
@@ -34,6 +34,7 @@ const CheckoutForm = ({totalCost}) => {
   const [lastNameError, setLastNameError] = useState('');
   const [telephoneError, setTelephoneError] = useState('');
   const [nitError, setNitError] = useState('');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const navigate = useNavigate();
 
@@ -49,36 +50,47 @@ const CheckoutForm = ({totalCost}) => {
   const stripe = useStripe();
   const elements = useElements();
 
+  useEffect(() => {
+    setButtonDisabled(false);
+  }, []);
+  
+
   const handleSubmit = async (event) => {
+    setButtonDisabled(true);
     event.preventDefault();
 
     if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
       setInvalidData(true);
+      setButtonDisabled(false);
       return;
     }
 
     if(!await validateUserInformation()) {
       setInvalidData(true);
+      setButtonDisabled(false);
       return;
     }
 
     if(!await registerOrder()) {
       setIsFailed(true);
+      setButtonDisabled(false);
       return;
     }
 
     if (!stripe || !elements) {
+      setButtonDisabled(false);
       return;
     }
 
     const card = elements.getElement(CardElement);
+    setLoading(true);
+    
     const result = await stripe.createToken(card);
 
     if (result.error) {
-      console.log('entro2');
       setInvalidData(true);
     } else {
-      setLoading(true);
+      
       const response = await fetch(`${API_URL_LINK}/confirmCheckout`, {
         method: 'POST',
         headers: {
@@ -104,6 +116,7 @@ const CheckoutForm = ({totalCost}) => {
         }, 3000);
       } else {
         setIsFailed(true)
+        setButtonDisabled(false);
       }
       setLoading(false);
     }
@@ -208,8 +221,6 @@ const CheckoutForm = ({totalCost}) => {
       currency: 'USD',
     };
   
-    console.log(order);
-  
     try{
       const response = await fetch(`${API_URL_LINK}/orders`, {
         method: 'POST',
@@ -262,15 +273,22 @@ const CheckoutForm = ({totalCost}) => {
       onChange={e => {setLastName(e.target.value); validateLastName();}}  inputProps={{maxLength: 256}} onBlur={validateLastName}/>
 
       <TextField
-       required label="Telephone" size='normal' variant="outlined" type='number' helperText={telephoneError} error={telephoneError !== '' }
-       onChange={e =>{ setTelephone(e.target.value); validateTelephone();}}  inputProps={{maxLength: 256}} onBlur={validateTelephone}/>
+       required label="Telephone" value={telephone} size='normal' variant="outlined" type='number' helperText={telephoneError} error={telephoneError !== '' }
+       onChange={e => {
+        const inputValue = e.target.value.slice(0, 17);
+        setTelephone(inputValue);
+        validateTelephone();
+      }}  onBlur={validateTelephone}/>
 
       <TextField 
           required label="Delivery Address" size='normal' variant="outlined" onChange={e =>{setDeliveryAddress(e.target.value); validateAdress();} }
           helperText={direcctionMessage} inputProps={{ maxLength: 256 }} error={direcctionMessage !== '' } onBlur={validateAdress}/>
       <TextField 
-          required label="NIT" size='normal' variant="outlined" type="number" helperText={nitError} error={nitError !== '' }
-          onChange={e => { setNit(e.target.value); validateNit(); }} onBlur={validateNit}/>
+          required label="NIT" value={nit} size='normal' variant="outlined" type="number" helperText={nitError} error={nitError !== '' }
+          onChange={e => { 
+            const inputValue = e.target.value.slice(0, 40);
+            setNit(inputValue); 
+            validateNit(); }} onBlur={validateNit}/>
 
       <div className='payment-method'>
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
@@ -288,7 +306,7 @@ const CheckoutForm = ({totalCost}) => {
          
     </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center '}}>
-          <Button onClick={!loading && !success && handleSubmit} id='button-order' variant='contained' color='primary'>
+          <Button  onClick={!loading && !success && handleSubmit} id='button-order' variant='contained' color='primary' disabled={buttonDisabled}>
               Place Order
           </Button>
           {loading && <CircularProgress style={{ marginTop: 12 }}/>}
