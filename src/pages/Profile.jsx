@@ -5,12 +5,12 @@ import useWindowSize from '../components/hooks/useWindowSize';
 import '../assets/styles/profile.css';
 import NavigationText from '../components/navText/NavigationText';
 import CustomLink from '../components/links/CustomLink';
-import { ConstructionSection, OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
+import { OrderHistorySection, DefaultSection } from '../components/profile/MyProfileSettings';
 import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
 import { useGlobalCart } from '../components/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
-import WishlistSection from '../components/profile/WishlistSection'
+import WishlistSection from '../components/profile/WishlistSection';
 
 /**
  * A React component that displays a profile page for a user to manage their account information.
@@ -19,9 +19,9 @@ import WishlistSection from '../components/profile/WishlistSection'
  */
 const Profile = () => {
   const { width } = useWindowSize();
-  const [profileSection, setProfileSection] = useState('My Profile'); 
+  const [profileSection, setProfileSection] = useState('My Profile');
   const { userLogged } = useGlobalCart();
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userLogged) {
@@ -45,25 +45,26 @@ const Profile = () => {
 
   return (
     <>
-    <Container style={{ minHeight: '90vh' }}>
-      <Header />
-      <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Profile' />
-      <div className="profile-container">
-        <div className="order-table">
-          <div className='titleSub'> 
-          <Typography variant={width < 768 ? "body2" : "body1"} style={{ fontWeight: 'bold' }} > Manage Account
-          </Typography>
+      <Container style={{ minHeight: '90vh' }}>
+        <Header />
+        <NavigationText inactivePath={[{ title: "Home", href: "/" }]} activePath='Profile' />
+        <div className="profile-container">
+          <div className="order-table">
+            <div className='titleSub'>
+              <Typography variant={width < 768 ? "body2" : "body1"} style={{ fontWeight: 'bold', width:200 }} >
+                Manage Account
+              </Typography>
+            </div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')} /></div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')} /></div>
           </div>
-          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>
-          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')} /></div>
-          <div className='subcategory'><CustomLink  variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')} /></div>
+          <div className="button-log-out" >
+            {renderProfileSection()}
+          </div>
         </div>
-        <div className="button-log-out" >
-          {renderProfileSection()}
-        </div>
-      </div>
-    </Container>
-    <Footer/>
+      </Container>
+      <Footer />
 
     </>
   );
