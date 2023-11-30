@@ -20,7 +20,7 @@ import { getHyphenedString } from '../../../utils/methods';
  * 
  * @returns {JSX.Element} Rendered ProductCard component.
  */
-const ProductCard = ({ product = {}, className = "", type = "client" }) => {
+const ProductCard = ({ product = {}, className = "", type = "client", collection = "products", editLinkRoute }) => {
   return (
     <Grid item xs={12} sm={6} md={3} className={className}>
       <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -64,12 +64,12 @@ const ProductCard = ({ product = {}, className = "", type = "client" }) => {
                 </Typography>
               </div>
               <div>
-                <EditProductButton product={product} />
+                <EditProductButton product={product} editLinkRoute={editLinkRoute} />
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }}>
-                  <HideProductButton product={product} />
-                  <DeleteProductButton product={product} />
+                  <HideProductButton product={product} collection={collection} />
+                  <DeleteProductButton product={product} collection={collection} />
                 </div>
-                <SetStockButton />
+                { collection === "products" && <SetStockButton /> }
               </div>
             </CardContent>)
         }
