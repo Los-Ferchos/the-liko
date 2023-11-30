@@ -16,10 +16,11 @@ import useWindowSize from '../../hooks/useWindowSize';
  * @param {string[]} props.items - The selected items.
  * @param {function} props.setItems - Function to set selected items.
  * @param {function} props.clearError - Function to clear the error.
+ * @param {Number} props.initMarginTop - The margin top of the component
  * @returns {JSX.Element} - The rendered checklist component.
  */
 const ProductsChecklist = (
-    { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {} }
+    { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {}, initMarginTop = -8 }
 ) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +79,7 @@ const ProductsChecklist = (
 
   return (
     <div>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: width > 960 ? -8 : 12, marginBottom: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: width > 960 ? initMarginTop : 12, marginBottom: 4 }}>
             <Typography 
                 marginLeft={3} 
                 variant="subtitle1" 
@@ -103,7 +104,9 @@ const ProductsChecklist = (
                 <TableHead>
                 <TableRow>
                     <TableCell>Product Name</TableCell>
-                    <TableCell>Image</TableCell>
+                    {
+                        width > 400 && <TableCell>Image</TableCell>
+                    }
                     <TableCell>Price</TableCell>
                     <TableCell></TableCell>
                 </TableRow>
@@ -111,18 +114,25 @@ const ProductsChecklist = (
                 <TableBody>
                 {products.map((product) => (
                     <TableRow key={product._id}>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>
-                        <Avatar alt={product.name} src={product.imgUrl} />
-                    </TableCell>
-                    <TableCell>{product.price.currency} {product.price.value}</TableCell>
-                    <TableCell>
-                        <Checkbox
-                        edge="end"
-                        checked={items.includes(product._id)}
-                        onChange={() => handleToggle(product._id)}
-                        />
-                    </TableCell>
+                        <TableCell>
+                            {product.name}
+                            { width <= 400 && <Avatar alt={product.name} src={product.imgUrl} /> }
+                        </TableCell>
+                        {
+                            width > 400 && (
+                                <TableCell>
+                                    <Avatar alt={product.name} src={product.imgUrl} />
+                                </TableCell>
+                            )
+                        }
+                        <TableCell>{product.price.currency} {product.price.value}</TableCell>
+                        <TableCell>
+                            <Checkbox
+                            edge="end"
+                            checked={items.includes(product._id)}
+                            onChange={() => handleToggle(product._id)}
+                            />
+                        </TableCell>
                     </TableRow>
                 ))}
                 </TableBody>

@@ -97,7 +97,8 @@ const FilterList = () => {
             <FilterItem 
                 children='ABV ' 
                 sortWay={3} 
-                range={true} 
+                range={true}
+                sliderStep={0.1}
                 icon={LocalBarIcon} 
                 subtext1='High - Low' 
                 subtext2='Low - High' />

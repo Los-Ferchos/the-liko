@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
  * @param {Object} props - The properties of the component.
  * @returns {JSX.Element} - Rendered EditProductButton component.
  */
-function EditProductButton({ product }) {
+function EditProductButton({ product, editLinkRoute }) {
     const navigate = useNavigate()
     return (
         <Button
@@ -17,7 +17,7 @@ function EditProductButton({ product }) {
             color="success"
             startIcon={<FaRegEdit />}
             style={{width:"100%"}}
-            onClick={() => navigate(`/admin/edit-product/${product._id}`)}
+            onClick={() => navigate(`${editLinkRoute}${product._id}`)}
         >
             Edit Product
         </Button>
