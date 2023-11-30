@@ -6,6 +6,7 @@ import cartSlice from "./cartSlice";
 import sortSlice from "./sortSlice";
 import searchSlice from "./searchSlice";
 import userSlice from "./userSlice";
+import wishListSlice from "./whishListSlice";
 import currencySlice from "./locationSlice";
 
 /**
@@ -24,5 +25,6 @@ export const store = configureStore({
     sort: sortSlice,
     search: searchSlice,
     user: userSlice,
+    wish: wishListSlice
   },
 });
