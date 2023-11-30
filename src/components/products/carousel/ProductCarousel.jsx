@@ -22,7 +22,7 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
         } else if (width < 900) {
             return 2;
         } else {
-            return Math.min(products.length, 4); // Muestra 4 si hay más de 4 productos, de lo contrario, muestra todos.
+            return Math.min(products.length, 4); 
         }
     };
 
