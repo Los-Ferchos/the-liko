@@ -76,7 +76,7 @@ const DrinkMixFormPage = ({ isEditing = false }) => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <DrinkMixForm comboData={drinkMix} edit={isEditing} />
+                    <DrinkMixForm drinkMixData={drinkMix} edit={isEditing} />
                 )
             }
         </Container>

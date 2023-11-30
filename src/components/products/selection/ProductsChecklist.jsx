@@ -16,10 +16,11 @@ import useWindowSize from '../../hooks/useWindowSize';
  * @param {string[]} props.items - The selected items.
  * @param {function} props.setItems - Function to set selected items.
  * @param {function} props.clearError - Function to clear the error.
+ * @param {Number} props.initMarginTop - The margin top of the component
  * @returns {JSX.Element} - The rendered checklist component.
  */
 const ProductsChecklist = (
-    { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {} }
+    { label = "", errorMessage = "", items = [], setItems = () => {}, clearError = () => {}, initMarginTop = -8 }
 ) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +79,7 @@ const ProductsChecklist = (
 
   return (
     <div>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: width > 960 ? -8 : 12, marginBottom: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: width > 960 ? initMarginTop : 12, marginBottom: 4 }}>
             <Typography 
                 marginLeft={3} 
                 variant="subtitle1" 
