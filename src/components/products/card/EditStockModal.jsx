@@ -3,6 +3,17 @@ import React, { useState } from 'react';
 import FieldText from '../../fields/FieldText';
 import { uploadProduct } from '../../../utils/methods';
 
+
+/**
+ * React component for editing the stock of a product using a modal.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.open - Whether the modal is open.
+ * @param {function} props.handleClose - Function to close the modal.
+ * @param {Object} props.product - The product to edit.
+ * @returns {JSX.Element} The JSX representation of the component.
+ */
 const EditStockModal = ({ open, handleClose, product={}}) => {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -48,7 +59,14 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
   };
 
   
-
+  /**
+ * Handles the form submission for updating the stock of the product.
+ *
+ * @async
+ * @function
+ * @param {Event} e - The event object.
+ * @returns {Promise<void>} A Promise that resolves when the submission process is complete.
+ */
   const handleSumbit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -64,16 +82,15 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
       image: product.imgUrl, 
       category: product.category,
       subcategory: product.subcategory,
-      price: product.price.value, 
+      price: parseFloat(product.price.value), 
       brand: product.details.brand,
-      abv: parseFloat(product.details.abv),
+      abv: parseInt(product.details.abv),
       type: product.details.type
   }, edit, product._id ? product._id : "");
 
     setLoading(false);
     setError(!success);
-    handleClose
-
+    handleClose();
   }
 
     return (
@@ -127,6 +144,7 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
                   variant="outlined" 
                   color="primary" 
                   disabled={loading}
+                  onClick={handleClose}
                 >
                   Cancel
                 </Button>
