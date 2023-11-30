@@ -17,8 +17,12 @@ export const filterDataArray = (arrayToFilter, compareData, valueData) =>
  * @param {string} str - The string to capitalize.
  * @returns {string} - The capitalized string.
  */
-export const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
-
+export const capitalizeString = (str) => {
+  if (typeof str !== 'string' || str === undefined) {
+    return '';
+  }
+  return `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
+};
 /**
  * Generates an array of inactive paths for navigation breadcrumbs.
  *
