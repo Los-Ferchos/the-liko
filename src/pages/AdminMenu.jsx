@@ -29,15 +29,19 @@ const AdminMenu = () => {
             </Typography>
 
             <Grid marginTop={30} container spacing={width > 768 ? 36 : 24} justifyContent="center">
-                <Grid item xs={12} sm={width > 768 ? 6 : 12} justifyContent={width > 768 ? "flex-end" : "center"} display={"flex"}>
-                    {/* Button for managing products */}
+                <Grid item xs={12} sm={width > 768 ? 6 : 12} justifyContent={width > 768 ? "flex-end" : "center"} display={"flex"} flexDirection={"column"}>
                     <Button variant="outlined" color="primary" className='admin-panel-menu-button' onClick={() => navigate("/admin/view-products")}>
                         Manage Products
+                    </Button>
+                    <Button variant="outlined" color="primary" className='admin-panel-menu-button' onClick={() => navigate("/admin/view-combos")}>
+                        Manage Combos
                     </Button>
                 </Grid>
 
                 <Grid item xs={12} sm={width > 768 ? 6 : 12} display={"flex"} justifyContent={width > 768 ? "flex-start" : "center"} >
-                    {/* Button for managing taxes */}
+                <Button variant="outlined" color="primary" className='admin-panel-menu-button' onClick={() => navigate("/admin/view-drink-mixes")}>
+                        Manage Drink Mixes
+                    </Button>
                     <Button disabled variant="outlined" color="primary" className='admin-panel-menu-button'>
                         Manage Taxes
                     </Button>
