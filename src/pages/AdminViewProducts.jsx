@@ -45,7 +45,7 @@ const AdminViewProducts = ({ }) => {
           </div>
         ) : (
           <>
-            <NavigationText inactivePath={getInactiveAdminPaths(nameCat)} activePath={capitalizeString(name)} />
+            <NavigationText inactivePath={[{ title: "Home", href: "/" }, { title: "Admin", href: "/admin" }]} activePath={capitalizeString(name)} />
             <Typography variant='h4' color='primary' component='h1' marginTop={6}>
               {capitalizeString(name)}
             </Typography>
