@@ -144,9 +144,17 @@ const search = useAppSelector((state) => state.search.search);
     if (filterQueryArray.length) {
       apiActualLink = setUrlFilter(apiActualLink);
     } 
-    
-    console.log(apiActualLink);
-    
+
+    /**
+     * Asynchronously fetches product data from the specified API endpoint.
+     * Updates relevant states based on the fetched data and handles loading and error states.
+     * 
+     * @async
+     * @function
+     * @returns {Promise<void>} A promise that resolves when the data fetching and state updates are complete.
+     * 
+     * @throws {Error} If an error occurs during the fetch or data processing.
+     */
     const fetchProducts = async () => {
       setIsLoading(true);
       if(loading) return;
