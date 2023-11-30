@@ -104,7 +104,9 @@ const ProductsChecklist = (
                 <TableHead>
                 <TableRow>
                     <TableCell>Product Name</TableCell>
-                    <TableCell>Image</TableCell>
+                    {
+                        width > 400 && <TableCell>Image</TableCell>
+                    }
                     <TableCell>Price</TableCell>
                     <TableCell></TableCell>
                 </TableRow>
@@ -112,18 +114,25 @@ const ProductsChecklist = (
                 <TableBody>
                 {products.map((product) => (
                     <TableRow key={product._id}>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>
-                        <Avatar alt={product.name} src={product.imgUrl} />
-                    </TableCell>
-                    <TableCell>{product.price.currency} {product.price.value}</TableCell>
-                    <TableCell>
-                        <Checkbox
-                        edge="end"
-                        checked={items.includes(product._id)}
-                        onChange={() => handleToggle(product._id)}
-                        />
-                    </TableCell>
+                        <TableCell>
+                            {product.name}
+                            { width <= 400 && <Avatar alt={product.name} src={product.imgUrl} /> }
+                        </TableCell>
+                        {
+                            width > 400 && (
+                                <TableCell>
+                                    <Avatar alt={product.name} src={product.imgUrl} />
+                                </TableCell>
+                            )
+                        }
+                        <TableCell>{product.price.currency} {product.price.value}</TableCell>
+                        <TableCell>
+                            <Checkbox
+                            edge="end"
+                            checked={items.includes(product._id)}
+                            onChange={() => handleToggle(product._id)}
+                            />
+                        </TableCell>
                     </TableRow>
                 ))}
                 </TableBody>

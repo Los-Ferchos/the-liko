@@ -8,7 +8,7 @@ import { FaExclamationTriangle } from 'react-icons/fa'
 import DrinkMixForm from '../components/drinkMixes/DrinkMixForm'
 
 /**
- * Page component for adding or editing a combo form.
+ * Page component for adding or editing a drink mix form.
  *
  * @component
  * @returns {JSX.Element} - The rendered DrinkMixFormPage component.
@@ -38,14 +38,7 @@ const DrinkMixFormPage = ({ isEditing = false }) => {
                 }
 
                 const drinkMixData = await response.json();
-                setDrinkMix(
-                    { 
-                        ...drinkMixData, 
-                        price: drinkMixData.price.value, 
-                        stock: drinkMixData.quantity,
-                        relatedProducts: drinkMixData.relatedProducts.map(item => item._id)
-                    }
-                );
+                setDrinkMix({ ...drinkMixData });
             } catch (error) {
                 setError(true);
             }

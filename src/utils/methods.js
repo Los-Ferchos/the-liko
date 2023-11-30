@@ -199,9 +199,23 @@ export const uploadProduct = async (
       return false;
     }
 };
-
+/**
+ * Uploads or updates a combo with the provided data.
+ *
+ * @async
+ * @function
+ * @param {Object} comboData - The data for the combo.
+ * @param {string} comboData.name - The name of the combo.
+ * @param {string} comboData.description - The description of the combo.
+ * @param {number} comboData.price - The price of the combo.
+ * @param {string} comboData.image - The URL of the combo image.
+ * @param {Array} comboData.items - An array of item IDs included in the combo.
+ * @param {boolean} [edit=false] - Indicates whether to edit an existing combo.
+ * @param {string} [comboId=''] - The ID of the combo to be edited.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the operation is successful, otherwise false.
+ */
 export const uploadCombo = async (
-  productData = {
+  comboData = {
     name: '',
     description: '',
     price: 1,
@@ -210,22 +224,74 @@ export const uploadCombo = async (
   }, edit = false, comboId = ''
 ) => {
   const productJSON = {
-      name: productData.name,
-      description: productData.description,
-      rating: productData.rating ? productData.rating : 0,
-      totalReviews: productData.totalReviews ? productData.totalReviews : 0,
-      sells: productData.sells ? productData.sells : 0,
+      name: comboData.name,
+      description: comboData.description,
+      rating: comboData.rating ? comboData.rating : 0,
+      totalReviews: comboData.totalReviews ? comboData.totalReviews : 0,
+      sells: comboData.sells ? comboData.sells : 0,
       quantity: 1,
-      imgUrl: productData.image,
+      imgUrl: comboData.image,
       price: {
-          value: productData.price,
+          value: comboData.price,
           currency: "USD"
       },
-      items: productData.items
+      items: comboData.items
   }
 
   try {
     const response = await fetch(`${API_URL_LINK}/combos/${comboId}`, {
+      method: edit ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productJSON),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * Uploads or updates a drink mix with the provided data.
+ *
+ * @async
+ * @function
+ * @param {Object} drinkMixData - The data for the drink mix.
+ * @param {string} drinkMixData.name - The name of the drink mix.
+ * @param {string} drinkMixData.description - The description of the drink mix.
+ * @param {string} drinkMixData.image - The URL of the drink mix image.
+ * @param {Array} drinkMixData.relatedProducts - An array of related product IDs.
+ * @param {boolean} [edit=false] - Indicates whether to edit an existing drink mix.
+ * @param {string} [drinkMixId=''] - The ID of the drink mix to be edited.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the operation is successful, otherwise false.
+ */
+export const uploadDrinkMix = async (
+  drinkMixData = {
+    name: '',
+    description: '',
+    image: '',
+    relatedProducts: []
+  }, edit = false, drinkMixId = ''
+) => {
+  const productJSON = {
+      name: drinkMixData.name,
+      description: drinkMixData.description,
+      rating: drinkMixData.rating ? drinkMixData.rating : 0,
+      totalReviews: drinkMixData.totalReviews ? drinkMixData.totalReviews : 0,
+      imgUrl: drinkMixData.image,
+      ingredients: drinkMixData.ingredients,
+      relatedProducts: drinkMixData.relatedProducts,
+      preparationSteps: drinkMixData.preparationSteps
+  }
+
+  try {
+    const response = await fetch(`${API_URL_LINK}/drink-mixes/${drinkMixId}`, {
       method: edit ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',

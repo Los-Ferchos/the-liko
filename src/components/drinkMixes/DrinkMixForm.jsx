@@ -8,7 +8,7 @@ import '../../assets/styles/loaderBottle.css'
 import { useNavigate } from 'react-router-dom';
 import useWindowSize from '../hooks/useWindowSize';
 import FieldText from '../fields/FieldText';
-import { handleUploadImage, uploadCombo } from '../../utils/methods';
+import { handleUploadImage, uploadCombo, uploadDrinkMix } from '../../utils/methods';
 import ImageUploader from '../products/form/ImgUploader';
 import ProductsChecklist from '../products/selection/ProductsChecklist';
 import ItemsFields from './ItemsFields';
@@ -104,7 +104,7 @@ const DrinkMixForm = ({ edit = false, drinkMixData = {
     if(formData.relatedProducts.length === 0)
       formErrorCopy.relatedProducts = "Please, select at least one product."
 
-    setFormError(formErrorCopy)
+    setFormError(formErrorCopy);
 
     let isThereError = false;
     Object.entries(formErrorCopy).forEach(([key, value]) => {
@@ -136,7 +136,7 @@ const DrinkMixForm = ({ edit = false, drinkMixData = {
     const drinkMixDataUp = 
     { ...formData, image: (file === '' && drinkMixData.imgUrl) ? drinkMixData.imgUrl : imageStatus.url };
     setFormData(drinkMixDataUp);
-    const success = await uploadCombo(drinkMixDataUp, edit, drinkMixData._id ? drinkMixData._id : "");
+    const success = await uploadDrinkMix(drinkMixDataUp, edit, drinkMixData._id ? drinkMixData._id : "");
     setLoading(false);
     setError(!success);
 
@@ -179,19 +179,22 @@ const DrinkMixForm = ({ edit = false, drinkMixData = {
                 />
 
                 <ItemsFields 
-                    items={formData.ingredients}
-                    setItems={(ingredients) => handleChangeByKeyAndValue("ingredients", ingredients)}
-                    titleLabel='Ingredients (Max 10): '
-                    itemLabel='Ingredient'
-                    errorMessage={formError.ingredients}
+                  items={formData.ingredients}
+                  setItems={(ingredients) => handleChangeByKeyAndValue("ingredients", ingredients)}
+                  titleLabel='Ingredients (Max 10): '
+                  itemLabel='Ingredient'
+                  errorMessage={formError.ingredients}
+                  placeholder='Eg: Singani'
                 />
 
                 <ItemsFields 
-                    items={formData.preparationSteps}
-                    setItems={(preparationSteps) => handleChangeByKeyAndValue("steps", preparationSteps)}
-                    titleLabel='Steps (Max 15): '
-                    itemLabel='Step'
-                    errorMessage={formError.preparationSteps}
+                  items={formData.preparationSteps}
+                  setItems={(preparationSteps) => handleChangeByKeyAndValue("preparationSteps", preparationSteps)}
+                  titleLabel='Steps (Max 15): '
+                  itemLabel='Step'
+                  errorMessage={formError.preparationSteps}
+                  placeholder='Eg: Add the singani'
+                  maxLength={100}
                 />
             </Grid>
 
