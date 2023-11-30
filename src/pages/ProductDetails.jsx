@@ -15,6 +15,7 @@ import CustomLink from '../components/links/CustomLink'
 import { API_URL_LINK } from '../utils/constants'
 import AddToCartButton from '../components/buttons/AddToCartButton'
 import WishButton from '../components/buttons/WishButton'
+import RatingTable from '../components/products/rating/RatingTable'
 
 /**
  * This is the page of the Product details.
@@ -110,6 +111,10 @@ const ProductDetails = () => {
                     <AddToCartButton product={product}></AddToCartButton>
                     <WishButton productId={id}></WishButton>
                   </div>
+
+                    
+
+
                 </div>
               </div>
               {
@@ -162,6 +167,9 @@ const ProductDetails = () => {
                     <hr />
                   </div>)
               }
+
+              <RatingTable productId={id}></RatingTable>
+
 
             </div>
           )
