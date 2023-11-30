@@ -10,6 +10,7 @@ import useWindowSize from '../hooks/useWindowSize';
 import FieldText from '../fields/FieldText';
 import { handleUploadImage, uploadProduct } from '../../utils/methods';
 import ImageUploader from '../products/form/ImgUploader';
+import ProductsChecklist from '../products/selection/ProductsChecklist';
 
 /**
  * Component for rendering a form to add a new product.
@@ -20,7 +21,7 @@ import ImageUploader from '../products/form/ImgUploader';
  * @component
  * @returns {JSX.Element} - The rendered ComboForm component.
  */
-const ComboForm = ({ edit = false, productData = {
+const ComboForm = ({ edit = false, productData: comboData = {
     name: '',
     description: '',
     stock: 1,
@@ -35,7 +36,7 @@ const ComboForm = ({ edit = false, productData = {
 
   const [nonRequiredFields, setNonRequiredFields] = useState([]);
 
-  const [formData, setFormData] = useState(productData);
+  const [formData, setFormData] = useState(comboData);
 
   const [formError, setFormError] = useState({
     name: '',
@@ -80,7 +81,7 @@ const ComboForm = ({ edit = false, productData = {
             formErrorCopy[key] = "This field is required, please fill it";
     });
 
-    if(file === '' && (!productData.imgUrl || Object.keys(formError).includes("imgUrl")))
+    if(file === '' && (!comboData.imgUrl || Object.keys(formError).includes("imgUrl")))
         formErrorCopy.image = "This field is required, please upload an image of your product."
     
     setFormError(formErrorCopy)
@@ -112,9 +113,9 @@ const ComboForm = ({ edit = false, productData = {
       }
     }
 
-    const productDataUp = { ...formData, image: (file === '' && productData.imgUrl) ? productData.imgUrl : imageStatus.url };
+    const productDataUp = { ...formData, image: (file === '' && comboData.imgUrl) ? comboData.imgUrl : imageStatus.url };
     setFormData(productDataUp);
-    const success = await uploadProduct(productDataUp, edit, productData._id ? productData._id : "");
+    const success = await uploadProduct(productDataUp, edit, comboData._id ? comboData._id : "");
     setLoading(false);
     setError(!success);
 
@@ -133,27 +134,41 @@ const ComboForm = ({ edit = false, productData = {
         <Grid container spacing={width > 960 ? 12 : 0}>
             <Grid item xs={12} md={6}>
                 <FieldText
-                    label="Name"
-                    name="name"
-                    placeholder='Eg: Fernet'
-                    value={formData.name}
-                    onChange={handleChange}
-                    errorMsg={formError.name}
-                    handleErrorMsg={handleErrorMsg}
-                    maxLength={50}
+                  label="Name"
+                  name="name"
+                  placeholder='Eg: Fernet'
+                  value={formData.name}
+                  onChange={handleChange}
+                  errorMsg={formError.name}
+                  handleErrorMsg={handleErrorMsg}
+                  maxLength={50}
                 />
 
                 <FieldText
-                    label="Description"
-                    name="description"
-                    placeholder='Eg: Bitter alcoholic drink made from several types of herbs, which are macerated in grape alcohol.'
-                    value={formData.description}
-                    onChange={handleChange}
-                    multiline
-                    rows={4}
-                    errorMsg={formError.description}
-                    handleErrorMsg={handleErrorMsg}
-                    maxLength={500}
+                  label="Description"
+                  name="description"
+                  placeholder='Eg: Bitter alcoholic drink made from several types of herbs, which are macerated in grape alcohol.'
+                  value={formData.description}
+                  onChange={handleChange}
+                  multiline
+                  rows={4}
+                  errorMsg={formError.description}
+                  handleErrorMsg={handleErrorMsg}
+                  maxLength={500}
+                />
+
+
+                <FieldText
+                  label="Price in USD"
+                  name="price"
+                  type="number"
+                  placeholder='Eg: 15.99'
+                  value={formData.price}
+                  onChange={handleChange}
+                  errorMsg={formError.price}
+                  handleErrorMsg={handleErrorMsg}
+                  typeNumber='price'
+                  maxLength={10}
                 />
 
                 <ImageUploader
@@ -162,24 +177,14 @@ const ComboForm = ({ edit = false, productData = {
                   errorMsg={formError.image}
                   handleErrorMsg={handleErrorMsg} 
                   handleChange={handleChange} 
-                  productData={productData}
+                  productData={comboData}
                   edit={edit}
                 />
             </Grid>
 
             <Grid item xs={12} md={6}>
-
-                <FieldText
-                    label="Price in USD"
-                    name="price"
-                    type="number"
-                    placeholder='Eg: 15.99'
-                    value={formData.price}
-                    onChange={handleChange}
-                    errorMsg={formError.price}
-                    handleErrorMsg={handleErrorMsg}
-                    typeNumber='price'
-                    maxLength={10}
+                <ProductsChecklist
+                  label='Products included in the combo:'
                 />
             </Grid>
 

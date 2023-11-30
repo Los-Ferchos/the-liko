@@ -5,7 +5,6 @@ import NextButton from '../buttons/NextButton';
 import ProductsListLoader from './list/ProductsListLoader';
 import ProductsList from './list/ProductsList';
 import { useAppSelector } from '../hooks/store';
-import { clearAllList } from '../../store/whishListSlice';
 import { useGlobalCart } from '../contexts/CartContext';
 import { useDispatch } from 'react-redux';
 

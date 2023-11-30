@@ -1,7 +1,6 @@
 import { Container, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/header/Header'
-import ProductForm from '../components/products/form/ProductForm'
 import NavigationText from '../components/navText/NavigationText'
 import { useParams } from 'react-router-dom'
 import { API_URL_LINK } from '../utils/constants'
@@ -18,7 +17,7 @@ const ComboFormPage = ({ isEditing = false }) => {
 
     const { comboId = "" } = useParams();
 
-    const [product, setProduct] = useState({
+    const [combo, setCombo] = useState({
         name: '',
         description: '',
         stock: 1,
@@ -38,7 +37,7 @@ const ComboFormPage = ({ isEditing = false }) => {
                 }
 
                 const productData = await response.json();
-                setProduct(
+                setCombo(
                     { 
                         ...productData, 
                         price: productData.price.value, 
@@ -75,7 +74,7 @@ const ComboFormPage = ({ isEditing = false }) => {
                         <Typography marginTop={12} variant='h4'>There was an error, please try again.</Typography>
                     </div>
                 ) : (
-                    <ComboForm productData={product} edit={isEditing} />
+                    <ComboForm productData={combo} edit={isEditing} />
                 )
             }
         </Container>
