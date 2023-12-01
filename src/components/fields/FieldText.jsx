@@ -34,6 +34,7 @@ const FieldText = ({
   multiline,
   rows = 1,
   select,
+  readOnly = false,
   children,
   errorMsg = "",
   handleErrorMsg = () => {},
@@ -116,6 +117,7 @@ const FieldText = ({
         placeholder={placeholder}
         required={required}
         fullWidth={fullWidth}
+        readOnly={readOnly}
         helperText={errorMsg}
         error={errorMsg !== ""}
         style={{ marginTop: 24 }}

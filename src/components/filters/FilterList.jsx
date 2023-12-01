@@ -78,7 +78,7 @@ const FilterList = () => {
 
             <FilterItem 
                 children='Price Range ' 
-                sortWay={1} 
+                sortWay={0.11} 
                 range={true} 
                 icon={PaidOutlinedIcon} 
                 subtext1='Most Popular' 
