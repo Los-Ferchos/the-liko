@@ -25,7 +25,7 @@ import EditStockModal from './EditStockModal';
  */
 const ProductCard = ({ product = {}, className = "", type = "client", collection = "products", editLinkRoute }) => {
 
-  
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -53,17 +53,22 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
                   {product.name}
                 </Typography>
               </div>
-              <div className="product-price">
-                <Typography variant="subtitle1">
-                  {product.price.currency}&nbsp;
-                  {
-                    Number.isInteger(product.price.value) ?
-                      product.price.value :
-                      parseFloat(product.price.value).toFixed(2)
-                  }
-                </Typography>
-              </div>
-              <AddToCartButton product={product} />
+              {
+                (product.type) &&
+                <div>
+                  <div className="product-price">
+                    <Typography variant="subtitle1">
+                      {product.price.currency}&nbsp;
+                      {
+                        Number.isInteger(product.price.value) ?
+                          product.price.value :
+                          parseFloat(product.price.value).toFixed(2)
+                      }
+                    </Typography>
+                  </div>
+                  <AddToCartButton product={product} />
+                </div>
+              }
             </CardContent>)
             :
             (<CardContent className="product-card-content" style={{ background: '#fdfdfd' }}>
@@ -80,8 +85,8 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
                   <HideProductButton product={product} collection={collection} />
                   <DeleteProductButton product={product} collection={collection} />
                 </div>
-                { collection === "products" && <SetStockButton onClick={handleOpen} /> }
-                <EditStockModal handleClose={ handleClose } open={open} product={product}/>
+                {collection === "products" && <SetStockButton onClick={handleOpen} />}
+                <EditStockModal handleClose={handleClose} open={open} product={product} />
               </div>
             </CardContent>)
         }
