@@ -64,7 +64,7 @@ const ProfileSection = () => {
       <div className="user-field">
         <Typography variant="body1">Email</Typography>
         <div className="user-value">
-          <Typography variant="paragraph" style={{margin: '10px' }}> sdasdakjfioqdjueoseuijsfehis{email}</Typography>
+          <Typography variant="paragraph" style={{margin: '10px' }}>{email}</Typography>
         </div>
       </div>
 
