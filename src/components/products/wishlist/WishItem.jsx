@@ -73,7 +73,7 @@ const WishItem = ({ productId = "" }) => {
                             </Typography>
                         </div>
                         <div className='item-detail'>
-                            <WishButton></WishButton>
+                            <WishButton productId={productId}></WishButton>
                         </div>
                     </div>
                 )

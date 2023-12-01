@@ -16,8 +16,6 @@ import { useGlobalWish } from '../contexts/WishContext';
 const WishButton = ({ productId }) => {
   const [alreadyWished, setAlreadyWished] = useState(false);
   const dispatch = useDispatch();
-  //const [isLogged, setLogged] = useState(false);
-  //const { userLogged } = useGlobalCart();
   const {userWishList, addWish, removeWish } = useGlobalWish();
   const wishListStorage = useAppSelector((state) => state.wish.wishList);
 
@@ -29,13 +27,17 @@ const WishButton = ({ productId }) => {
  */
 useEffect(() => {
   // Check if the product is in the wishlist
-  console.log("useEF wISH BUTTON")
+  console.log(userWishList);
+  let isChecked = false;
   for (let i = 0; i < userWishList.length; i++) {
     const element = userWishList[i];
     if (element === productId) {
       setAlreadyWished(true);
-    }
-  }
+      isChecked = true;
+    } 
+  } if (!isChecked) {
+    setAlreadyWished(false);
+  }  
 }, [userWishList, wishListStorage]);
 
   /**
