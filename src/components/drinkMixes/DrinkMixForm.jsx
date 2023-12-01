@@ -93,7 +93,7 @@ const DrinkMixForm = ({ edit = false, drinkMixData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(!arrayKeyFields.includes(key) && value.toString().trim() === '')
+        if(!arrayKeyFields.includes(key) && typeof value === "string" && value.toString().trim() === '')
             formErrorCopy[key] = "This field is required, please fill it";
         else if (arrayKeyFields.includes(key) && value[0] === "" && value.length === 1)
             formErrorCopy[key] = "Please, fill at least one item value";
