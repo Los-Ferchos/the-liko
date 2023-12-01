@@ -7,12 +7,14 @@ import NavigationText from '../components/navText/NavigationText';
 import { API_URL_LINK } from '../utils/constants';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
-import ProductCarousel from '../components/products/carousel/ProductCarousel';
+import ProductCarouselHome from '../components/products/carousel/ProductCarouselHome';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/homepage.css';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import ProductCarouselCombo from '../components/products/carousel/ProductCarouselCombo';
 
 
 /**
@@ -33,6 +35,8 @@ const Home = () => {
    */
   const [subcategories, setSubcategories] = useState([]);
 
+  const [subcombos, setCombos] = useState([]);
+
   /**
    * React Hook to perform side effects on component mount or when dependencies change.
    * Fetches all subcategories for all categories.
@@ -52,40 +56,41 @@ const Home = () => {
 
   return (
     <>
-
       <Container>
         <Header />
         <div style={{ overflow: 'hidden', marginTop: '15px', alignItems: 'center', justifyContent: 'center' }} className='imagen-container'>
         <Slider {...settings} >
           <div>
-            <Link to="#">
+            <Link to="/products/65445f47e1b4d51d570c9e9a">
               <img src={"https://i.ibb.co/stx3vY5/1.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Link>
           </div>
           <div>
-            <Link to="#">
+            <Link to="/products/65445f21e1b4d51d570c9e96">
               <img src={"https://i.ibb.co/s1crsFZ/3.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Link>
           </div>
           <div>
-            <Link to="#">
+            <Link to="/products/65445f5ae1b4d51d570c9e9c">
               <img src={"https://i.ibb.co/f9mgY05/2.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Link>
           </div>
         </Slider>
       </div>
-
         <Typography variant='h4' color='primary' component='h1' marginTop={6}>
           All Categories
         </Typography>
         {
           subcategories.map(subcat => (
             <div key={subcat._id} style={{ marginBottom: 30 }}>
-              <ProductCarousel
-                apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`}
-                categoryName={subcat.categoryName}
-                subcat={subcat}
-              />
+              <ProductCarouselHome apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`} categoryName={subcat.categoryName} subcat={subcat} subcategoriesState={subcategoriesState} />
+            </div>
+          ))
+        }
+        {
+          subcombos.map(subcat => (
+            <div key={subcat._id} style={{ marginBottom: 30 }}>
+              <ProductCarouselCombo apiUrl={`${API_URL_LINK}/combos`}/>
             </div>
           ))
         }
@@ -94,5 +99,4 @@ const Home = () => {
     </>
   );
 };
-
 export default Home;
