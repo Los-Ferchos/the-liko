@@ -17,6 +17,7 @@ import AddToCartButton from '../components/buttons/AddToCartButton'
 import WishButton from '../components/buttons/WishButton'
 import RatingTable from '../components/products/rating/RatingTable'
 import ProductsList from '../components/products/list/ProductsList'
+import { useGlobalCart } from '../components/contexts/CartContext'
 
 /**
  * This is the page of the Product details.
@@ -103,6 +104,8 @@ const ProductDetails = () => {
     }
     fetchDrinkMixes();
   }, []);
+
+  const { userLogged } = useGlobalCart();
 
   return (
     <>
@@ -199,7 +202,7 @@ const ProductDetails = () => {
                   </div>)
               }
 
-              <RatingTable productId={id}></RatingTable>
+              { userLogged != null && <RatingTable productId={id}></RatingTable> }
 
               {
                 (product.type === 'product') &&
