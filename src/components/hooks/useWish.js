@@ -38,7 +38,7 @@ export const useWish = () => {
                     if (response.ok) {
                         if (data.length > 0) {
                             for (let i = 0; i < data.length; i++) {
-                                const element = data[i].productId;
+                                const element = data[i].productId._id;
                                 wishArray[i] = element;
                             }
                             dispatch(setWishList(wishArray));

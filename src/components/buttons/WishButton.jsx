@@ -1,7 +1,6 @@
 import { IconButton } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
-import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../hooks/store';
 import { useGlobalWish } from '../contexts/WishContext';
 
@@ -15,9 +14,6 @@ import { useGlobalWish } from '../contexts/WishContext';
  */
 const WishButton = ({ productId }) => {
   const [alreadyWished, setAlreadyWished] = useState(false);
-  const dispatch = useDispatch();
-  //const [isLogged, setLogged] = useState(false);
-  //const { userLogged } = useGlobalCart();
   const {userWishList, addWish, removeWish } = useGlobalWish();
   const wishListStorage = useAppSelector((state) => state.wish.wishList);
 
@@ -29,7 +25,6 @@ const WishButton = ({ productId }) => {
  */
 useEffect(() => {
   // Check if the product is in the wishlist
-  console.log("useEF wISH BUTTON")
   for (let i = 0; i < userWishList.length; i++) {
     const element = userWishList[i];
     if (element === productId) {
@@ -58,8 +53,8 @@ useEffect(() => {
     <IconButton color='primary' onClick={alreadyWished ? deleteProductToWishList : addProductToWishList} >
         {
             alreadyWished ? 
-                <FaHeart /> : 
-                <FaRegHeart />
+              <FaHeart /> : 
+              <FaRegHeart />
         }
     </IconButton>
   )
