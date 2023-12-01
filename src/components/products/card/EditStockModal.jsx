@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FieldText from '../../fields/FieldText';
 import { uploadProduct } from '../../../utils/methods';
 
@@ -15,9 +15,8 @@ import { uploadProduct } from '../../../utils/methods';
  * @returns {JSX.Element} The JSX representation of the component.
  */
 const EditStockModal = ({ open, handleClose, product={}}) => {
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialStock, setStock] = useState(parseInt(product.quantity, 10));
 
     const style = {
         position: 'absolute',
@@ -40,23 +39,60 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
    * @param {string} name - The name of the form field.
    * @param {string} val - The error message.
    */
-    const handleErrorMsg = () => {
-      setErrorMesage("");
+    const handleErrorMsg = (value) => {
+      if (value != 'stock') {
+        setErrorMesage(value)
+      } else setErrorMesage("");
     };
 
     const [value, setValue] = useState(parseInt(product.quantity, 10));
+
+    useEffect(() => {
+      setValue(parseInt(product.quantity, 10))
+    }, [open])
+
+
+  const [error, setError] = useState(false);
+  
 
   /**
    * Handles changes in form fields.
    *
    * @param {Object} e - The event object.
    */
-  const handleChange = (e, maxLength) => {
-    const inputValue = e.target.value.toString().slice(0, maxLength)
-    setError(false);
-    setSuccess(false);
-    setValue( (parseInt(inputValue, 10)) ?  parseInt(inputValue,10) : '');
-    handleErrorMsg('')
+  const handleChange = (e) => {
+    const inputValue = e.target.value.toString().slice(0, 10)
+    const regex = /^[0-9\b]+$/;
+
+    if (inputValue === "") {
+      setError(true)
+      setErrorMesage('Invalid Data')
+      setValue(inputValue)
+    }
+
+      else if (regex.test(inputValue) && !value.toString().includes('-')) {
+        setError(false)
+        setErrorMesage('');
+        setValue(inputValue);
+      } else {
+        setError(true)
+        setErrorMesage("Invalid Data")
+      }
+
+    // Remove non-numeric characters
+    //let inputValue = e.target.value.replace(/\D/g, '');
+    // Limit the length to 10
+    //inputValue = inputValue.slice(0, 10);
+
+    // console.log(e.target.key)
+    //const inputValue = e.target.value.toString().slice(0, maxLength)
+    // if (!inputValue.includes('-')) {
+    //   console.log(inputValue)
+    //   setValue( (parseInt(inputValue, 10) && !inputValue.includes('-')) ?  parseInt(inputValue,10) : '');
+    //   handleErrorMsg('')
+    // }
+
+
   };
 
   
@@ -90,7 +126,6 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
   }, edit, product._id ? product._id : "");
 
     setLoading(false);
-    setError(!success);
     handleClose();
   }
 
@@ -116,10 +151,11 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
               typeNumber='int'
               placeholder='Eg: 50'
               value={value}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
               errorMsg={errorMsg}
               handleErrorMsg={handleErrorMsg}
               maxLength={10}
+              //readOnly={error}
       />
        <Grid 
               item 
@@ -132,7 +168,7 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
                   type="submit" 
                   variant="contained" 
                   color="primary" 
-                  disabled={loading}
+                  disabled={loading || error}
                   onClick={handleSumbit}
                 >
                     {loading ? "Saving..." : "Save"}
