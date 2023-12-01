@@ -84,6 +84,9 @@ const theme = createTheme({
     h6: {
       fontFamily: 'Mulish, sans-serif',
     },
+    h7: {
+      fontFamily: 'Mulish, sans-serif',
+    },
   },
   components: {
     MuiCard: {
