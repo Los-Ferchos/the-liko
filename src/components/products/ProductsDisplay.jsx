@@ -34,7 +34,6 @@ const ProductsDisplay = (
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
   const wishListStorage = useAppSelector((state) => state.wish.wishList);
 
-  const dispatch = useDispatch();
   const { userLogged } = useGlobalCart();
 
 /**
