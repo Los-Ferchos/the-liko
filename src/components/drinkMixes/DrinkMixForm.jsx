@@ -195,6 +195,7 @@ const DrinkMixForm = ({ edit = false, drinkMixData = {
                   errorMessage={formError.preparationSteps}
                   placeholder='Eg: Add the singani'
                   maxLength={100}
+                  max={15}
                 />
             </Grid>
 
