@@ -26,6 +26,7 @@ const WishlistSection = () => {
       try {
         const response = await fetch(`${API_URL_LINK}/wishlist/${userLogged.userId}`);
         const data = await response.json();
+        console.log(data)
         if (response.ok) {
           setWishlist(data);
         }
@@ -55,7 +56,7 @@ const WishlistSection = () => {
                 Wishlist
               </Typography>
               {wishlist.map((item) => (
-                <WishItem key={item.productId} productId={item.productId} />
+                <WishItem product={item.productId} />
               ))}
             </div>
           )
