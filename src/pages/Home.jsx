@@ -13,9 +13,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/homepage.css';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProductCarouselCombo from '../components/products/carousel/ProductCarouselCombo';
-
 
 /**
  * Home component displays products for all categories and subcategories.
@@ -84,13 +81,6 @@ const Home = () => {
           subcategories.map(subcat => (
             <div key={subcat._id} style={{ marginBottom: 30 }}>
               <ProductCarouselHome apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`} categoryName={subcat.categoryName} subcat={subcat} subcategoriesState={subcategoriesState} />
-            </div>
-          ))
-        }
-        {
-          subcombos.map(subcat => (
-            <div key={subcat._id} style={{ marginBottom: 30 }}>
-              <ProductCarouselCombo apiUrl={`${API_URL_LINK}/combos`}/>
             </div>
           ))
         }
