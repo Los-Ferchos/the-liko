@@ -7,6 +7,7 @@ import ProductsList from './list/ProductsList';
 import { useAppSelector } from '../hooks/store';
 import { useGlobalCart } from '../contexts/CartContext';
 import { useDispatch } from 'react-redux';
+import { API_URL_LINK } from '../../utils/constants';
 
 /**
  * Displays a paginated list of products fetched from the specified API endpoint.
@@ -19,7 +20,9 @@ import { useDispatch } from 'react-redux';
  * 
  * @returns {JSX.Element} Rendered ProductsDisplay component.
  */
-const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "client"}) => {
+const ProductsDisplay = (
+  { apiUrl = "", page = 1, limit = 16, loading, type = "client", typeProduct = "", collection = "products", editLinkRoute }
+) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -31,7 +34,6 @@ const ProductsDisplay = ({ apiUrl = "", page = 1, limit = 16, loading, type = "c
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
   const wishListStorage = useAppSelector((state) => state.wish.wishList);
 
-  const dispatch = useDispatch();
   const { userLogged } = useGlobalCart();
 
 /**
@@ -63,7 +65,7 @@ useEffect(() => {
           };
 
           await fetch(
-            'https://apitheliko.azurewebsites.net/multiplewishlist',
+            API_URL_LINK + '/multiplewishlist',
             requestOptions
           );
         };
@@ -132,7 +134,8 @@ const search = useAppSelector((state) => state.search.search);
    * @returns {void}
    */
   useEffect(() => {
-    let apiActualLink = `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}`;
+    let apiActualLink = 
+      `${apiUrl}?page=${currentPage}&limit=${limit}&search=${searchText}&newCurrency=${currencyCode}&type=${typeProduct}`;
     setIsLoading(true);
 
     
@@ -168,6 +171,7 @@ const search = useAppSelector((state) => state.search.search);
           setFailed(true);
         }
       } catch (error) {
+        console.log(error)
         setFailed(true);
       }
       setIsLoading(false);
@@ -192,7 +196,14 @@ const search = useAppSelector((state) => state.search.search);
     <div>
       {(isLoading || loading) ? 
         <ProductsListLoader /> : 
-        <ProductsList load={loading || isLoading} products={products} failed={failed} type={type}/>
+        <ProductsList
+         load={loading || isLoading} 
+         products={products} 
+         failed={failed} 
+         type={type} 
+         collection={collection}
+         editLinkRoute={editLinkRoute}
+        />
       }
 
       {(totalPages > 1 && !failed) && (

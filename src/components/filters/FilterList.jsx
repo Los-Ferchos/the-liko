@@ -78,7 +78,7 @@ const FilterList = () => {
 
             <FilterItem 
                 children='Price Range ' 
-                sortWay={1} 
+                sortWay={0.11} 
                 range={true} 
                 icon={PaidOutlinedIcon} 
                 subtext1='Most Popular' 
@@ -98,7 +98,7 @@ const FilterList = () => {
                 children='ABV ' 
                 sortWay={3} 
                 range={true}
-                sliderStep={0.1}
+                sliderStep={1}
                 icon={LocalBarIcon} 
                 subtext1='High - Low' 
                 subtext2='Low - High' />

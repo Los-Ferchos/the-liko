@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useState } from 'react';
 import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
@@ -10,7 +10,7 @@ import { API_URL_LINK } from '../../utils/constants';
  * @param {Object} props - The properties of the component.
  * @returns {JSX.Element} - Rendered HideProductButton component.
  */
-function HideProductButton({ product }) {
+function HideProductButton({ product, collection = "products" }) {
     const [loading, setLoading] = useState(false);
     const [dialog, setDialog] = useState(false);
     const [msg, setMsg] = useState("The action hides the selected product, which means that the product will not be available to users. ");
@@ -29,7 +29,7 @@ function HideProductButton({ product }) {
             },
             body: JSON.stringify({ availability: false }),
         };
-        await fetch(`${API_URL_LINK}/products/${product._id}`, options);
+        await fetch(`${API_URL_LINK}/${collection}/${product._id}`, options);
         setAvailable(false)
         setLoading(false);
         setMsg("The action shows the selected product, which means that the product will be available to users. ")
@@ -48,7 +48,7 @@ function HideProductButton({ product }) {
             },
             body: JSON.stringify({ availability: true }),
         };
-        await fetch(`${API_URL_LINK}/products/${product._id}`, options);
+        await fetch(`${API_URL_LINK}/${collection}/${product._id}`, options);
         setAvailable(true)
         setLoading(false);
         setMsg("The action hides the selected product, which means that the product will not be available to users. ")

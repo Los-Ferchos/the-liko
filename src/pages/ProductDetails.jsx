@@ -15,6 +15,8 @@ import CustomLink from '../components/links/CustomLink'
 import { API_URL_LINK } from '../utils/constants'
 import AddToCartButton from '../components/buttons/AddToCartButton'
 import WishButton from '../components/buttons/WishButton'
+import RatingTable from '../components/products/rating/RatingTable'
+import ProductsList from '../components/products/list/ProductsList'
 
 /**
  * This is the page of the Product details.
@@ -26,6 +28,10 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true)
+  const [loadingCombos, setLoadingCombos] = useState(true)
+  const [loadingDrinkMixes, setLoadingDrinkMixes] = useState(true)
+  const [relatedCombos, setRelatedCombos] = useState([])
+  const [relatedDrinkMixes, setRelatedDrinkMixes] = useState([])
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
@@ -66,6 +72,36 @@ const ProductDetails = () => {
       setLoading(false)
     }
     fetchProduct();
+  }, []);
+
+  useEffect(() => {
+    const fetchCombos = async () => {
+      setLoadingCombos(true)
+      try {
+        const response = await fetch(`${API_URL_LINK}/products/${id}/combos`);
+        const data = await response.json()
+        setRelatedCombos(data)
+      } catch (e) {
+        console.error('Error:', error);
+      }
+      setLoadingCombos(false)
+    }
+    fetchCombos();
+  }, []);
+
+  useEffect(() => {
+    const fetchDrinkMixes = async () => {
+      setLoadingDrinkMixes(true)
+      try {
+        const response = await fetch(`${API_URL_LINK}/products/${id}/drink-mixes`);
+        const data = await response.json()
+        setRelatedDrinkMixes(data)
+      } catch (e) {
+        console.error('Error:', error);
+      }
+      setLoadingDrinkMixes(false)
+    }
+    fetchDrinkMixes();
   }, []);
 
   return (
@@ -161,6 +197,36 @@ const ProductDetails = () => {
                     </div>
                     <hr />
                   </div>)
+              }
+
+              <RatingTable productId={id}></RatingTable>
+
+              {
+                (product.type === 'product') &&
+                <div>
+                  <div>
+                    {relatedCombos && (
+                      (loadingCombos) ?
+                        <div className="full-centered-container"><span className="small-loader"></span></div>
+                        :
+                        <div>
+                          <Typography variant='h6' color={'primary'} fontWeight="bold">Combos</Typography>
+                          <ProductsList products={relatedCombos}></ProductsList>
+                        </div>
+                    )}
+                  </div>
+                  <div>
+                    {relatedDrinkMixes && (
+                      (loadingDrinkMixes) ?
+                        <div className="full-centered-container"><span className="small-loader"></span></div>
+                        :
+                        <div>
+                          <Typography variant='h6' color={'primary'} fontWeight="bold">Drink Mixes</Typography>
+                          <ProductsList products={relatedDrinkMixes}></ProductsList>
+                        </div>
+                    )}
+                  </div>
+                </div>
               }
 
             </div>

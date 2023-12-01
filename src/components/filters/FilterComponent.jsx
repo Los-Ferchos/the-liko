@@ -31,8 +31,6 @@ const FilterComponent = () => {
         setDrawerOpen(!isDrawerOpen);
         if (!isDrawerOpen) {
             dispatch(setSelected(false))
-        } else {
-            dispatch(clearAll());
         }
     };
 
