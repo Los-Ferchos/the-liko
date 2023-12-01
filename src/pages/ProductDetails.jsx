@@ -33,6 +33,7 @@ const ProductDetails = () => {
   const [loadingDrinkMixes, setLoadingDrinkMixes] = useState(false)
   const [relatedCombos, setRelatedCombos] = useState([])
   const [relatedDrinkMixes, setRelatedDrinkMixes] = useState([])
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
@@ -66,10 +67,10 @@ const ProductDetails = () => {
       try {
         const response = await fetch(`${API_URL_LINK}/products/${id}`);
         const data = await response.json();
-        console.log(data)
         setProduct(data)
-        setRelatedCombos(data.combos);
-        setRelatedDrinkMixes(data.drinkMixes);
+        setRelatedCombos(data.combos ? data.combos : []);
+        setRelatedDrinkMixes(data.drinkMixes ? data.drinkMixes : [])
+        setRelatedProducts(data.items ? data.items : []);
       } catch (e) {
         console.error('Error:', error);
       }
@@ -156,12 +157,17 @@ const ProductDetails = () => {
               </div>
               {
                 product.type === 'combo' ?
-                  (<div className='detail-list'>
-                    <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
-                    <hr />
-                    <Typography> Product List ...</Typography>
-                    <hr />
-                  </div>)
+                  (<>
+                    {relatedProducts.length > 0 && (
+                      (loadingCombos) ?
+                        <div className="full-centered-container"><span className="small-loader"></span></div>
+                        :
+                        <div>
+                          <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                          <ProductsList collection="products" products={relatedProducts}></ProductsList>
+                        </div>
+                    )}
+                  </>)
                   :
                   (<div className='detail-list' >
                     <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
@@ -211,7 +217,7 @@ const ProductDetails = () => {
                 (product.type === 'product') &&
                 <div>
                   <div>
-                    {relatedCombos && (
+                    {relatedCombos.length > 0 && (
                       (loadingCombos) ?
                         <div className="full-centered-container"><span className="small-loader"></span></div>
                         :
@@ -222,7 +228,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                   <div>
-                    {relatedDrinkMixes && (
+                    {relatedDrinkMixes.length > 0 && (
                       (loadingDrinkMixes) ?
                         <div className="full-centered-container"><span className="small-loader"></span></div>
                         :
