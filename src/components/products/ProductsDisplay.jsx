@@ -32,55 +32,6 @@ const ProductsDisplay = (
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
-  const wishListStorage = useAppSelector((state) => state.wish.wishList);
-
-  const { userLogged } = useGlobalCart();
-
-/**
- * useEffect to handle the synchronization of the user's wishlist with the server
- * when the user logs in. It sends a POST request to update the server-side wishlist.
- *
- * @param {Object} userLogged - The user object containing user information.
- */
-useEffect(() => {
-  if (userLogged) {
-    if (wishListStorage.length > 0) {
-      try {
-        /**
-         * Function to upload the user's wishlist to the server.
-         * Sends a POST request with the user's ID and wishlist items.
-         */
-        const uploadWishListUser = async () => {
-          const requestOptions = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              userId: userLogged.userId,
-              wishlistItems: wishListStorage.map((item) => ({
-                productId: item,
-              })),
-            }),
-          };
-
-          await fetch(
-            API_URL_LINK + '/multiplewishlist',
-            requestOptions
-          );
-        };
-
-        // Call the function to upload the wishlist
-        uploadWishListUser();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  } else {
-    // dispatch(clearAllList());
-  }
-}, [userLogged]);
-
 const currencyCode = useAppSelector((state) => state.location.currency);
 
 /**
