@@ -10,6 +10,7 @@ import { Typography } from '@mui/material'
 import RatingProduct from '../components/products/rating/RatingProduct'
 import '../assets/styles/productDetails.css'
 import { API_URL_LINK } from '../utils/constants'
+import ProductsList from '../components/products/list/ProductsList'
 
 /**
  * This is the page of the Dink Mix details.
@@ -21,6 +22,7 @@ const DrinkMixDetail = () => {
     const { id } = useParams();
     const [product, setProduct] = useState({})
     const [loading, setLoading] = useState(true)
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
     /**
      * UseEffect to fetch to get the drink mix with the corresponding id.
@@ -32,6 +34,7 @@ const DrinkMixDetail = () => {
                 const response = await fetch(`${API_URL_LINK}/drink-mixes/${id}`);
                 const data = await response.json()
                 setProduct(data)
+                setRelatedProducts(data.relatedProducts)
             } catch (e) {
                 console.error('Error:', error);
             }
@@ -98,6 +101,13 @@ const DrinkMixDetail = () => {
                                     }
                                 </ol>
                             </div>
+
+                            {relatedProducts.length > 0 && (
+                                <div>
+                                    <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                                    <ProductsList collection="products" products={relatedProducts}></ProductsList>
+                                </div>
+                            )}
                         </div>
                     )
                 }

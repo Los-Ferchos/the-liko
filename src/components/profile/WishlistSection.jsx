@@ -55,7 +55,7 @@ const WishlistSection = () => {
                 Wishlist
               </Typography>
               {wishlist.map((item) => (
-                <WishItem key={item.productId} productId={item.productId} />
+                <WishItem product={item.productId} />
               ))}
             </div>
           )

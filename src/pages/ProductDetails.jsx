@@ -29,10 +29,11 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true)
-  const [loadingCombos, setLoadingCombos] = useState(true)
-  const [loadingDrinkMixes, setLoadingDrinkMixes] = useState(true)
+  const [loadingCombos, setLoadingCombos] = useState(false)
+  const [loadingDrinkMixes, setLoadingDrinkMixes] = useState(false)
   const [relatedCombos, setRelatedCombos] = useState([])
   const [relatedDrinkMixes, setRelatedDrinkMixes] = useState([])
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
@@ -65,8 +66,11 @@ const ProductDetails = () => {
       setLoading(true)
       try {
         const response = await fetch(`${API_URL_LINK}/products/${id}`);
-        const data = await response.json()
+        const data = await response.json();
         setProduct(data)
+        setRelatedCombos(data.combos ? data.combos : []);
+        setRelatedDrinkMixes(data.drinkMixes ? data.drinkMixes : [])
+        setRelatedProducts(data.items ? data.items : []);
       } catch (e) {
         console.error('Error:', error);
       }
@@ -74,7 +78,7 @@ const ProductDetails = () => {
     }
     fetchProduct();
   }, []);
-
+/* 
   useEffect(() => {
     const fetchCombos = async () => {
       setLoadingCombos(true)
@@ -103,7 +107,7 @@ const ProductDetails = () => {
       setLoadingDrinkMixes(false)
     }
     fetchDrinkMixes();
-  }, []);
+  }, []); */
 
   const { userLogged } = useGlobalCart();
 
@@ -153,12 +157,17 @@ const ProductDetails = () => {
               </div>
               {
                 product.type === 'combo' ?
-                  (<div className='detail-list'>
-                    <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
-                    <hr />
-                    <Typography> Product List ...</Typography>
-                    <hr />
-                  </div>)
+                  (<>
+                    {relatedProducts.length > 0 && (
+                      (loadingCombos) ?
+                        <div className="full-centered-container"><span className="small-loader"></span></div>
+                        :
+                        <div>
+                          <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                          <ProductsList collection="products" products={relatedProducts}></ProductsList>
+                        </div>
+                    )}
+                  </>)
                   :
                   (<div className='detail-list' >
                     <Typography variant='h6' color={'primary'} fontWeight="bold">Product Details</Typography>
@@ -208,24 +217,24 @@ const ProductDetails = () => {
                 (product.type === 'product') &&
                 <div>
                   <div>
-                    {relatedCombos && (
+                    {relatedCombos.length > 0 && (
                       (loadingCombos) ?
                         <div className="full-centered-container"><span className="small-loader"></span></div>
                         :
                         <div>
                           <Typography variant='h6' color={'primary'} fontWeight="bold">Combos</Typography>
-                          <ProductsList products={relatedCombos}></ProductsList>
+                          <ProductsList collection="combos" products={relatedCombos}></ProductsList>
                         </div>
                     )}
                   </div>
                   <div>
-                    {relatedDrinkMixes && (
+                    {relatedDrinkMixes.length > 0 && (
                       (loadingDrinkMixes) ?
                         <div className="full-centered-container"><span className="small-loader"></span></div>
                         :
                         <div>
                           <Typography variant='h6' color={'primary'} fontWeight="bold">Drink Mixes</Typography>
-                          <ProductsList products={relatedDrinkMixes}></ProductsList>
+                          <ProductsList collection="drink-mixes" products={relatedDrinkMixes}></ProductsList>
                         </div>
                     )}
                   </div>
