@@ -113,7 +113,7 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
         console.log(isFailed, invalidData, success)
         setTimeout(() => {
           navigate("/profile?section=Order History")
-        }, 3000);
+        }, 1500);
       } else {
         setIsFailed(true)
         setButtonDisabled(false);
