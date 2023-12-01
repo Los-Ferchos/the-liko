@@ -88,7 +88,7 @@ const ComboForm = ({ edit = false, comboData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value.toString().trim() === '' && key !== "items")
+        if(typeof value === "string" && value.toString().trim() === '' && key !== "items")
             formErrorCopy[key] = "This field is required, please fill it";
     });
 
@@ -103,6 +103,7 @@ const ComboForm = ({ edit = false, comboData = {
     Object.entries(formErrorCopy).forEach(([key, value]) => {
         if(value !== '') isThereError = true;
     });
+
     return !isThereError;
   }
 
