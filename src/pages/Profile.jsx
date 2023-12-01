@@ -10,6 +10,7 @@ import ProfileSection from '../components/profile/ProfileSection';
 import Footer from '../components/footer/Footer';
 import { useGlobalCart } from '../components/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import WishlistSection from '../components/profile/WishlistSection';
 
 /**
@@ -17,7 +18,7 @@ import WishlistSection from '../components/profile/WishlistSection';
  *
  * @return {React.Component} A React component representing the profile page.
  */
-const Profile = () => {
+const Profile = ({initialSection}) => {
   const { width } = useWindowSize();
   const [profileSection, setProfileSection] = useState('My Profile');
   const { userLogged } = useGlobalCart();
@@ -29,6 +30,14 @@ const Profile = () => {
     }
   }, [userLogged, navigate]);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const sectionFromUrl = params.get('section');
+
+    setProfileSection(sectionFromUrl || initialSection || 'My Profile');
+  }, [location.search, initialSection]);
 
   const renderProfileSection = () => {
     switch (profileSection) {
@@ -56,8 +65,8 @@ const Profile = () => {
               </Typography>
             </div>
             <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>
-            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')} /></div>
-            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')} /></div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')}  /></div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')}  /></div>
           </div>
           <div className="button-log-out" >
             {renderProfileSection()}
