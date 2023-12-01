@@ -88,7 +88,7 @@ const ProductForm = ({ edit = false, productData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === '' && !nonRequiredFields.includes(key))
+        if(typeof value === "string" && value.toString().trim() === '' && !nonRequiredFields.includes(key))
             formErrorCopy[key] = "This field is required, please fill it";
     });
 
@@ -171,7 +171,8 @@ const ProductForm = ({ edit = false, productData = {
                 <FieldText
                     label="Stock"
                     name="stock"
-                    type="text"
+                    type="number"
+                    typeNumber='int'
                     placeholder='Eg: 50'
                     value={formData.stock}
                     onChange={handleChange}

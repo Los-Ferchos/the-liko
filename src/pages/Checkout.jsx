@@ -11,6 +11,7 @@ import '../assets/styles/index.css'
 import { useGlobalCart } from '../components/contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
+import { useAppSelector } from '../components/hooks/store';
 
 const stripePromise = loadStripe(STRIPE_KEY);
 
@@ -86,6 +87,7 @@ const Checkout = () => {
     fetchData();
   }, [amount, currency, setClientSecret]); 
 
+  const currencyCode = useAppSelector((state) => state.location.currency);
 
   return (
     <>
@@ -113,7 +115,7 @@ const Checkout = () => {
              </Elements>
           </div>
           <div className='card-items'>
-            <ProductList cartItems={cartItems} total={total}/>
+            <ProductList cartItems={cartItems} total={total} currencyTotal={currencyCode} />
           </div>
         </div>
       )}

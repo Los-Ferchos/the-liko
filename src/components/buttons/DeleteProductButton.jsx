@@ -10,19 +10,29 @@ import { API_URL_LINK } from '../../utils/constants';
  * @param {Object} props - The properties of the component.
  * @returns {JSX.Element} - Rendered DeleteProductButton component.
  */
-function DeleteProductButton({product}) {
+function DeleteProductButton({ product, collection = "products" }) {
     const [loading, setLoading] = useState(false);
     const [dialog, setDialog] = useState(false);
     const [msg, setMsg] = useState("The action delete the product of the database permanently. This action is irreversible. ");
 
 
+    /**
+     * Method to delete the porduct.
+     * 
+     * This method change the attribute "deleted" to true, hiding the product from the user
+     * and the administrator.
+     */
     const deleteProduct = async () => {
         setLoading(true);
         setDialog(false);
         const options = {
-            method: 'DELETE',
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ deleted: true }),
         };
-        await fetch(`${API_URL_LINK}/products/${product._id}`, options);
+        await fetch(`${API_URL_LINK}/${collection}/${product._id}`, options);
         setLoading(false);
         window.location.reload();
     }

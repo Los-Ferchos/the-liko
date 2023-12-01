@@ -1,4 +1,4 @@
-import { API_URL_LINK } from "./constants";
+import { API_URL_LINK, IMGBB_KEY, OPEN_CAGE_KEY } from "./constants";
 
 /**
  * Filters an array of objects based on a specific property and value, while ignoring case and replacing spaces with hyphens.
@@ -17,8 +17,12 @@ export const filterDataArray = (arrayToFilter, compareData, valueData) =>
  * @param {string} str - The string to capitalize.
  * @returns {string} - The capitalized string.
  */
-export const capitalizeString = (str) => `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
-
+export const capitalizeString = (str) => {
+  if (typeof str !== 'string' || str === undefined) {
+    return '';
+  }
+  return `${str.charAt(0).toUpperCase()}${str.slice(1).toLowerCase().replace("-", " ")}`;
+};
 /**
  * Generates an array of inactive paths for navigation breadcrumbs.
  *
@@ -110,11 +114,10 @@ export const truncateString = (inputString) => {
  */
 export const handleUploadImage = async(file) => {
     try {
-      const imgbbApiKey = "a35353a7fbe2c639caeed1d21af3820b";
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch("https://api.imgbb.com/1/upload?key=" + imgbbApiKey, {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
         method: "POST",
         body: formData,
       });
@@ -195,9 +198,178 @@ export const uploadProduct = async (
         return false;
       }
   
-      const result = await response.json();
       return true;
     } catch (error) {
       return false;
     }
 };
+/**
+ * Uploads or updates a combo with the provided data.
+ *
+ * @async
+ * @function
+ * @param {Object} comboData - The data for the combo.
+ * @param {string} comboData.name - The name of the combo.
+ * @param {string} comboData.description - The description of the combo.
+ * @param {number} comboData.price - The price of the combo.
+ * @param {string} comboData.image - The URL of the combo image.
+ * @param {Array} comboData.items - An array of item IDs included in the combo.
+ * @param {boolean} [edit=false] - Indicates whether to edit an existing combo.
+ * @param {string} [comboId=''] - The ID of the combo to be edited.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the operation is successful, otherwise false.
+ */
+export const uploadCombo = async (
+  comboData = {
+    name: '',
+    description: '',
+    price: 1,
+    image: '',
+    items: []
+  }, edit = false, comboId = ''
+) => {
+  const productJSON = {
+      name: comboData.name,
+      description: comboData.description,
+      rating: comboData.rating ? comboData.rating : 0,
+      totalReviews: comboData.totalReviews ? comboData.totalReviews : 0,
+      sells: comboData.sells ? comboData.sells : 0,
+      quantity: 1,
+      imgUrl: comboData.image,
+      price: {
+          value: comboData.price,
+          currency: "USD"
+      },
+      items: comboData.items
+  }
+
+  try {
+    const response = await fetch(`${API_URL_LINK}/combos/${comboId}`, {
+      method: edit ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productJSON),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * Uploads or updates a drink mix with the provided data.
+ *
+ * @async
+ * @function
+ * @param {Object} drinkMixData - The data for the drink mix.
+ * @param {string} drinkMixData.name - The name of the drink mix.
+ * @param {string} drinkMixData.description - The description of the drink mix.
+ * @param {string} drinkMixData.image - The URL of the drink mix image.
+ * @param {Array} drinkMixData.relatedProducts - An array of related product IDs.
+ * @param {boolean} [edit=false] - Indicates whether to edit an existing drink mix.
+ * @param {string} [drinkMixId=''] - The ID of the drink mix to be edited.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the operation is successful, otherwise false.
+ */
+export const uploadDrinkMix = async (
+  drinkMixData = {
+    name: '',
+    description: '',
+    image: '',
+    relatedProducts: []
+  }, edit = false, drinkMixId = ''
+) => {
+  const productJSON = {
+      name: drinkMixData.name,
+      description: drinkMixData.description,
+      rating: drinkMixData.rating ? drinkMixData.rating : 0,
+      totalReviews: drinkMixData.totalReviews ? drinkMixData.totalReviews : 0,
+      imgUrl: drinkMixData.image,
+      ingredients: drinkMixData.ingredients,
+      relatedProducts: drinkMixData.relatedProducts,
+      preparationSteps: drinkMixData.preparationSteps
+  }
+
+  try {
+    const response = await fetch(`${API_URL_LINK}/drink-mixes/${drinkMixId}`, {
+      method: edit ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productJSON),
+    });
+
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * Gets the local currency code based on the user's geolocation.
+ *
+ * @async
+ * @function
+ * @returns {Promise<string>} - A promise that resolves to the local currency code.
+ * @throws {Error} If an error occurs during the geolocation fetch.
+ *
+ * @example
+ */
+export const getLocalCurrencyCode = async () => {
+  try {
+    const position = await getCurrentPosition();
+
+    const countryInfo = await getCountryInfo(position.coords.latitude, position.coords.longitude);
+    const currencyCode = countryInfo.locale;
+
+    return currencyCode;
+  } catch (error) {
+    return "USD";
+  }
+}
+
+/**
+ * Promisified version of navigator.geolocation.getCurrentPosition.
+ * @returns {Promise<GeolocationPosition>} A promise that resolves with the geolocation position.
+ * @throws {PositionError} If there is an error getting the geolocation position.
+ */
+const getCurrentPosition = () => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
+
+/**
+ * Get country information based on latitude and longitude using the OpenCage Geocoding API.
+ * @param {number} latitude - The latitude coordinate.
+ * @param {number} longitude - The longitude coordinate.
+ * @returns {Promise<{ country: string, formatted: string, locale: string } | string>} 
+ * A promise that resolves with country information or "USD" as a default if not available.
+ * @throws {Error} If there is an issue fetching country information.
+ */
+const getCountryInfo = async (latitude, longitude) => {
+  const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${OPEN_CAGE_KEY}`;
+
+  const response = await fetch(apiUrl);
+  const data = await response.json();
+
+  if (data.results && data.results.length > 0) {
+    const result = data.results[0];
+    const countryInfo = {
+      country: result.components.country,
+      formatted: result.formatted,
+      locale: result.annotations?.currency?.iso_code || 'USD'
+    };
+    return countryInfo;
+  } else {
+    return "USD";
+  }
+}

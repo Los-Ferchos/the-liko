@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Typography, Toolbar, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import CustomLink from '../links/CustomLink';
@@ -109,7 +109,7 @@ const MediumHeader = ({ isSearchVisible, setIsSearchVisible }) => {
                                     <Typography variant="body2" color="black">|</Typography>
                                 </li>
                                 <li>
-                                    <CustomLink variant="body2" title='Create Account' href='sign_up' />
+                                    <CustomLink variant="body2" title='Create Account' href='/sign_up' />
                                 </li>
                             </ul>
                         )

@@ -26,17 +26,24 @@ export const useCart = () => {
 
     const reduxCartItems = useAppSelector((state) => state.cart.items);
 
+    const currencyCode = useAppSelector((state) => state.location.currency);
+    const loadingCurrency = useAppSelector((state) => state.location.loading);
+
     /**
      * Effect to fetch and set the cart items when the user logs in or logs out.
      */
     useEffect(() => {
+
         const addToCart = async () => {
             setIsLoadingGettingItems(true);
             if (userLogged == null) {
                 dispatch(setCartState(cartItems));
             } else if(userLogged != undefined) {
                 try {
-                    const response = await fetch(`${API_URL_LINK}/cart/${userLogged.userId}`);
+                    if(currencyCode === "") return;
+                    const response = await fetch(
+                        `${API_URL_LINK}/cart/${userLogged.userId}?newCurrency=${currencyCode}`
+                    );
                     if (response.ok) {
                         const data = await response.json();
                         dispatch(setCartState(data))
@@ -48,8 +55,8 @@ export const useCart = () => {
             setIsLoadingGettingItems(false);
         };
 
-        addToCart();
-    }, [userLogged]);  
+        if(!loadingCurrency) addToCart();
+    }, [userLogged, loadingCurrency, currencyCode]);  
 
     /**
      * Effect to update local storage when the cart items in Redux change.
