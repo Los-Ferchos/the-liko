@@ -78,21 +78,6 @@ const EditStockModal = ({ open, handleClose, product={}}) => {
         setError(true)
         setErrorMesage("Invalid Data")
       }
-
-    // Remove non-numeric characters
-    //let inputValue = e.target.value.replace(/\D/g, '');
-    // Limit the length to 10
-    //inputValue = inputValue.slice(0, 10);
-
-    // console.log(e.target.key)
-    //const inputValue = e.target.value.toString().slice(0, maxLength)
-    // if (!inputValue.includes('-')) {
-    //   console.log(inputValue)
-    //   setValue( (parseInt(inputValue, 10) && !inputValue.includes('-')) ?  parseInt(inputValue,10) : '');
-    //   handleErrorMsg('')
-    // }
-
-
   };
 
   
