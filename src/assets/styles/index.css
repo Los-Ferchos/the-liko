@@ -11,6 +11,7 @@
 
 * {
   font-family: var(--body-font);
+  word-wrap: break-word;
 }
 
 h1,
@@ -191,7 +192,6 @@ a {
 }
 
 .buttonLogOut {
-
   display: flex;
   align-items: center;
   justify-content: center;
