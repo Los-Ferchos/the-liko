@@ -7,11 +7,21 @@ import bottleLoaderImg from '../../../assets/images/bottle-loader.png'
 import '../../../assets/styles/wishItem.css'
 import { Link, useNavigate } from 'react-router-dom'
 
+/**
+ * Wish item component. Render an item into the wishlist.
+ * 
+ * @param {Object} props - The properties of the component. 
+ * @param {String} props.productId - The ID of the corresponding product.
+ * @returns {JSX.Element} - Rendered component.
+ */
 const WishItem = ({ productId = "" }) => {
     const [product, setProduct] = useState();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    /**
+     * useEffect to fetch the product with the respective id.
+     */
     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true)
@@ -29,6 +39,9 @@ const WishItem = ({ productId = "" }) => {
         fetchProduct();
     }, []);
 
+    /**
+     * Redirects to the respective product details page.
+     */
     const handleClick = () => {
         navigate(`/products/${productId}`)
     }

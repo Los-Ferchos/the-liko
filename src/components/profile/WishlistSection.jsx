@@ -6,13 +6,20 @@ import WishItem from '../products/wishlist/WishItem';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
+/**
+ * Render the wishlist section. A list of wish products.
+ * 
+ * @returns {JSX.Element} - Rendered component.
+ */
 const WishlistSection = () => {
   const [loading, setLoading] = useState(true);
   const { userLogged } = useGlobalCart();
   const [wishlist, setWishlist] = useState();
   const navigate = useNavigate();
 
+  /**
+   * useEffect to fetch the wishlist of the respective user.
+   */
   useEffect(() => {
     const fetchWishlist = async () => {
       setLoading(true)
