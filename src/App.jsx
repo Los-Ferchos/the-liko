@@ -260,6 +260,7 @@ const App = () => {
                 /> : Page404}/>
           <Route path="/cart" Component={Cart} />
           <Route path="/products/:id" Component={() => <ProductDetails/>}/>
+          <Route path="/combos/:id" Component={() => <ProductDetails/>}/>
           <Route path="/drink-mixes/:id" Component={() => <DrinkMixDetail/>}/>
           <Route path='*' Component={Page404} />
         </Routes>
