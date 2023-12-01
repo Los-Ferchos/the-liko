@@ -6,6 +6,7 @@ import { useGlobalCart } from '../contexts/CartContext';
 import useWindowSize from '../../components/hooks/useWindowSize';
 import { useNavigate } from 'react-router-dom';
 import { API_URL_LINK } from '../../utils/constants';
+import { useGlobalWish } from '../contexts/WishContext';
 
 /**
  * A React component that displays user information and a "Log Out" button.
@@ -18,6 +19,7 @@ const ProfileSection = () => {
   const navigate = useNavigate();
   const [usernames, setUsernames] =useState('');
   const [emails, setEmails] = useState('');
+  const {clearAllWishList} = useGlobalWish();
 
   const getUserInformation = async() => {
     const response = await fetch(`${API_URL_LINK}/users/${userLogged.userId}`, {
@@ -73,6 +75,7 @@ const ProfileSection = () => {
         color="primary"
         startIcon={<FaArrowRightFromBracket style={{ color: 'white' }} />}
         onClick={() => {
+            clearAllWishList();
             setUserLogged(null);
             navigate('/');
 

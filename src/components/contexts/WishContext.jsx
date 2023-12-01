@@ -4,9 +4,9 @@ import { useWish } from '../hooks/useWish';
 const WishContext = createContext();
 
 export const WishProvider = ({ children }) => {
-  const cart = useWish();
+  const wish = useWish();
 
-  return <WishContext.Provider value={cart}>{children}</WishContext.Provider>;
+  return <WishContext.Provider value={wish}>{children}</WishContext.Provider>;
 };
 
 export const useGlobalWish = () => {
