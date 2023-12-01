@@ -30,30 +30,6 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
-  // /**
-  //  * Handles changes in form fields.
-  //  *
-  //  * @param {Object} e - The event object.
-  //  */
-  // const handleChange = (e, maxLength) => {
-  //   const inputValue = e.target.value.toString().slice(0, maxLength)
-  //   setError(false);
-  //   setSuccess(false);
-  //   setFormData({ ...formData, [e.target.name]: inputValue });
-  //   handleErrorMsg(e.target.name, '')
-  // };
-
-  // /**
-  //  * Sets the error message for a specific form field.
-  //  *
-  //  * @param {string} name - The name of the form field.
-  //  * @param {string} val - The error message.
-  //  */
-  // const handleErrorMsg = (name, val) => {
-  //   setFormError({ ...formError, [name]: val });
-  // };
-
   return (
     <Grid item xs={12} sm={6} md={3} className={className}>
       <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -98,7 +74,9 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
               </div>
               <div>
                 <EditProductButton product={product} editLinkRoute={editLinkRoute} />
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }}>
+                <div style={
+                  { display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 5, marginTop: 5 }
+                }>
                   <HideProductButton product={product} collection={collection} />
                   <DeleteProductButton product={product} collection={collection} />
                 </div>
