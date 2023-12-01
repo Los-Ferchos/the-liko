@@ -29,6 +29,7 @@ export const useWish = () => {
         const addToCart = async () => {
             if (userLogged == null) {
                 dispatch(setWishList(userWishList));
+                setUserWishList(reduxWishList);
             } else if (userLogged != undefined) {
                 try {
                     const response = await fetch(`${API_URL_LINK}/wishlist/${userLogged.userId}`);
@@ -54,7 +55,7 @@ export const useWish = () => {
         };
 
         addToCart();
-    }, [userLogged]);
+    }, [userLogged, reduxWishList, userWishList ]);
 
     /**
      * Updates local wish list when the Redux wish list changes.
@@ -123,6 +124,7 @@ export const useWish = () => {
             };
 
             uploadWishUser();
+            //addProductNotLogged(productId);
         } catch (error) {
             console.log(error);
         }
@@ -146,6 +148,7 @@ export const useWish = () => {
             };
 
             deleteWishProduct();
+            //removeProductNotLogged(productId);
         } catch (error) {
             console.log(error);
         }

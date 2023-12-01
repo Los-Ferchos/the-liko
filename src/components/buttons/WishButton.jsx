@@ -25,12 +25,16 @@ const WishButton = ({ productId }) => {
  */
 useEffect(() => {
   // Check if the product is in the wishlist
+  let isChecked = false;
   for (let i = 0; i < userWishList.length; i++) {
     const element = userWishList[i];
     if (element === productId) {
       setAlreadyWished(true);
-    }
-  }
+      isChecked = true;
+    } 
+  } if (!isChecked) {
+    setAlreadyWished(false);
+  }  
 }, [userWishList, wishListStorage]);
 
   /**

@@ -26,7 +26,6 @@ const WishlistSection = () => {
       try {
         const response = await fetch(`${API_URL_LINK}/wishlist/${userLogged.userId}`);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
           setWishlist(data);
         }

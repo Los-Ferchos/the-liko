@@ -18,8 +18,6 @@ import AddToCartButton from '../../buttons/AddToCartButton'
 const WishItem = ({ product }) => {
     const navigate = useNavigate();
 
-    console.log(product)
-
     /**
      * Redirects to the respective product details page.
      */
@@ -49,6 +47,17 @@ const WishItem = ({ product }) => {
                 >
                     {product.name}
                 </Typography>
+
+                <div
+                className='item-detail'
+            >
+                <Typography
+                    variant='h6'
+                    textAlign={'center'}
+                >
+                    {product.price.currency} {product.price.value}
+                </Typography>
+            </div>
             </div>
             <div className='item-detail'>
                 <WishButton productId={product._id} />
