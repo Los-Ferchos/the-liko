@@ -18,7 +18,6 @@ const OrdersAccordion = () => {
     const [orders, setOrders] = useState(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pagination, setPagination] = useState(null);
     const [totalPages, setTotalPages] = useState(0)
   
     /**
@@ -36,7 +35,6 @@ const OrdersAccordion = () => {
           const data = await response.json();
           if (response.ok) {
             setOrders(data.orders);
-            setPagination(data.pagination)
             setTotalPages(data.pagination.totalPages)
           }
         } catch (error) {
