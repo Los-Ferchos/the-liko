@@ -56,7 +56,6 @@ const LoginForm = ({ width }) => {
   const handleLogin = async () => {
     setIsLoading(true);
     setUserLogged(false);
-
     validateEmail();
     validatePassword();
 
@@ -73,27 +72,26 @@ const LoginForm = ({ width }) => {
         if (response.ok) {
           const data = await response.json();
           dispatch(userSlice.actions.loginUser(data));
-
-          console.log(data.isAdmin)
-          
           setIsLoading(true);
-
           await uploadCartToDatabase(data);
           setCartItems([])
-
           setTimeout(() => {
             setIsLoading(false);
           }, 800);
-
           navigate(-1);
         } else {
-          setLoginError('Incorrect email or password.');
+          setLoginError('Incorrect email or password');
         }
       } catch (error) {
-        console.error('Error:', error);
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 800);
       }
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 800);
     }
   };
 
@@ -151,14 +149,12 @@ const LoginForm = ({ width }) => {
                   Log In
                 </Button>
               )}
-
             </Grid>
             {loginError && (
               <Typography variant="body2" color="error" sx={{ textAlign: 'center', marginTop: 2 }}>
                 {loginError}
               </Typography>
             )}
-
             <Grid item sx={{ display: 'flex', justifyContent: 'center' }} marginTop={12}>
               <Typography variant={width < 768 ? 'h6' : 'h5'} className='forgotPasswordLink'>
                 <a href='#'>Forgot password?</a>
