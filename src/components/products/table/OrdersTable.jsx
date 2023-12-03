@@ -16,7 +16,7 @@ import useWindowSize from '../../hooks/useWindowSize';
  * @param {number} props.expanded - The index of the expanded order.
  * @returns {JSX.Element} - The rendered component.
  */
-const OrdersTable = ({ orders, handleChange, expanded }) => {
+const OrdersTable = ({ orders, handleChange, expanded, currentPage }) => {
   const { width } = useWindowSize();
   return (
     <div style={{ width: '100%' }}>
@@ -61,7 +61,7 @@ const OrdersTable = ({ orders, handleChange, expanded }) => {
                     ) : (
                       <td style={{ padding: "4px 20px"}}>
                         <div>
-                          <Typography variant='caption' textAlign="center">{`Order #${order._id}`}</Typography>
+                          <Typography variant='caption' textAlign="center">{`Order #${index}`}</Typography>
                         </div>
                         <div>
                           <Typography variant='caption' fontWeight={"bold"}>Date: </Typography>
@@ -95,10 +95,10 @@ const OrdersTable = ({ orders, handleChange, expanded }) => {
                 {
                   expanded === index && (
                     <tr>
-                      <td colSpan="4">
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+                      <td colSpan="4" style={{ maxWidth: '200px' }}>
+                        <div style={{ paddingRight: 20 }}>
                           <Typography variant='subtitle1' fontWeight={"bold"}>Shipping address:&nbsp;&nbsp;</Typography>
-                          <Typography variant='subtitle1'>{order.address}</Typography>
+                          <Typography variant='subtitle1' style={{ paddingLeft: 20, paddingRight: 20 }}>{order.address}</Typography>
                         </div>
                         <ProductList
                           cartItems={order.items}

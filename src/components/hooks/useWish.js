@@ -48,14 +48,12 @@ export const useWish = () => {
                         dispatch(setWishList([]));
                     }
                 } catch (error) {
-                    console.error('Error fetching wishlist:', error);
-                    alert("There was an error getting your cart items. Please, reload the page to try again " + error);
                 }
             }
         };
 
         addToCart();
-    }, [userLogged, reduxWishList, userWishList ]);
+    }, [userLogged, reduxWishList, userWishList]);
 
     /**
      * Updates local wish list when the Redux wish list changes.
