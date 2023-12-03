@@ -45,7 +45,7 @@ const OrdersTable = ({ orders, handleChange, expanded, currentPage }) => {
                     width > 600 ? (
                       <>
                         <td style={{ textAlign: "center" }}>
-                          <Typography variant='body1' textAlign="center">{`Order #${order._id}`}</Typography>
+                          <Typography variant='body1' textAlign="center">{`Order #${(index + 1) * currentPage}`}</Typography>
                         </td>
                         <td style={{ textAlign: "center" }}>
                           <Typography variant='body1' textAlign="center">
@@ -61,7 +61,7 @@ const OrdersTable = ({ orders, handleChange, expanded, currentPage }) => {
                     ) : (
                       <td style={{ padding: "4px 20px"}}>
                         <div>
-                          <Typography variant='caption' textAlign="center">{`Order #${index}`}</Typography>
+                          <Typography variant='caption' textAlign="center">{`Order #${index * currentPage}`}</Typography>
                         </div>
                         <div>
                           <Typography variant='caption' fontWeight={"bold"}>Date: </Typography>
