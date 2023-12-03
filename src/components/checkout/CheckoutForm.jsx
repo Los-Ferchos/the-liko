@@ -88,6 +88,8 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
 
     if (result.error) {
       setInvalidData(true);
+      setButtonDisabled(false);
+      setLoading(false);
     } else {
       
       const response = await fetch(`${API_URL_LINK}/confirmCheckout`, {
