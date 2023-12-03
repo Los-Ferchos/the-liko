@@ -70,12 +70,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
       return;
     }
 
-    if(!await registerOrder()) {
-      setIsFailed(true);
-      setButtonDisabled(false);
-      return;
-    }
-
     if (!stripe || !elements) {
       setButtonDisabled(false);
       return;
@@ -109,10 +103,17 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
       });
 
       if (response.ok) {
+
+        if(!await registerOrder()) {
+          setIsFailed(true);
+          setButtonDisabled(false);
+          return;
+        }
+
         await clearShoppingCart();
         setSuccess(true)
         sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
-        console.log(isFailed, invalidData, success)
+        
         setTimeout(() => {
           navigate("/profile?section=Order History")
         }, 1500);
@@ -205,6 +206,7 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
    * @returns {Promise<boolean>} A promise that resolves to true if the order is successfully registered, otherwise false.
    */
   const registerOrder = async () => {
+    console.log("Registando orden");
     let now = new Date();
     let order = { 
       userId: userLogged.userId,
