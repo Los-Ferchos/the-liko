@@ -296,14 +296,14 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
          <Tabs value={value} onChange={handleChange} variant='fullWidth'>
             <Tab label="Credit card" />
-            <Tab label="QR" />
+            {/*<Tab label="QR" */}
           </Tabs>
           <div>
           {value === 0 && 
             <div className='card-payment'>
                 <CardElement />
              </div>}
-          {value === 1 && <p><ComingSoon/></p>}
+          {/*value === 1 && <p><ComingSoon/></p>*/}
           </div>
          
     </div>
