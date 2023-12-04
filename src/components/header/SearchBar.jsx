@@ -9,7 +9,7 @@ const SearchBar = ({
   onKeyPress,
   onButtonClick,
 }) => {
-  const alphanumericRegex = /^[a-zA-Z0-9 ]*$/;
+  const alphanumericRegex = /^[a-zA-Z0-9ñÑ ]*$/;
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
