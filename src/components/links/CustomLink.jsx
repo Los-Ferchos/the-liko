@@ -2,6 +2,9 @@ import { Typography } from '@mui/material'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getHyphenedString } from '../../utils/methods';
+import { useState, useEffect } from 'react';
+import { setSearch, setSearchText } from '../../store/searchSlice';
+import { useDispatch } from 'react-redux';
 
 /**
  * CustomLink is a component that renders a styled link with optional click and mouse enter events.
@@ -26,6 +29,20 @@ const CustomLink = ({
   const location = useLocation();
   const pathnameParts = location.pathname.split('/');
   const lastPart = pathnameParts[pathnameParts.length - 1];
+  const [hasSearched, setHasSearched] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleChangeSearch = (e) => {
+    dispatch(setSearchText(e.target.value))
+  };
+
+  useEffect(() => {
+    if (hasSearched) {
+      handleChangeSearch({ target: { value: '' } });
+    } else {
+      setHasSearched(true);
+    }
+  }, [hasSearched]);
 
   return (
     <Typography
