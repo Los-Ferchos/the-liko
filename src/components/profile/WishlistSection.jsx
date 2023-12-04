@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import WishItem from '../products/wishlist/WishItem';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/store';
 
 /**
  * Render the wishlist section. A list of wish products.
@@ -16,6 +17,7 @@ const WishlistSection = () => {
   const { userLogged } = useGlobalCart();
   const [wishlist, setWishlist] = useState();
   const navigate = useNavigate();
+  const currencyCode = useAppSelector((state) => state.location.currency);
 
   /**
    * useEffect to fetch the wishlist of the respective user.
@@ -24,7 +26,7 @@ const WishlistSection = () => {
     const fetchWishlist = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`${API_URL_LINK}/wishlist/${userLogged.userId}`);
+        const response = await fetch(`${API_URL_LINK}/wishlist/${userLogged.userId}?newCurrency=${currencyCode}`);
         const data = await response.json();
         if (response.ok) {
           setWishlist(data);
