@@ -60,7 +60,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
   const handleSubmit = async (event) => {
     setButtonDisabled(true);
     event.preventDefault();
-    setLoading(true);
 
     if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
       setInvalidData(true);
@@ -90,6 +89,8 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
       setButtonDisabled(false);
       return;
     }
+
+    setLoading(true);
 
     const card = elements.getElement(CardElement);
     
