@@ -79,6 +79,8 @@ const FilterItem = ({
                 
                   fetchProducts();
             }
+        } else {
+            setMaximumPrice(maxStoragePriceNumber);
         }
     }, []) 
 
