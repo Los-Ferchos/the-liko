@@ -33,7 +33,7 @@ const WishItem = ({ product }) => {
                     <LazyImage
                         src={product.imgUrl}
                         placeholderSrc={bottleLoaderImg}
-                        style={{ width: '100%', height: 'auto' }}
+                        style={{ width: '90px', height: '90px' }}
                     />
                 </div>
             </Grid>

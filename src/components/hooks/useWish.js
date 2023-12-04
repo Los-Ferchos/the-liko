@@ -53,7 +53,7 @@ export const useWish = () => {
         };
 
         getWishlist();
-    }, [userLogged, reduxWishList, userWishList]);
+    }, [userLogged, userWishList]);
 
     /**
      * Updates local wish list when the Redux wish list changes.
