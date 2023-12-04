@@ -15,7 +15,7 @@ import { useAppSelector } from '../hooks/store';
 const WishlistSection = () => {
   const [loading, setLoading] = useState(true);
   const { userLogged } = useGlobalCart();
-  const [wishlist, setWishlist] = useState();
+  const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
   const currencyCode = useAppSelector((state) => state.location.currency);
 
@@ -43,7 +43,7 @@ const WishlistSection = () => {
     <>
       {
         loading ? (<div className="full-centered-container"><span className="fast-loader"></span></div>):
-        (!wishlist || wishlist === undefined || wishlist.lenght === 0) ?
+        (!wishlist || wishlist === undefined || wishlist.length === 0) ?
           <div className='no-items'>
             <Typography variant='h5' color='black' component='h1' style={{ fontWeight: "bold" }} marginBottom={6}>No Items in Wishlist</Typography>
             <Button variant='outlined' style={{ marginTop: 10 }} onClick={() => {
@@ -56,8 +56,8 @@ const WishlistSection = () => {
               <Typography variant="h5" color={'primary'} fontWeight={'bold'} marginBottom={10}>
                 Wishlist
               </Typography>
-              {wishlist.map((item) => (
-                <WishItem product={item.productId} />
+              {wishlist.map((item, key) => (
+                <WishItem key={key} product={item.productId} />
               ))}
             </div>
           )
