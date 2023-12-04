@@ -12,13 +12,13 @@ import RatingProduct from "./RatingProduct";
  * 
  * @returns {JSX.Element} Rendered RatingWishProduct component.
  */
-const RatingWishProduct = ({ rating, reviews, productId, isSlide }) => (
+const RatingWishProduct = ({ rating, reviews, productId, isSlide, collection }) => (
   <Box display="flex" alignItems="center">
     {
       isSlide ? <>
         <Box display="flex">
           <RatingProduct rating={rating} reviews={reviews} />
-          <WishButton productId={productId} />
+          {collection !== "drink-mixes" && <WishButton productId={productId} />}
         </Box>
       </> : <>
         <Box>
@@ -26,7 +26,7 @@ const RatingWishProduct = ({ rating, reviews, productId, isSlide }) => (
         </Box>
 
         <Box display="flex" alignItems="flex-end" justifyContent="flex-end" ml="auto">
-          <WishButton productId={productId} />
+          {collection !== "drink-mixes" && <WishButton productId={productId} />}
         </Box>
       </>
     }
