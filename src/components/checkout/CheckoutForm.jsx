@@ -209,7 +209,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
    * @returns {Promise<boolean>} A promise that resolves to true if the order is successfully registered, otherwise false.
    */
   const registerOrder = async () => {
-    console.log("Registando orden");
     let now = new Date();
     let order = { 
       userId: userLogged.userId,
