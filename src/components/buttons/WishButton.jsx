@@ -35,7 +35,7 @@ useEffect(() => {
   } if (!isChecked) {
     setAlreadyWished(false);
   }  
-}, [userWishList, wishListStorage]);
+}, [userWishList]);
 
   /**
    * Method to be called to manage a product addition to wish list

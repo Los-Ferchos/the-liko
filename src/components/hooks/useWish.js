@@ -26,7 +26,7 @@ export const useWish = () => {
      * Fetches and sets wish list data when the user is logged in.
      */
     useEffect(() => {
-        const addToCart = async () => {
+        const getWishlist = async () => {
             if (userLogged == null) {
                 dispatch(setWishList(userWishList));
                 setUserWishList(reduxWishList);
@@ -43,16 +43,16 @@ export const useWish = () => {
                                 wishArray[i] = element;
                             }
                             dispatch(setWishList(wishArray));
+                        } else {
+                            dispatch(setWishList([]));
                         }
-                    } else {
-                        dispatch(setWishList([]));
                     }
                 } catch (error) {
                 }
             }
         };
 
-        addToCart();
+        getWishlist();
     }, [userLogged, reduxWishList, userWishList]);
 
     /**
@@ -97,7 +97,7 @@ export const useWish = () => {
      * @param {string} productId - The ID of the product to be added.
      */
     const addProductNotLogged = async (productId) => {
-        await dispatch(addLikedProduct(productId));
+        dispatch(addLikedProduct(productId));
     };
 
     /**
@@ -122,7 +122,7 @@ export const useWish = () => {
             };
 
             uploadWishUser();
-            //addProductNotLogged(productId);
+            addProductNotLogged(productId);
         } catch (error) {
             console.log(error);
         }
@@ -146,7 +146,7 @@ export const useWish = () => {
             };
 
             deleteWishProduct();
-            //removeProductNotLogged(productId);
+            removeProductNotLogged(productId);
         } catch (error) {
             console.log(error);
         }
