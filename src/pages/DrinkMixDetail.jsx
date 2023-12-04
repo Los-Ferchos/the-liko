@@ -11,6 +11,7 @@ import RatingProduct from '../components/products/rating/RatingProduct'
 import '../assets/styles/productDetails.css'
 import { API_URL_LINK } from '../utils/constants'
 import ProductsList from '../components/products/list/ProductsList'
+import { useAppSelector } from '../components/hooks/store'
 
 /**
  * This is the page of the Dink Mix details.
@@ -23,6 +24,7 @@ const DrinkMixDetail = () => {
     const [product, setProduct] = useState({})
     const [loading, setLoading] = useState(true)
     const [relatedProducts, setRelatedProducts] = useState([]);
+    const currencyCode = useAppSelector((state) => state.location.currency);
 
     /**
      * UseEffect to fetch to get the drink mix with the corresponding id.
@@ -31,7 +33,7 @@ const DrinkMixDetail = () => {
         const fetchDrinkMix = async () => {
             setLoading(true)
             try {
-                const response = await fetch(`${API_URL_LINK}/drink-mixes/${id}`);
+                const response = await fetch(`${API_URL_LINK}/drink-mixes/${id}?newCurrency=${currencyCode}`);
                 const data = await response.json()
                 setProduct(data)
                 setRelatedProducts(data.relatedProducts)
