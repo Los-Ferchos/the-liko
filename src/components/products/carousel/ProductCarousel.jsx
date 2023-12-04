@@ -76,8 +76,9 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
             </Typography>
             <CustomLink href={`/${categoryName}/${getHyphenedString(subcat.name)}`} title="View All" />
         </div>
-        <div style={{ padding: 15 }}>
+        <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
         <AliceCarousel
+            autoPlayInterval={2000}
           items={isLoading ? [<ProductCarouselLoader />] : products.map((product, index) => (
             <div style={{ width: width > 1200 ? "20vw" : "90vw"}}>
                 <ProductCard
