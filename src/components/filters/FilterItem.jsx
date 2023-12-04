@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListItemIcon, ListItemText, Slider } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -6,6 +6,8 @@ import { useAppSelector } from '../hooks/store';
 import { useDispatch } from 'react-redux';
 import { addFilter, removeFilter, setSelected, setSortSelected, removeFilterFromIndex } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
+import { API_URL_LINK } from '../../utils/constants';
+import CircularProgress from '@mui/material/CircularProgress';
 
 /**
  * React Component representing a filter item, used in the filter drawer.
@@ -33,6 +35,8 @@ const FilterItem = ({
     // Redux selectors
     const isSortSelected = useAppSelector((state) => state.sort.isSelected);
     const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+    const maxStoragePriceNumber = useAppSelector((state) => state.sort.maxPriceNumber);
+    const currencyCode = useAppSelector((state) => state.location.currency);
     const dispatch = useDispatch();
 
     // State variables
@@ -41,7 +45,9 @@ const FilterItem = ({
     const [second, setSecond] = useState(false);
     const [filterCheck, setFilterCheck] = useState(false);
     const [valuesArray, setValuesArray] = useState([0, max]);
-    const [value1, setValue1] = useState([0, max]);
+    const [maxPrice, setMaximumPrice] = useState(max)
+    const [value1, setValue1] = useState([0, maxPrice]);
+    const [loading, setLoading] = useState(false);
 
     /**
      * Handles the click event for opening/closing the filter item.
@@ -49,6 +55,32 @@ const FilterItem = ({
     const handleClick = () => {
         setOpen(!isOpen);
     };
+
+
+    useEffect(() => {
+        if (maxStoragePriceNumber < 1) {
+            if (sortWay === 1 && range) {
+                const fetchProducts = async () => {
+                    try {
+                      setLoading(true);
+                      const response = await fetch(`${API_URL_LINK}/products?newCurrency=${currencyCode}&sort=-2`);
+                      if (response.ok) {
+                        const data = await response.json();
+                        const maxProductPrice = data.products[0].price.value;
+                        var intMaxPart = Math.ceil(maxProductPrice / 10) * 10;
+                        setMaximumPrice(intMaxPart);
+                        setValue1([0, maxPrice]);
+                      } setLoading(false);
+                    } catch (error) {
+                      console.log(error)
+                    }
+                  };
+                
+                  fetchProducts();
+            }
+        }
+    }, []) 
+
 
     /**
      * Handles the checkbox change event for the first sort option.
@@ -201,7 +233,7 @@ const FilterItem = ({
                      fontSize: '.95rem' } }} 
                      primary={children} />
 
-                {isOpen ? <ExpandLess /> : <ExpandMore />}
+                {loading ? <CircularProgress size={20} /> : isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                 {range ?
@@ -224,7 +256,8 @@ const FilterItem = ({
                             disableSwap
                             size='small'
                             step={sliderStep}
-                            max={max}
+                            max={maxPrice}
+                            
                         />
                         {getFiltersCheckbox}
                     </Box>
