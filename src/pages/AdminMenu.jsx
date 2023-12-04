@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { PiBeerBottle, PiPackage } from 'react-icons/pi'
 import { BiDrink } from 'react-icons/bi'
 import { TbReceiptTax } from "react-icons/tb";
+import { useDispatch } from 'react-redux'
+import { clearAll } from '../store/sortSlice'
 
 /**
  * AdminMenu component representing the Admin Panel page.
@@ -22,6 +24,12 @@ const AdminMenu = () => {
      */
     const { width } = useWindowSize();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const resetAndNavigateAdmin = () => {
+        dispatch(clearAll());
+        navigate("/admin/view-products")
+    }
 
     return (
         <Container>
@@ -43,7 +51,7 @@ const AdminMenu = () => {
                         variant="outlined" 
                         color="primary" 
                         className='admin-panel-menu-button' 
-                        onClick={() => navigate("/admin/view-products")}
+                        onClick={resetAndNavigateAdmin}
                         startIcon={<PiBeerBottle size={32} />}
                         style={{ fontSize: 20 }}
                     >
