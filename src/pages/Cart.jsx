@@ -98,10 +98,6 @@ function Cart() {
                                         </Typography>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <Typography variant='h6' color='black' component='h6'>Tax</Typography>
-                                        <Typography variant='h6' color='black' component='h6'>{tax}%</Typography>
-                                    </div>
-                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
                                         <Typography variant='h6' color='black' component='h6'>Total</Typography>
                                         <Typography variant='h6' color='black' component='h6' display={"flex"} alignItems={"flex-end"}>
                                             <Typography marginLeft={4} marginBottom={1}>&nbsp;{currencyCode}</Typography>
