@@ -64,6 +64,7 @@ function RatingTable(productId) {
     const [currentUserRating, setCurrentUserRating] = useState(0)
     let ratingUpdated = 0
     const [productPurchased, setProductPurchased] = useState(false)
+    const [buttonDisabled, setButtonDisabled] = useState(false)
 
     const [rating_1, setRating_1] = useState(0)
     const [rating_2, setRating_2] = useState(0)
@@ -116,7 +117,8 @@ function RatingTable(productId) {
     useEffect(() => {
         getRatingInformation();
         getRatingUserProduct(); 
-        verifyIfUserIsPurchased();       
+        verifyIfUserIsPurchased(); 
+        setButtonDisabled(false)      
     }, [rating_1, rating_2, rating_3, rating_4, rating_5])
 
     const setMarkedStar = (numberStar) => {
@@ -180,6 +182,7 @@ function RatingTable(productId) {
     }
 
     const saveRating = async () => {
+      setButtonDisabled(true)
       ratingUpdated = getCurrentUserRating()
       const response = await fetch(`${API_URL_LINK}/ratingUser`, {
         method: 'POST',
@@ -257,12 +260,12 @@ function RatingTable(productId) {
     <div className='table-container'>
     
         <Typography variant='h6'style={{ fontWeight: 'bold' }}>Rating </Typography>
-       {calicationLine(1,rating_1,porcentajeRating_1)}
-       {calicationLine(2,rating_2,porcentajeRating_2)}
-       {calicationLine(3,rating_3,porcentajeRating_3)}
-       {calicationLine(4,rating_4,porcentajeRating_4)}
-       {calicationLine(5,rating_5,porcentajeRating_5)}   
-
+        {calicationLine(5,rating_5,porcentajeRating_5)}   
+        {calicationLine(4,rating_4,porcentajeRating_4)}
+        {calicationLine(3,rating_3,porcentajeRating_3)}
+        {calicationLine(2,rating_2,porcentajeRating_2)}
+        {calicationLine(1,rating_1,porcentajeRating_1)}
+     
        {productPurchased? (<div className='rate-options'>
         <Typography variant='h6'style={{ fontWeight: 'bold' }}>Rate this product </Typography>
         <div className='User-rating'>
@@ -274,7 +277,7 @@ function RatingTable(productId) {
         </div>
         <div className='edit-rating'>
             {ratingIsModified ?
-              <Button  className="edit-button" variant="contained" onClick={() => saveRating()} style={{ backgroundColor: '#DB4444', color: 'white', justifyContent: 'space-between' }}>
+              <Button  disabled={buttonDisabled}  color='primary' className="edit-button" variant="contained" onClick={() => saveRating()} style={{ backgroundColor: '#DB4444', color: 'white', justifyContent: 'space-between' }}>
               <Typography variant='h6'>Save rating</Typography>
               </Button>: ""}
           </div>
