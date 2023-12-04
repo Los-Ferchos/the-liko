@@ -79,11 +79,11 @@ const FilterList = () => {
             <FilterItem 
                 children='Price Range ' 
                 sortWay={1} 
-                sliderStep={0.11} 
+                sliderStep={10} 
                 range={true} 
                 icon={PaidOutlinedIcon} 
                 subtext1='Most Popular' 
-                subtext2='Less Popular' />
+                subtext2='Less Popular' max={1000} />
 
             <FilterItem 
                 children='Rating ' 
