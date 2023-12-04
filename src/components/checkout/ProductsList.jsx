@@ -27,7 +27,7 @@ const ProductList = ({ cartItems, total, currencyTotal = "USD", productKey = "pr
               <td ><img src={cartItems[productKey].imgUrl} alt={cartItems[productKey].name} width="50" height="50" /></td>
               <td ><Typography variant='h6'>{cartItems[productKey].name}</Typography></td>
               <td id='number'><Typography variant='h6'>{cartItems.quantity}</Typography></td>
-              <td id='number'> <Typography variant='h6'>{`${cartItems[productKey].price.currency} ${cartItems[productKey].price.value}`}</Typography></td>
+              <td id='number'> <Typography variant='h6'>{`${cartItems[productKey].price.currency} ${cartItems[productKey].price.value.toFixed(2)}`}</Typography></td>
             </tr> 
           ))
         }
