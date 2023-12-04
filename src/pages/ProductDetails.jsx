@@ -29,8 +29,6 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true)
-  const [loadingCombos, setLoadingCombos] = useState(false)
-  const [loadingDrinkMixes, setLoadingDrinkMixes] = useState(false)
   const [relatedCombos, setRelatedCombos] = useState([])
   const [relatedDrinkMixes, setRelatedDrinkMixes] = useState([])
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -160,13 +158,10 @@ const ProductDetails = () => {
                 product.type === 'combo' ?
                   (<>
                     {relatedProducts.length > 0 && (
-                      (loadingCombos) ?
-                        <div className="full-centered-container"><span className="small-loader"></span></div>
-                        :
-                        <div>
-                          <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
-                          <ProductsList collection="products" products={relatedProducts}></ProductsList>
-                        </div>
+                      <div>
+                        <Typography variant='h6' color={'primary'} fontWeight="bold">Products</Typography>
+                        <ProductsList collection="products" products={relatedProducts}></ProductsList>
+                      </div>
                     )}
                   </>)
                   :
@@ -219,24 +214,18 @@ const ProductDetails = () => {
                 <div>
                   <div>
                     {relatedCombos.length > 0 && (
-                      (loadingCombos) ?
-                        <div className="full-centered-container"><span className="small-loader"></span></div>
-                        :
-                        <div>
-                          <Typography variant='h6' color={'primary'} fontWeight="bold">Combos</Typography>
-                          <ProductsList collection="combos" products={relatedCombos}></ProductsList>
-                        </div>
+                      <div>
+                        <Typography variant='h6' color={'primary'} fontWeight="bold">Combos</Typography>
+                        <ProductsList collection="combos" products={relatedCombos}></ProductsList>
+                      </div>
                     )}
                   </div>
                   <div>
                     {relatedDrinkMixes.length > 0 && (
-                      (loadingDrinkMixes) ?
-                        <div className="full-centered-container"><span className="small-loader"></span></div>
-                        :
-                        <div>
-                          <Typography variant='h6' color={'primary'} fontWeight="bold">Drink Mixes</Typography>
-                          <ProductsList collection="drink-mixes" products={relatedDrinkMixes}></ProductsList>
-                        </div>
+                      <div>
+                        <Typography variant='h6' color={'primary'} fontWeight="bold">Drink Mixes</Typography>
+                        <ProductsList collection="drink-mixes" products={relatedDrinkMixes}></ProductsList>
+                      </div>
                     )}
                   </div>
                 </div>

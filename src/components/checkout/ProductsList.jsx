@@ -10,7 +10,7 @@ import '../../assets/styles/checkout.css'
  *
  * @return {React.Component} A React component representing the product list.
  */
-const ProductList = ({ cartItems, total, currencyTotal = "USD", productKey = "productInfo", isOrder }) => {
+const ProductList = ({ cartItems, total, currencyTotal = "USD", productKey = "productInfo", isOrder = false }) => {
     const totalToShow = total.toFixed(2);
     
     return (
