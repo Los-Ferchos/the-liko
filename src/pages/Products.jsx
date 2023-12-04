@@ -75,7 +75,7 @@ const Products = ({ destination = "" }) => {
 
   return (
     <>
-    <Container component={"section"} className='vertical-container-padding'>
+    <Container component={"section"} className='vertical-container-padding' style={{minHeight:'701px'}}>
       <Header />
       {isLoading || loadingCurrency || loadingCategories || loadingSubcategories ? (
         <div className='full-centered-container'>

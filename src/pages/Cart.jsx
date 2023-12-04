@@ -37,7 +37,7 @@ function Cart() {
 
     return (
         <>
-        <Container component={"section"} style={{ position: "relative" }}>
+        <Container component={"section"} style={{ position: "relative", minHeight:'701px'}}>
             <Header />
             <NavigationText
                 inactivePath={[{ title: "Home", href: "/" }]}
@@ -65,7 +65,6 @@ function Cart() {
                                             </div> :
                                             cart.cartItems.map((product, index) => (
                                                 <CartProduct
-                                                    cart={cart}
                                                     product={product}
                                                     key={index}
                                                 />
