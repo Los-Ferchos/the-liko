@@ -32,49 +32,48 @@ const ProductsDisplay = (
   const isFilterRequest = useAppSelector((state) => state.sort.send);
   const sortQuery = useAppSelector((state) => state.sort.sortSelected);
   const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
-const currencyCode = useAppSelector((state) => state.location.currency);
+  const currencyCode = useAppSelector((state) => state.location.currency);
 
-/**
- * Function to set sorting parameters in a URL.
- *
- * @param {string} link - The base URL.
- * @returns {string} - The URL with the sorting parameter.
- */
-function setUrlSort(link) {
-  return link + sortQuery[0];
-}
-
-/**
- * Function to set filtering parameters in a URL.
- *
- * @param {string} link - The base URL.
- * @returns {string} - The URL with the filtering parameters.
- */
-function setUrlFilter(link) {
-  switch (filterQueryArray.length) {
-    case 1:
-      return link + `&ft1=` + filterQueryArray[0];
-    case 2:
-      return link + `&ft1=` + filterQueryArray[0] + `&ft2=` + filterQueryArray[1];
-    case 3:
-      return (
-        link +
-        `&ft1=` +
-        filterQueryArray[0] +
-        `&ft2=` +
-        filterQueryArray[1] +
-        `&ft3=` +
-        filterQueryArray[2]
-      );
-    default:
-      return link;
+  /**
+   * Function to set sorting parameters in a URL.
+   *
+   * @param {string} link - The base URL.
+   * @returns {string} - The URL with the sorting parameter.
+   */
+  function setUrlSort(link) {
+    return link + sortQuery[0];
   }
-}
 
-// Retrieve search-related data from the Redux store
-const searchText = useAppSelector((state) => state.search.searchText);
-const search = useAppSelector((state) => state.search.search);
+  /**
+   * Function to set filtering parameters in a URL.
+   *
+   * @param {string} link - The base URL.
+   * @returns {string} - The URL with the filtering parameters.
+   */
+  function setUrlFilter(link) {
+    switch (filterQueryArray.length) {
+      case 1:
+        return link + `&ft1=` + filterQueryArray[0];
+      case 2:
+        return link + `&ft1=` + filterQueryArray[0] + `&ft2=` + filterQueryArray[1];
+      case 3:
+        return (
+          link +
+          `&ft1=` +
+          filterQueryArray[0] +
+          `&ft2=` +
+          filterQueryArray[1] +
+          `&ft3=` +
+          filterQueryArray[2]
+        );
+      default:
+        return link;
+    }
+  }
 
+  // Retrieve search-related data from the Redux store
+  const searchText = useAppSelector((state) => state.search.searchText);
+  const search = useAppSelector((state) => state.search.search);
 
   /**
    * Fetches products from the specified API endpoint based on the current page and limit.

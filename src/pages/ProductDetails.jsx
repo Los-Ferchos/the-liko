@@ -37,6 +37,7 @@ const ProductDetails = () => {
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
+  const currencyCode = useAppSelector((state) => state.location.currency);
 
   /**
    * Method to get the product category.
@@ -65,7 +66,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`${API_URL_LINK}/products/${id}`);
+        const response = await fetch(`${API_URL_LINK}/products/${id}?newCurrency=${currencyCode}`);
         const data = await response.json();
         setProduct(data)
         setRelatedCombos(data.combos ? data.combos : []);

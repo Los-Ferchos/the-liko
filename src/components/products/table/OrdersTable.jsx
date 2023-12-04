@@ -105,6 +105,7 @@ const OrdersTable = ({ orders, handleChange, expanded, currentPage }) => {
                           total={order.totalCost}
                           currencyTotal={order.currency}
                           productKey="productId"
+                          isOrder
                         />
                       </td>
                     </tr>
@@ -115,7 +116,7 @@ const OrdersTable = ({ orders, handleChange, expanded, currentPage }) => {
           </tbody>
         </table>
       ) : (
-        <Typography>No orders available</Typography>
+        <Typography>No orders placed</Typography>
       )}
     </div>
   );
