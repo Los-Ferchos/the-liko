@@ -6,6 +6,7 @@ import bottleLoaderImg from '../../../assets/images/bottle-loader.png'
 import '../../../assets/styles/wishItem.css'
 import { useNavigate } from 'react-router-dom'
 import AddToCartButton from '../../buttons/AddToCartButton'
+import useWindowSize from '../../hooks/useWindowSize'
 
 /**
  * Wish item component. Render an item into the wishlist.
@@ -16,6 +17,7 @@ import AddToCartButton from '../../buttons/AddToCartButton'
  */
 const WishItem = ({ product }) => {
     const navigate = useNavigate();
+    const { width } = useWindowSize();
 
     /**
      * Redirects to the respective product details page.
@@ -23,7 +25,7 @@ const WishItem = ({ product }) => {
     const handleClick = () => {
         navigate(`/products/${product._id}`)
     }
-    
+
     return (
         <Grid container spacing={2} marginTop={8}>
             <Grid item xs={3} sm={2}>
@@ -37,11 +39,11 @@ const WishItem = ({ product }) => {
             </Grid>
             <Grid item xs={9} sm={6} className='item-detail'>
                 <div className='item-detail' onClick={handleClick}>
-                        <Typography variant='h6' align='center'>
-                            {product.name}
-                        </Typography>
+                    <Typography variant={width > 600 ? 'h6' : 'body1'} align='center'>
+                        {product.name}
+                    </Typography>
                     <div className='item-detail'>
-                        <Typography variant='h6' align='center' marginLeft={12}>
+                        <Typography variant={width > 600 ? 'h6' : 'body1'} align='center' marginLeft={12}>
                             {product.price.currency} {product.price.value.toFixed(2)}
                         </Typography>
                     </div>
@@ -50,7 +52,7 @@ const WishItem = ({ product }) => {
             <Grid item xs={12} sm={4} className='item-detail'>
                 <div className='item-detail'>
                     <WishButton productId={product._id} />
-                    <div style={{ marginLeft: 20 }}>
+                    <div style={{ marginLeft: 20, scale:(width>600?'auto':'85%')}}>
                         <AddToCartButton product={product} />
                     </div>
                 </div>
