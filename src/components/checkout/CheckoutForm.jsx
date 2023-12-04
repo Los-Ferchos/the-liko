@@ -36,6 +36,7 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
   const [telephoneError, setTelephoneError] = useState('');
   const [nitError, setNitError] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [invalidFields, setInvalidFields] = useState(false);
 
   const navigate = useNavigate();
 
@@ -61,6 +62,18 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
     event.preventDefault();
 
     if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
+      setInvalidData(true);
+      setButtonDisabled(false);
+      return;
+    }
+
+    if(direcctionMessage !== '' || firstNameError !== '' || lastNameError !== '' || telephoneError !== '' || nitError !== '') {
+      setInvalidData(true);
+      setButtonDisabled(false);
+      return;
+    }
+
+    if(invalidFields) {
       setInvalidData(true);
       setButtonDisabled(false);
       return;
@@ -128,42 +141,71 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
     }
   };
 
+  /**
+   * Validates the delivery address.
+   * If the address is less than 10 characters long, sets the direction message.
+   * Otherwise, clears the direction message.
+   */
   const validateAdress = () => {
-    if(deliveryAddress.length < 10) {
-      setDirecctionMessage('The address must be at least 10 characters long')
+    const addressWithoutSpaces = deliveryAddress.replace(/\s/g, '');
+
+    if (addressWithoutSpaces.length < 10) {
+        setDirecctionMessage('The address must be at least 10 characters long excluding spaces');
+    } else if (deliveryAddress.trim() === '') {
+        setDirecctionMessage('The address is required');
     } else {
-      setDirecctionMessage('')
+        setDirecctionMessage('');
     }
-  }
-
+}
+  /**
+   * Validates the first name input.
+   * Sets the first name error message and invalid fields flag based on the validation result.
+   */
   const validateFistName = () => {
-    if(FirstName.trim() === '') {
-      setFirstNameError('First Name is required')
-    }
-    else {
-      setFirstNameError('')
+    const regex = /^[a-zA-Z ]+$/;
+
+    if (FirstName.trim() === '') {
+      setFirstNameError('First Name is required');
+    } else if (!regex.test(FirstName)) {
+      setFirstNameError('First Name should not contain special characters');
+    } else {
+      setFirstNameError('');
     }
   }
 
-  const validateLastName = () => {
-    if(LastName.trim() === '') {
-      setLastNameError('Last Name is required')
-    }
-    else {
-      setLastNameError('')
-    }
-  }
+/**
+ * Validates the last name input.
+ */
+const validateLastName = () => {
+  const regex = /^[a-zA-Z ]+$/;
 
+  if (LastName.trim() === '') {
+    setLastNameError('Last Name is required');
+  } else if (!regex.test(LastName)) {
+    setLastNameError('Last Name should not contain special characters');
+  } else {
+    setLastNameError('');
+  }
+}
+
+  /**
+   * Validates the telephone input field.
+   */
   const validateTelephone = () => {
-    if(telephone.trim() === '') {
-      setTelephoneError('Telephone is required')
-    }
-    else {
-      setTelephoneError('')
+    const telephoneWithoutSpaces = telephone.replace(/\s/g, '');
 
+    if (telephoneWithoutSpaces.length < 8) {
+        setTelephoneError('Telephone must be at least 8 digits long excluding spaces');
+    } else if (telephone.trim() === '') {
+        setTelephoneError('Telephone is required');
+    } else {
+        setTelephoneError('');
     }
-  }
+}
 
+  /**
+   * Validates the Nit value.
+   */
   const validateNit = () => {
     if(nit.trim() === '') {
       setNitError('Nit is required')
@@ -171,7 +213,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
     else {
       setNitError('')
     }
-  
   }
 
   /**
