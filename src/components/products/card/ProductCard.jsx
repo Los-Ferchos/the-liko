@@ -50,6 +50,7 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
                 reviews={product.totalReviews}
                 productId={product._id}
                 isSlide={isSlide}
+                collection={collection}
               />
               <div className="product-title">
                 <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>

@@ -77,36 +77,6 @@ const ProductDetails = () => {
     }
     fetchProduct();
   }, []);
-/* 
-  useEffect(() => {
-    const fetchCombos = async () => {
-      setLoadingCombos(true)
-      try {
-        const response = await fetch(`${API_URL_LINK}/products/${id}/combos`);
-        const data = await response.json()
-        setRelatedCombos(data)
-      } catch (e) {
-        console.error('Error:', error);
-      }
-      setLoadingCombos(false)
-    }
-    fetchCombos();
-  }, []);
-
-  useEffect(() => {
-    const fetchDrinkMixes = async () => {
-      setLoadingDrinkMixes(true)
-      try {
-        const response = await fetch(`${API_URL_LINK}/products/${id}/drink-mixes`);
-        const data = await response.json()
-        setRelatedDrinkMixes(data)
-      } catch (e) {
-        console.error('Error:', error);
-      }
-      setLoadingDrinkMixes(false)
-    }
-    fetchDrinkMixes();
-  }, []); */
 
   const { userLogged } = useGlobalCart();
 
