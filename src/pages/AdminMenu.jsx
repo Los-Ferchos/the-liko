@@ -10,6 +10,7 @@ import { BiDrink } from 'react-icons/bi'
 import { TbReceiptTax } from "react-icons/tb";
 import { useDispatch } from 'react-redux'
 import { clearAll } from '../store/sortSlice'
+import { clearSearch } from '../store/searchSlice'
 
 /**
  * AdminMenu component representing the Admin Panel page.
@@ -28,6 +29,7 @@ const AdminMenu = () => {
 
     const resetAndNavigateAdmin = () => {
         dispatch(clearAll());
+        dispatch(clearSearch());
         navigate("/admin/view-products")
     }
 
