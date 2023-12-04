@@ -4,7 +4,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppSelector } from '../hooks/store';
 import { useDispatch } from 'react-redux';
-import { addFilter, removeFilter, setSelected, setSortSelected, removeFilterFromIndex } from '../../store/sortSlice';
+import { addFilter, removeFilter, setSelected, setSortSelected, removeFilterFromIndex, setMaxPriceNumber } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
 import { API_URL_LINK } from '../../utils/constants';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -69,6 +69,7 @@ const FilterItem = ({
                         const maxProductPrice = data.products[0].price.value;
                         var intMaxPart = Math.ceil(maxProductPrice / 10) * 10;
                         setMaximumPrice(intMaxPart);
+                        dispatch(setMaxPriceNumber(intMaxPart))
                         setValue1([0, maxPrice]);
                       } setLoading(false);
                     } catch (error) {
