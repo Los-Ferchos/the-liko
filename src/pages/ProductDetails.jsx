@@ -18,6 +18,7 @@ import WishButton from '../components/buttons/WishButton'
 import RatingTable from '../components/products/rating/RatingTable'
 import ProductsList from '../components/products/list/ProductsList'
 import { useGlobalCart } from '../components/contexts/CartContext'
+import useWindowSize from '../components/hooks/useWindowSize'
 
 /**
  * This is the page of the Product details.
@@ -32,6 +33,7 @@ const ProductDetails = () => {
   const [relatedCombos, setRelatedCombos] = useState([])
   const [relatedDrinkMixes, setRelatedDrinkMixes] = useState([])
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const { widht } = useWindowSize();
 
   const categories = useAppSelector((state) => state.categories.categories);
   const subcategories = useAppSelector((state) => state.subcategories.subcategories);
@@ -98,7 +100,7 @@ const ProductDetails = () => {
                     src={product.imgUrl}
                     placeholderSrc={bottleLoaderImg}
                     className={"product-image-container"}
-                    style={{ width: 350, height: 350 }}
+                    style={{ width: widht>560?350:280, height: widht>560?350:280 }}
                   />
                 </div>
                 <div className='product-info'>

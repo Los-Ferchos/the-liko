@@ -86,7 +86,7 @@ export const useCart = () => {
             }),
         };
     
-        await fetch(`https://apitheliko.azurewebsites.net/multipleCart`, requestOptions);
+        await fetch(`${API_URL_LINK}/multipleCart`, requestOptions);
     }
 
     /**
