@@ -28,12 +28,7 @@ const Home = () => {
         _id: '65445f21e1b4d51d570c9e96',
         banner: Banner2,
         name: 'Featured Product 2',
-      },
-      {
-        _id: '65445f47e1b4d51d570c9e9a',
-        banner: Banner2, 
-        name: 'Featured Product 3',
-      },
+      }
     ];
     setFeaturedProducts(manualFeaturedProducts);
   }, []);
@@ -46,10 +41,10 @@ const Home = () => {
     <>
       <Container>
         <Header />
-        <Carousel showThumbs={false} autoPlay>
+        <Carousel showThumbs={true} autoPlay>
           {featuredProducts.map((product) => (
             <div key={product._id}>
-              <Link to={`/products/${product._id}`} className="flex">
+              <Link to={`/products/${product._id}`} style={{ display: 'block', width: '100%' }}>
                 <img src={product.banner} alt={product.name} />
               </Link>
             </div>

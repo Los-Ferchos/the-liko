@@ -15,6 +15,7 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
     const [pagination, setPagination] = useState({});
     const carouselContainer = useRef();
     const { width } = useWindowSize();
+    const currencyCode = useAppSelector((state) => state.location.currency)
 
     const calculateSlidesToShow = () => {
         if (width < 600) {
@@ -29,7 +30,7 @@ function ProductCarousel({ apiUrl = "", categoryName = "", subcat, type = "clien
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${currentLimit}`);
+                const response = await fetch(`${apiUrl}?page=${currentPage}&limit=${currentLimit}&newCurrency=${currencyCode}`);
                 if (response.ok) {
                     const data = await response.json();
                     setProducts(data.products);
