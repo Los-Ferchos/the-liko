@@ -74,6 +74,24 @@ export const sortSlice = createSlice({
         },
 
         /**
+         * Removes a filter from the filtersSelected array.
+         * @param {Object} state - The current state.
+         * @param {string} action.payload - The filter to remove.
+         */
+        removeFilterFromIndex(state, action) {
+            const array = state.filtersSelected;
+            var newArray = [];
+            var counter = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (i != action.payload) {
+                    newArray[counter];
+                    counter++;
+                }
+            }
+            state.filtersSelected = newArray;
+        },
+
+        /**
          * Clears all filters and sort options.
          * @param {Object} state - The current state.
          */
@@ -91,6 +109,7 @@ export const {
     setSortSelected,
     addFilter,
     removeFilter,
+    removeFilterFromIndex,
     clearAll,
 } = sortSlice.actions;
 export default sortSlice.reducer;

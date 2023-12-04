@@ -97,6 +97,7 @@ const ProductsDisplay = (
       apiActualLink = setUrlFilter(apiActualLink);
     } 
 
+
     /**
      * Asynchronously fetches product data from the specified API endpoint.
      * Updates relevant states based on the fetched data and handles loading and error states.

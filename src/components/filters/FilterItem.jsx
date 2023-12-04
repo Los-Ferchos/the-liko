@@ -4,7 +4,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppSelector } from '../hooks/store';
 import { useDispatch } from 'react-redux';
-import { addFilter, removeFilter, setSelected, setSortSelected } from '../../store/sortSlice';
+import { addFilter, removeFilter, setSelected, setSortSelected, removeFilterFromIndex } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
 
 /**
@@ -32,7 +32,7 @@ const FilterItem = ({
 }) => {
     // Redux selectors
     const isSortSelected = useAppSelector((state) => state.sort.isSelected);
-    const isFilterRequest = useAppSelector((state) => state.sort.send);
+    const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
     const dispatch = useDispatch();
 
     // State variables
@@ -76,15 +76,26 @@ const FilterItem = ({
         }
     };
 
+    const isNotFilterOn = () => {
+        for (let i = 0; i < filterQueryArray.length; i++) {
+            if (filterQueryArray[i].startsWith(sortWay.toString())) {
+                dispatch(removeFilterFromIndex(i))
+            };
+        }
+    }
+
     /**
      * Handles the checkbox change event for the filter option.
      * @param {Event} event - The change event.
      */
     const handleCheckboxFilter = (event) => {
         setFilterCheck(event.target.checked);
-            if (event.target.checked) dispatch(
-                addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
+                 if (event.target.checked) {
+                    isNotFilterOn();
+                    dispatch(
+                    addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
                 );
+            }
             else {
                 dispatch(
                     removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
