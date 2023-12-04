@@ -26,6 +26,8 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
 
   const [isFailed, setIsFailed] = useState(false);
   const [invalidData, setInvalidData] = useState(false);
+  const [invalidStock, setInvalidStock] = useState(false);
+  const [messageInvalidStock, setMessageInvalidStock] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [direcctionMessage, setDirecctionMessage] = useState('');
@@ -107,6 +109,7 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
         if(!await registerOrder()) {
           setIsFailed(true);
           setButtonDisabled(false);
+          setLoading(false);
           return;
         }
 
@@ -232,8 +235,13 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
         body: JSON.stringify(order),
       });
       
-      if (response.ok) {
+      if (response.status === 201) {
         return true;
+      } else {
+        const productFailed = await response.json();
+        setMessageInvalidStock(productFailed.message);
+        setInvalidStock(true);
+        return false;
       }
     }catch(error){
        setIsFailed(true);
@@ -248,12 +256,14 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
         onClose={() => {
           setIsFailed(false)
           setInvalidData(false);
+          setInvalidStock(false);
         }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {invalidData ? "Please fill the fields with the correct data" : 
+          {invalidData ? "Please fill the fields with the correct data" :
+           invalidStock ? messageInvalidStock : 
           "Error processing payment, please try again"}
         </DialogTitle>
         <DialogActions>
