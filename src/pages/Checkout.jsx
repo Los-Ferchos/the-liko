@@ -21,9 +21,6 @@ const stripePromise = loadStripe(STRIPE_KEY);
  * @return {React.Component} A React component representing the checkout page.
  */
 const Checkout = () => {
-
- 
-
   const [clientSecret, setClientSecret] = useState('');
   const amount = 100 ;
   const currency = 'usd';

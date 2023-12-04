@@ -57,7 +57,7 @@ const ProfileSection = () => {
       </Typography>
 
       <div className="user-field">
-        <Typography variant="body1" >Name</Typography>
+        <Typography variant="body1">Name</Typography>
         <div className="user-value">
           <Typography variant="user-value" style={{margin: '10px' }}> {username}</Typography>
         </div>
@@ -78,7 +78,6 @@ const ProfileSection = () => {
             clearAllWishList();
             setUserLogged(null);
             navigate('/');
-
           }}
       >
         Log Out

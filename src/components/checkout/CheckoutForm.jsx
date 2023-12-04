@@ -60,6 +60,7 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
   const handleSubmit = async (event) => {
     setButtonDisabled(true);
     event.preventDefault();
+    setLoading(true);
 
     if(FirstName.trim() === '' || LastName.trim() === '' || telephone.trim() === '' || nit.trim() === '' || deliveryAddress.trim() === '') {
       setInvalidData(true);
@@ -91,7 +92,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
     }
 
     const card = elements.getElement(CardElement);
-    setLoading(true);
     
     const result = await stripe.createToken(card);
 
@@ -129,7 +129,6 @@ const CheckoutForm = ({totalCost, success, setSuccess}) => {
         await clearShoppingCart();
         setSuccess(true)
         sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
-        
         setTimeout(() => {
           navigate("/profile?section=Order History")
         }, 1500);
@@ -260,10 +259,11 @@ const validateLastName = () => {
       items: cartItems.map(item => ({
         productId: item.productInfo._id,
         quantity: item.quantity,
+        price: item.productInfo.price
       })),
       taxPercentage: 0,
       totalCost: totalCost,
-      currency: 'USD',
+      currency: cartItems[0].productInfo.price.currency,
     };
   
     try{
@@ -345,7 +345,7 @@ const validateLastName = () => {
       <div className='payment-method'>
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
          <Tabs value={value} onChange={handleChange} variant='fullWidth'>
-            <Tab label="Credit card" />
+            <Tab label="Credit or debit card" />
             {/*<Tab label="QR" */}
           </Tabs>
           <div>
