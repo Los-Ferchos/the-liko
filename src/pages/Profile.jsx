@@ -45,7 +45,7 @@ const Profile = ({initialSection}) => {
         return <ProfileSection />;
       case 'Order History':
         return <OrderHistorySection />;
-      case 'My Favorite List':
+      case 'My Wishlist':
         return <WishlistSection />;
       default:
         return <DefaultSection />;
@@ -66,7 +66,7 @@ const Profile = ({initialSection}) => {
             </div>
             <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Profile' onClick={() => setProfileSection('My Profile')} /></div>
             <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='Order History' onClick={() => setProfileSection('Order History')}  /></div>
-            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Favorite List' onClick={() => setProfileSection('My Favorite List')}  /></div>
+            <div className='subcategory'><CustomLink variant={width < 768 ? "body2" : "body3"} title='My Wishlist' onClick={() => setProfileSection('My Wishlist')}  /></div>
           </div>
           <div className="button-log-out" >
             {renderProfileSection()}

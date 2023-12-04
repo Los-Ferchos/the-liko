@@ -23,7 +23,7 @@ import EditStockModal from './EditStockModal';
  * 
  * @returns {JSX.Element} Rendered ProductCard component.
  */
-const ProductCard = ({ product = {}, className = "", type = "client", collection = "products", editLinkRoute }) => {
+const ProductCard = ({ product = {}, className = "", type = "client", collection = "products", editLinkRoute, isSlide }) => {
 
 
   const [open, setOpen] = useState(false);
@@ -34,11 +34,13 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
     <Grid item xs={12} sm={6} md={3} className={className}>
       <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Link state={{ product }} to={`/${collection}/${getHyphenedString(product._id)}`}>
+          <div style={isSlide && { display: 'flex', justifyContent: "flex-start", alignItems:"flex-start" }}>
           <LazyImage
             src={product.imgUrl}
             placeholderSrc={bottleLoaderImg}
             className={"product-image-container"}
           />
+          </div>
         </Link>
         {
           type === "client" ?
@@ -47,6 +49,7 @@ const ProductCard = ({ product = {}, className = "", type = "client", collection
                 rating={product.rating}
                 reviews={product.totalReviews}
                 productId={product._id}
+                isSlide={isSlide}
               />
               <div className="product-title">
                 <Typography variant="h6" component="div" style={{ fontWeight: "bold" }}>

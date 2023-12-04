@@ -1,92 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import { capitalizeString, filterDataArray } from '../utils/methods';
 import { useAppSelector } from '../components/hooks/store';
-import NavigationText from '../components/navText/NavigationText';
 import { API_URL_LINK } from '../utils/constants';
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 import ProductCarouselHome from '../components/products/carousel/ProductCarouselHome';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../assets/styles/homepage.css';
 import { Link } from 'react-router-dom';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Banner2 from '../assets/images/Banner.png';
 
-/**
- * Home component displays products for all categories and subcategories.
- * @returns {JSX.Element} Rendered Home component.
- */
 const Home = () => {
-
-  /**
-   * Redux state selector for subcategories.
-   * @type {Array}
-   */
   const subcategoriesState = useAppSelector((state) => state.subcategories.subcategories);
-
-  /**
-   * React Hook to manage the subcategories state.
-   * @type {Array}
-   */
   const [subcategories, setSubcategories] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]); 
 
-  const [subcombos, setCombos] = useState([]);
+  useEffect(() => {
+    const manualFeaturedProducts = [
+      {
+        _id: '65445f5ae1b4d51d570c9e9c',
+        banner: Banner2, 
+        name: 'Featured Product 1',
+      },
+      {
+        _id: '65445f21e1b4d51d570c9e96',
+        banner: Banner2,
+        name: 'Featured Product 2',
+      }
+    ];
+    setFeaturedProducts(manualFeaturedProducts);
+  }, []);
 
-  /**
-   * React Hook to perform side effects on component mount or when dependencies change.
-   * Fetches all subcategories for all categories.
-   */
   useEffect(() => {
     setSubcategories(subcategoriesState);
   }, [subcategoriesState]);
-
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   return (
     <>
       <Container>
         <Header />
-        <div style={{ overflow: 'hidden', marginTop: '15px', alignItems: 'center', justifyContent: 'center' }} className='imagen-container'>
-        <Slider {...settings} >
-          <div>
-            <Link to="/products/65445f47e1b4d51d570c9e9a">
-              <img src={"https://i.ibb.co/stx3vY5/1.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </Link>
-          </div>
-          <div>
-            <Link to="/products/65445f21e1b4d51d570c9e96">
-              <img src={"https://i.ibb.co/s1crsFZ/3.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </Link>
-          </div>
-          <div>
-            <Link to="/products/65445f5ae1b4d51d570c9e9c">
-              <img src={"https://i.ibb.co/f9mgY05/2.png"} alt="Product" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </Link>
-          </div>
-        </Slider>
-      </div>
+        <Carousel showThumbs={true} autoPlay>
+          {featuredProducts.map((product) => (
+            <div key={product._id}>
+              <Link to={`/products/${product._id}`} style={{ display: 'block', width: '100%' }}>
+                <img src={product.banner} alt={product.name} />
+              </Link>
+            </div>
+          ))}
+        </Carousel>
         <Typography variant='h4' color='primary' component='h1' marginTop={6}>
           All Categories
         </Typography>
-        {
-          subcategories.map(subcat => (
-            <div key={subcat._id} style={{ marginBottom: 30 }}>
-              <ProductCarouselHome apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`} categoryName={subcat.categoryName} subcat={subcat} subcategoriesState={subcategoriesState} />
-            </div>
-          ))
-        }
+        {subcategories.map(subcat => (
+          <div key={subcat._id} style={{ marginBottom: 30 }}>
+            <ProductCarouselHome apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`} categoryName={subcat.categoryName} subcat={subcat} subcategoriesState={subcategoriesState} />
+          </div>
+        ))}
       </Container>
       <Footer />
     </>
   );
 };
+
 export default Home;
