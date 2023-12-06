@@ -179,7 +179,7 @@ const ProductDetails = () => {
                   </div>)
               }
 
-              { userLogged != null && <RatingTable productId={id}></RatingTable> }
+              <RatingTable productId={id}></RatingTable> 
 
               {
                 (product.type === 'product') &&

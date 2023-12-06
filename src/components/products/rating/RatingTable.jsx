@@ -90,8 +90,9 @@ function RatingTable(productId) {
     const [star_3_marked, setStar_3_marked] = useState(false)
     const [star_4_marked, setStar_4_marked] = useState(false)
     const [star_5_marked, setStar_5_marked] = useState(false)
-    validateIfProducIsPurchased(userLogged.userId, productId.productId)
-
+    if(userLogged !== null){
+      validateIfProducIsPurchased(userLogged.userId, productId.productId)
+    }
     const getRatingInformation = async () => {
         const response = await fetch(`${API_URL_LINK}/informationRatingProducts/${productId.productId}`);
         const data = await response.json();
@@ -116,9 +117,13 @@ function RatingTable(productId) {
     
     useEffect(() => {
         getRatingInformation();
-        getRatingUserProduct(); 
-        verifyIfUserIsPurchased(); 
+       
         setButtonDisabled(false)      
+        if(userLogged !== null){
+          verifyIfUserIsPurchased(); 
+          getRatingUserProduct(); 
+          
+        }
     }, [rating_1, rating_2, rating_3, rating_4, rating_5])
 
     const setMarkedStar = (numberStar) => {
