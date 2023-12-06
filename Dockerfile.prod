@@ -8,7 +8,7 @@ COPY package.json ./
 
 RUN npm install
 
-ENV API="https://apitheliko.azurewebsites.net"
+ENV API="https://prodapiresttheliko.azurewebsites.net"
 
 COPY . . 
 
