@@ -76,7 +76,6 @@
 }
 
 .table td, .table th {
-  /*border: 1px solid #ddd;*/
   padding: 8px;
   text-align: left;
   vertical-align: middle;
@@ -124,5 +123,24 @@ max-width: 200px;
 @media (max-width: 720px) {
   table.table *{
     font-size: 14px;
+  }
+}
+
+.product-image{
+  width: 60px;
+  height: 60px;
+}
+
+@media (max-width: 720px) {
+  .product-image{
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 368px) {
+  .product-image{
+    width: 25px;
+    height: 25px;
   }
 }

@@ -62,10 +62,11 @@ const ProductForm = ({ edit = false, productData = {
    *
    * @param {Object} e - The event object.
    */
-  const handleChange = (e) => {
+  const handleChange = (e, maxLength) => {
+    const inputValue = e.target.value.toString().slice(0, maxLength)
     setError(false);
     setSuccess(false);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: inputValue });
     handleErrorMsg(e.target.name, '')
   };
 
@@ -87,7 +88,7 @@ const ProductForm = ({ edit = false, productData = {
   const validateFiles = () => {
     const formErrorCopy = { ...formError }
     Object.entries(formData).forEach(([key, value]) => {
-        if(value === '' && !nonRequiredFields.includes(key))
+        if(typeof value === "string" && value.toString().trim() === '' && !nonRequiredFields.includes(key))
             formErrorCopy[key] = "This field is required, please fill it";
     });
 
@@ -171,11 +172,13 @@ const ProductForm = ({ edit = false, productData = {
                     label="Stock"
                     name="stock"
                     type="number"
+                    typeNumber='int'
                     placeholder='Eg: 50'
                     value={formData.stock}
                     onChange={handleChange}
                     errorMsg={formError.stock}
                     handleErrorMsg={handleErrorMsg}
+                    maxLength={10}
                 />
 
                 <ImageUploader 
@@ -210,6 +213,7 @@ const ProductForm = ({ edit = false, productData = {
                     errorMsg={formError.price}
                     handleErrorMsg={handleErrorMsg}
                     typeNumber='price'
+                    maxLength={10}
                 />
 
                 <FieldText

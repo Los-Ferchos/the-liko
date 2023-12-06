@@ -11,7 +11,9 @@ import { FaExclamationTriangle, FaRegFrown } from 'react-icons/fa';
  * 
  * @returns {JSX.Element} Rendered ProductsList component.
  */
-const ProductsList = ({ load = true, products = [], failed = false, type = "client" }) => (
+const ProductsList = (
+  { load = true, products = [], failed = false, type = "client", collection = "products", editLinkRoute }
+) => (
   <>
     {
       failed  ? (
@@ -27,7 +29,9 @@ const ProductsList = ({ load = true, products = [], failed = false, type = "clie
       ) : (
         <Grid container spacing={16} className='products-grid-container'>
           {products.map((product) => (
-            <ProductCard key={product._id} product={product} type={type}/>
+            <ProductCard 
+              key={product._id} product={product} type={type} collection={collection} editLinkRoute={editLinkRoute} 
+            />
           ))}
         </Grid>
       )

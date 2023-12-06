@@ -25,7 +25,7 @@ const EditProductFormPage = () => {
         const fetchProduct = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL_LINK}/products/${productId}`);
+                const response = await fetch(`${API_URL_LINK}/products/${productId}?admin=true`);
 
                 if (!response.ok) {
                     setError(true);

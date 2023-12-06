@@ -34,6 +34,7 @@ const FieldText = ({
   multiline,
   rows = 1,
   select,
+  readOnly = false,
   children,
   errorMsg = "",
   handleErrorMsg = () => {},
@@ -100,7 +101,7 @@ const FieldText = ({
    * @param {Object} e - The change event.
    */
   const handleChange = (e) => {
-    onChange(e);
+    onChange(e, maxLength);
   }
 
   return (
@@ -116,6 +117,7 @@ const FieldText = ({
         placeholder={placeholder}
         required={required}
         fullWidth={fullWidth}
+        readOnly={readOnly}
         helperText={errorMsg}
         error={errorMsg !== ""}
         style={{ marginTop: 24 }}
@@ -131,7 +133,7 @@ const FieldText = ({
             },
           },
         }}
-        inputProps={{ maxLength: maxLength }}
+        inputProps={{ maxLength }}
       >
         {children}
       </TextField>

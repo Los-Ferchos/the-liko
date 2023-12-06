@@ -5,9 +5,9 @@ import { capitalizeString, filterDataArray } from '../utils/methods';
 import { useAppSelector } from '../components/hooks/store';
 import NavigationText from '../components/navText/NavigationText';
 import { API_URL_LINK } from '../utils/constants';
-import ProductCarousel from '../components/products/carousel/ProductCarousel'
 import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
+import ProductCarousel from '../components/products/carousel/ProductCarousel';
 
 /**
  * ProductsBySubcategories component displays products based on subcategories.
@@ -65,13 +65,13 @@ const ProductsBySubcategories = () => {
         </Typography>
         {
           subcategories.map(subcat => (
-            <React.Fragment key={subcat._id}>
+            <div key={subcat._id} style={{ marginBottom: 30 }}>
               <ProductCarousel
-                apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}?page=1&limit=16`}
+                apiUrl={`${API_URL_LINK}/products/subcategory/${subcat._id}`}
                 categoryName={categoryName}
-                subcat={subcat}>
-              </ProductCarousel>
-            </React.Fragment>
+                subcat={subcat}
+              />
+            </div>
           ))
         }
       </Container>

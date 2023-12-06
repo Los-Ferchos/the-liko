@@ -15,9 +15,22 @@ const maxSize = 5 * 1024 * 1024;
  * @param {string} [props.text="Selected image:"] - The text to display when an image is selected.
  * @param {string} props.errorMsg - The error message to display.
  * @param {function} props.handleErrorMsg - The callback function to handle error messages.
+ * @param {Number} props.initMarginTop - The margin top of the component
  * @returns {JSX.Element} - The rendered ImageUploader component.
  */
-const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, handleErrorMsg, productData, edit }) => {
+const ImageUploader = (
+  { 
+    file, 
+    setFile, 
+    text = "Selected image:", 
+    errorMsg, 
+    handleErrorMsg, 
+    productData, 
+    edit, 
+    label = "Product image *",
+    initMarginTop = 12
+  }
+) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
@@ -100,7 +113,7 @@ const ImageUploader = ({ file, setFile, text = "Selected image:", errorMsg, hand
 
   return (
     <>
-      <Typography marginLeft={3} variant="subtitle1" color={"#555"} marginTop={12}>Product image *</Typography>
+      <Typography marginLeft={3} variant="subtitle1" color={"#555"} marginTop={initMarginTop}>{label}</Typography>
       <Box
         onDrop={handleDrop}
         onDragOver={handleOnDragOver}

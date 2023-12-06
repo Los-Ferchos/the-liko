@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
  *
  * @return {React.Component} A React component representing the checkout form.
  */
-const CheckoutForm = ({totalCost}) => {
+const CheckoutForm = ({totalCost, success, setSuccess}) => {
   
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -26,15 +26,17 @@ const CheckoutForm = ({totalCost}) => {
 
   const [isFailed, setIsFailed] = useState(false);
   const [invalidData, setInvalidData] = useState(false);
+  const [invalidStock, setInvalidStock] = useState(false);
+  const [messageInvalidStock, setMessageInvalidStock] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [direcctionMessage, setDirecctionMessage] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
   const [telephoneError, setTelephoneError] = useState('');
   const [nitError, setNitError] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [invalidFields, setInvalidFields] = useState(false);
 
   const navigate = useNavigate();
 
@@ -65,14 +67,20 @@ const CheckoutForm = ({totalCost}) => {
       return;
     }
 
-    if(!await validateUserInformation()) {
+    if(direcctionMessage !== '' || firstNameError !== '' || lastNameError !== '' || telephoneError !== '' || nitError !== '') {
       setInvalidData(true);
       setButtonDisabled(false);
       return;
     }
 
-    if(!await registerOrder()) {
-      setIsFailed(true);
+    if(invalidFields) {
+      setInvalidData(true);
+      setButtonDisabled(false);
+      return;
+    }
+
+    if(!await validateUserInformation()) {
+      setInvalidData(true);
       setButtonDisabled(false);
       return;
     }
@@ -82,13 +90,16 @@ const CheckoutForm = ({totalCost}) => {
       return;
     }
 
-    const card = elements.getElement(CardElement);
     setLoading(true);
+
+    const card = elements.getElement(CardElement);
     
     const result = await stripe.createToken(card);
 
     if (result.error) {
       setInvalidData(true);
+      setButtonDisabled(false);
+      setLoading(false);
     } else {
       
       const response = await fetch(`${API_URL_LINK}/confirmCheckout`, {
@@ -108,12 +119,20 @@ const CheckoutForm = ({totalCost}) => {
       });
 
       if (response.ok) {
+
+        if(!await registerOrder()) {
+          setIsFailed(true);
+          setButtonDisabled(false);
+          setLoading(false);
+          return;
+        }
+
         await clearShoppingCart();
         setSuccess(true)
         sendInvoice(userLogged.userId, nit, cartItems, `${FirstName} ${LastName}`, totalCost)
         setTimeout(() => {
-          navigate("/products")
-        }, 3000);
+          navigate("/profile?section=Order History")
+        }, 1500);
       } else {
         setIsFailed(true)
         setButtonDisabled(false);
@@ -122,42 +141,71 @@ const CheckoutForm = ({totalCost}) => {
     }
   };
 
+  /**
+   * Validates the delivery address.
+   * If the address is less than 10 characters long, sets the direction message.
+   * Otherwise, clears the direction message.
+   */
   const validateAdress = () => {
-    if(deliveryAddress.length < 10) {
-      setDirecctionMessage('The address must be at least 10 characters long')
+    const addressWithoutSpaces = deliveryAddress.replace(/\s/g, '');
+
+    if (addressWithoutSpaces.length < 10) {
+        setDirecctionMessage('The address must be at least 10 characters long excluding spaces');
+    } else if (deliveryAddress.trim() === '') {
+        setDirecctionMessage('The address is required');
     } else {
-      setDirecctionMessage('')
+        setDirecctionMessage('');
     }
-  }
-
+}
+  /**
+   * Validates the first name input.
+   * Sets the first name error message and invalid fields flag based on the validation result.
+   */
   const validateFistName = () => {
-    if(FirstName.trim() === '') {
-      setFirstNameError('First Name is required')
-    }
-    else {
-      setFirstNameError('')
+    const regex = /^[a-zA-Z ]+$/;
+
+    if (FirstName.trim() === '') {
+      setFirstNameError('First Name is required');
+    } else if (!regex.test(FirstName)) {
+      setFirstNameError('First Name should not contain special characters');
+    } else {
+      setFirstNameError('');
     }
   }
 
-  const validateLastName = () => {
-    if(LastName.trim() === '') {
-      setLastNameError('Last Name is required')
-    }
-    else {
-      setLastNameError('')
-    }
-  }
+/**
+ * Validates the last name input.
+ */
+const validateLastName = () => {
+  const regex = /^[a-zA-Z ]+$/;
 
+  if (LastName.trim() === '') {
+    setLastNameError('Last Name is required');
+  } else if (!regex.test(LastName)) {
+    setLastNameError('Last Name should not contain special characters');
+  } else {
+    setLastNameError('');
+  }
+}
+
+  /**
+   * Validates the telephone input field.
+   */
   const validateTelephone = () => {
-    if(telephone.trim() === '') {
-      setTelephoneError('Telephone is required')
-    }
-    else {
-      setTelephoneError('')
+    const telephoneWithoutSpaces = telephone.replace(/\s/g, '');
 
+    if (telephoneWithoutSpaces.length < 8) {
+        setTelephoneError('Telephone must be at least 8 digits long excluding spaces');
+    } else if (telephone.trim() === '') {
+        setTelephoneError('Telephone is required');
+    } else {
+        setTelephoneError('');
     }
-  }
+}
 
+  /**
+   * Validates the Nit value.
+   */
   const validateNit = () => {
     if(nit.trim() === '') {
       setNitError('Nit is required')
@@ -165,7 +213,6 @@ const CheckoutForm = ({totalCost}) => {
     else {
       setNitError('')
     }
-  
   }
 
   /**
@@ -188,8 +235,6 @@ const CheckoutForm = ({totalCost}) => {
          }),
       });
       
-    
-
       if (response.ok) {
         return true;
       } else {
@@ -199,7 +244,6 @@ const CheckoutForm = ({totalCost}) => {
         return false;
       }
   }
-
   
   /**
    * Registers an order by sending a POST request to the server.
@@ -216,10 +260,11 @@ const CheckoutForm = ({totalCost}) => {
       items: cartItems.map(item => ({
         productId: item.productInfo._id,
         quantity: item.quantity,
+        price: item.productInfo.price
       })),
       taxPercentage: 0,
       totalCost: totalCost,
-      currency: 'USD',
+      currency: cartItems[0].productInfo.price.currency,
     };
   
     try{
@@ -231,8 +276,13 @@ const CheckoutForm = ({totalCost}) => {
         body: JSON.stringify(order),
       });
       
-      if (response.ok) {
+      if (response.status === 201) {
         return true;
+      } else {
+        const productFailed = await response.json();
+        setMessageInvalidStock(productFailed.message);
+        setInvalidStock(true);
+        return false;
       }
     }catch(error){
        setIsFailed(true);
@@ -247,12 +297,14 @@ const CheckoutForm = ({totalCost}) => {
         onClose={() => {
           setIsFailed(false)
           setInvalidData(false);
+          setInvalidStock(false);
         }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {invalidData ? "Please fill the fields with the correct data" : 
+          {invalidData ? "Please fill the fields with the correct data" :
+           invalidStock ? messageInvalidStock : 
           "Error processing payment, please try again"}
         </DialogTitle>
         <DialogActions>
@@ -294,15 +346,15 @@ const CheckoutForm = ({totalCost}) => {
       <div className='payment-method'>
          <Typography variant='h6' >2. PAYMENT METHOD</Typography>
          <Tabs value={value} onChange={handleChange} variant='fullWidth'>
-            <Tab label="Credit card" />
-            <Tab label="QR" />
+            <Tab label="Credit or debit card" />
+            {/*<Tab label="QR" */}
           </Tabs>
           <div>
           {value === 0 && 
             <div className='card-payment'>
                 <CardElement />
              </div>}
-          {value === 1 && <p><ComingSoon/></p>}
+          {/*value === 1 && <p><ComingSoon/></p>*/}
           </div>
          
     </div>

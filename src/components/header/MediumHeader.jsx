@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Typography, Toolbar, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Typography, Toolbar, IconButton } from '@mui/material';
 import SubcategoriesHeader from './Subcategories';
 import logo from '../../assets/images/icon.svg'
 import CustomLink from '../links/CustomLink';

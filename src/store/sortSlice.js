@@ -8,6 +8,7 @@ export const sortSlice = createSlice({
     initialState: {
         send: false,
         isSelected: false,
+        maxPriceNumber: 0,
         filtersSelected: [],
         sortSelected: [],
     },
@@ -74,6 +75,28 @@ export const sortSlice = createSlice({
         },
 
         /**
+         * Removes a filter from the filtersSelected array.
+         * @param {Object} state - The current state.
+         * @param {string} action.payload - The filter to remove.
+         */
+        removeFilterFromIndex(state, action) {
+            const array = state.filtersSelected;
+            var newArray = [];
+            var counter = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (i != action.payload) {
+                    newArray[counter];
+                    counter++;
+                }
+            }
+            state.filtersSelected = newArray;
+        },
+
+        setMaxPriceNumber(state, action) {
+            state.maxPriceNumber = action.payload;
+        },
+
+        /**
          * Clears all filters and sort options.
          * @param {Object} state - The current state.
          */
@@ -91,6 +114,8 @@ export const {
     setSortSelected,
     addFilter,
     removeFilter,
+    removeFilterFromIndex,
     clearAll,
+    setMaxPriceNumber
 } = sortSlice.actions;
 export default sortSlice.reducer;

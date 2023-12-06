@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Checkbox, Collapse, FormControlLabel, FormGroup, ListItemButton, ListItemIcon, ListItemText, Slider } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useAppSelector } from '../hooks/store';
 import { useDispatch } from 'react-redux';
-import { addFilter, removeFilter, setSelected, setSortSelected } from '../../store/sortSlice';
+import { addFilter, removeFilter, setSelected, setSortSelected, removeFilterFromIndex, setMaxPriceNumber } from '../../store/sortSlice';
 import '../../assets/styles/filter.css';
+import { API_URL_LINK } from '../../utils/constants';
+import CircularProgress from '@mui/material/CircularProgress';
 
 /**
  * React Component representing a filter item, used in the filter drawer.
@@ -27,11 +29,14 @@ const FilterItem = ({
     subtext1 = '',
     subtext2 = '',
     max = 100,
+    sliderStep = 1,
     sortWay = 0
 }) => {
     // Redux selectors
     const isSortSelected = useAppSelector((state) => state.sort.isSelected);
-    const isFilterRequest = useAppSelector((state) => state.sort.send);
+    const filterQueryArray = useAppSelector((state) => state.sort.filtersSelected);
+    const maxStoragePriceNumber = useAppSelector((state) => state.sort.maxPriceNumber);
+    const currencyCode = useAppSelector((state) => state.location.currency);
     const dispatch = useDispatch();
 
     // State variables
@@ -40,7 +45,9 @@ const FilterItem = ({
     const [second, setSecond] = useState(false);
     const [filterCheck, setFilterCheck] = useState(false);
     const [valuesArray, setValuesArray] = useState([0, max]);
-    const [value1, setValue1] = useState([0, max]);
+    const [maxPrice, setMaximumPrice] = useState(max)
+    const [value1, setValue1] = useState([0, maxPrice]);
+    const [loading, setLoading] = useState(false);
 
     /**
      * Handles the click event for opening/closing the filter item.
@@ -48,6 +55,35 @@ const FilterItem = ({
     const handleClick = () => {
         setOpen(!isOpen);
     };
+
+
+    useEffect(() => {
+        if (maxStoragePriceNumber < 1) {
+            if (sortWay === 1 && range) {
+                const fetchProducts = async () => {
+                    try {
+                      setLoading(true);
+                      const response = await fetch(`${API_URL_LINK}/products?newCurrency=${currencyCode}&sort=-2`);
+                      if (response.ok) {
+                        const data = await response.json();
+                        const maxProductPrice = data.products[0].price.value;
+                        var intMaxPart = Math.ceil(maxProductPrice / 10) * 10;
+                        setMaximumPrice(intMaxPart);
+                        dispatch(setMaxPriceNumber(intMaxPart))
+                        setValue1([0, maxPrice]);
+                      } setLoading(false);
+                    } catch (error) {
+                      console.log(error)
+                    }
+                  };
+                
+                  fetchProducts();
+            }
+        } else {
+            setMaximumPrice(maxStoragePriceNumber);
+        }
+    }, []) 
+
 
     /**
      * Handles the checkbox change event for the first sort option.
@@ -75,14 +111,31 @@ const FilterItem = ({
         }
     };
 
+    const isNotFilterOn = () => {
+        for (let i = 0; i < filterQueryArray.length; i++) {
+            if (filterQueryArray[i].startsWith(sortWay.toString())) {
+                dispatch(removeFilterFromIndex(i))
+            };
+        }
+    }
+
     /**
      * Handles the checkbox change event for the filter option.
      * @param {Event} event - The change event.
      */
     const handleCheckboxFilter = (event) => {
         setFilterCheck(event.target.checked);
-            if (event.target.checked) dispatch(addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`));
-            else dispatch(removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`));
+                 if (event.target.checked) {
+                    isNotFilterOn();
+                    dispatch(
+                    addFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
+                );
+            }
+            else {
+                dispatch(
+                    removeFilter(`${sortWay}_${valuesArray[0]}_${valuesArray[1]}`)
+                    );
+            }
     };
 
     /**
@@ -95,7 +148,9 @@ const FilterItem = ({
         if (!Array.isArray(newValue)) return;
 
         if (activeThumb === 0) setValue1([Math.min(newValue[0], value1[1] - 0), value1[1]]);
-        else setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
+        else {
+         setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
+        }   
         
         setValuesArray(newValue);
     };
@@ -108,12 +163,15 @@ const FilterItem = ({
             <FormGroup row={false}>
                 <FormControlLabel
                     name='sortBox'
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { 
+                        fontSize: '.9rem' } }}
                     control={
                         <Checkbox
                             sx={{
                                 padding: 1.5,
-                                '& .MuiSvgIcon-root': { width: 20, height: 20 }
+                                '& .MuiSvgIcon-root': { 
+                                    width: 20,
+                                     height: 20 }
                             }}
                             checked={first}
                             onChange={handleCheckboxFirst}
@@ -122,12 +180,15 @@ const FilterItem = ({
                 />
                 <FormControlLabel
                     name='sortBox'
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '.9rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { 
+                        fontSize: '.9rem' } }}
                     control={
                         <Checkbox
                             sx={{
                                 padding: 1.5,
-                                '& .MuiSvgIcon-root': { width: 20, height: 20 }
+                                '& .MuiSvgIcon-root': {
+                                     width: 20,
+                                     height: 20 }
                             }}
                             checked={second}
                             onChange={handleCheckboxSecond}
@@ -169,14 +230,24 @@ const FilterItem = ({
                 <ListItemIcon>
                     <Icon />
                 </ListItemIcon>
-                <ListItemText sx={{ '& .MuiListItemText-primary': { fontWeight: '501', color: 'rgb(90, 90, 89)', fontSize: '.95rem' } }} primary={children} />
-                {isOpen ? <ExpandLess /> : <ExpandMore />}
+                <ListItemText sx={{ '& .MuiListItemText-primary': { 
+                    fontWeight: '501',
+                     color: 'rgb(90, 90, 89)', 
+                     fontSize: '.95rem' } }} 
+                     primary={children} />
+
+                {loading ? <CircularProgress size={20} /> : isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                 {range ?
                     <Box sx={{
-                        display: 'flex', justifyContent: 'center',
-                        flexDirection: 'column', alignItems: 'center', marginInline: 'auto', marginTop: '1rem', width: '85%'
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column', 
+                        alignItems: 'center', 
+                        marginInline: 'auto', 
+                        marginTop: '1rem', 
+                        width: '85%'
                     }}>
                         <Slider
                             disabled={filterCheck ? true : false}
@@ -187,8 +258,9 @@ const FilterItem = ({
                             valueLabelDisplay={filterCheck ? "on" : "auto"}
                             disableSwap
                             size='small'
-                            step={0.11}
-                            max={max}
+                            step={sliderStep}
+                            max={maxPrice}
+                            
                         />
                         {getFiltersCheckbox}
                     </Box>
